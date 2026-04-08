@@ -19,12 +19,9 @@ and custom projects.
 
 ---
 
-## 📦 Requirements
+## 📦 EventBuzz: A Web-Based Event Promotion and Ticketing System
 
-- PHP **8.0+**
-- MySQL / MariaDB / PostgreSQL
-- Apache or Nginx
-- Composer *(optional)*
+EventBuzz is a web-based platform that allows event organizers to create, promote, and manage events while enabling users to discover events and purchase tickets online.
 
 ---
 
