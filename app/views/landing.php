@@ -8,8 +8,8 @@
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
 </head>
 <body>
-    <h1 class="font-light">EventBuzz</h1>
-    <h1 class="font-bold">Welcome to EventBuzz</h1>
+    <h1 class="font-bold text-5xl">EventBuzz</h1>
+    <h1 class="font-bold text-9xl">Welcome to EventBuzz</h1>
     <h1 class="font-medium">Discover Amazing Events</h1>
 </body>
 </html>

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 
+/* Font Faces */
 @layer base {
   @font-face {
     font-family: "InterTight";
@@ -27,5 +28,128 @@
 
   body {
     font-family: "InterTight", sans-serif;
+  }
+}
+/* -------------------------------------------- Base Styles -------------------------------------------- */
+@layer base {
+  :root {
+    --base-color: #151419;
+    --surface-color: #1b1b1e;
+    --elevated-color:#262626;
+    --border-color: #2a2a2e;
+    
+
+    --color-primary: #6366f1; /* Indigo (main brand) */
+    --color-accent: #f59e0b;  /* Amber (energy) */
+    --color-bg: #151419;
+    --color-text: #111827;
+  }
+
+  h1, h2, h3, h4 {
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  h1 {
+    font-size: 2.25rem; /* 36px */
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+
+  p {
+    line-height: 1.6;
+    color: #4b5563;
+  }
+
+  a {
+    color: var(--color-primary);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+/* -------------------------------------------- Components -------------------------------------------- */
+@layer components {
+  /* Primary Button */
+  .btn-primary {
+    @apply px-5 py-2.5 rounded-xl font-medium text-white transition;
+    background-color: var(--color-primary);
+  }
+
+  .btn-primary:hover {
+    @apply opacity-90;
+  }
+
+  /* Secondary Button */
+  .btn-secondary {
+    @apply px-5 py-2.5 rounded-xl font-medium border transition;
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
+
+  .btn-secondary:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+  }
+
+  /* Card (for events) */
+  .card {
+    @apply bg-white rounded-2xl shadow-md p-5 transition;
+  }
+
+  .card:hover {
+    @apply shadow-lg;
+  }
+
+  /* Input Field */
+  .input {
+    @apply w-full px-4 py-2 rounded-xl border outline-none;
+    border-color: #e5e7eb;
+  }
+
+  .input:focus {
+    border-color: var(--color-primary);
+    @apply ring-2 ring-indigo-200;
+  }
+
+  /* Badge (for categories) */
+  .badge {
+    @apply text-sm px-3 py-1 rounded-full font-medium;
+    background-color: rgba(99, 102, 241, 0.1);
+    color: var(--color-primary);
+  }
+}
+
+/* -------------------------------------------- Utilities -------------------------------------------- */
+@layer utilities {
+  /* Center everything */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply py-12 px-6 md:px-12;
+  }
+
+  /* Gradient text (for branding) */
+  .text-gradient {
+    background: linear-gradient(90deg, #6366f1, #f59e0b);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Glass effect (modern UI) */
+  .glass {
+    @apply backdrop-blur-md bg-white/60 border border-white/30;
+  }
+
+  /* Smooth hover scale */
+  .hover-scale {
+    @apply transition transform hover:scale-105;
   }
 }

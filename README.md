@@ -1,3 +1,11 @@
+
+
+# 📦 EventBuzz: A Web-Based Event Promotion and Ticketing System
+
+EventBuzz is a web-based platform that allows event organizers to create, promote, and manage events while enabling users to discover events and purchase tickets online.
+
+---
+
 # 🔥 LavaLite Framework
 
 **LavaLite** is a lightweight PHP framework designed for developers who want
@@ -16,12 +24,6 @@ and custom projects.
 - 🪶 **Lightweight Core**
 - 🛠 **Developer-Friendly Structure**
 - ⚡ **Fast Performance**
-
----
-
-## 📦 EventBuzz: A Web-Based Event Promotion and Ticketing System
-
-EventBuzz is a web-based platform that allows event organizers to create, promote, and manage events while enabling users to discover events and purchase tickets online.
 
 ---
 
