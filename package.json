@@ -2,5 +2,11 @@
   "dependencies": {
     "@tailwindcss/cli": "^4.2.2",
     "tailwindcss": "^4.2.2"
-  }
+  },
+"scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "build": "tailwindcss -i ./public/assets/css/input.css -o ./public/assets/css/output.css",
+  "watch": "tailwindcss -i ./public/assets/css/input.css -o ./public/assets/css/output.css --watch"
 }
+
+} 

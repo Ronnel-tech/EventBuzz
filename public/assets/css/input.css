@@ -1,2 +1,31 @@
 @import "tailwindcss";
 
+@layer base {
+  @font-face {
+    font-family: "InterTight";
+    src: url("../fonts/InterTight-Regular.ttf") format("truetype");
+    font-weight: 400;
+  }
+
+  @font-face {
+    font-family: "InterTight";
+    src: url("../fonts/InterTight-Medium.ttf") format("truetype");
+    font-weight: 500;
+  }
+
+  @font-face {
+    font-family: "InterTight";
+    src: url("../fonts/InterTight-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+  }
+
+  @font-face {
+    font-family: "InterTight";
+    src: url("../fonts/InterTight-Bold.ttf") format("truetype");
+    font-weight: 700;
+  }
+
+  body {
+    font-family: "InterTight", sans-serif;
+  }
+}
