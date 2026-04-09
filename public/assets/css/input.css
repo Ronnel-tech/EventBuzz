@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@source "../../app/views/**/*.php";
+
+
 
 /* Font Faces */
 @layer base {
@@ -37,12 +40,14 @@
     --surface-color: #1b1b1e;
     --elevated-color:#262626;
     --border-color: #2a2a2e;
-    
+    --error-color: #ef4444;
+    --success-color: #22c55e;
+    --warning-color: #f59E0B;
+    --information-color: #3b82f6;
 
-    --color-primary: #6366f1; /* Indigo (main brand) */
-    --color-accent: #f59e0b;  /* Amber (energy) */
-    --color-bg: #151419;
-    --color-text: #111827;
+    --primary-text: #fbfbfb;
+    --secondary-text: #a1a1aa;  
+    --accent-color: #FEBE10;
   }
 
   h1, h2, h3, h4 {
@@ -64,7 +69,7 @@
   }
 
   a {
-    color: var(--color-primary);
+    color: var(--accent-color);
     text-decoration: none;
   }
 
@@ -77,8 +82,9 @@
 @layer components {
   /* Primary Button */
   .btn-primary {
-    @apply px-5 py-2.5 rounded-xl font-medium text-white transition;
-    background-color: var(--color-primary);
+    @apply px-5 py-2.5 rounded-xl font-medium transition;
+    color: var(--primary-text);
+    background-color: var(--surface-color);
   }
 
   .btn-primary:hover {
@@ -88,8 +94,8 @@
   /* Secondary Button */
   .btn-secondary {
     @apply px-5 py-2.5 rounded-xl font-medium border transition;
-    border-color: var(--color-primary);
-    color: var(--color-primary);
+    border-color: var(--accent-color);
+    color: var(--accent-color);
   }
 
   .btn-secondary:hover {
@@ -112,7 +118,7 @@
   }
 
   .input:focus {
-    border-color: var(--color-primary);
+    border-color: var(--accent-color);
     @apply ring-2 ring-indigo-200;
   }
 
@@ -120,7 +126,7 @@
   .badge {
     @apply text-sm px-3 py-1 rounded-full font-medium;
     background-color: rgba(99, 102, 241, 0.1);
-    color: var(--color-primary);
+    color: var(--accent-color);
   }
 }
 
@@ -129,6 +135,27 @@
   /* Center everything */
   .flex-center {
     @apply flex items-center justify-center;
+  }
+  .u-bg-base { 
+    background-color: var(--base-color); 
+  }
+  .bg-surface { 
+    background-color: var(--surface-color); 
+  }
+  .bg-elevated { 
+    background-color: var(--elevated-color); 
+  }
+  .u-border { 
+    border-color: var(--border-color); 
+  }
+  .text-primary { 
+    color: var(--primary-text); 
+  }
+  .text-secondary { 
+    color: var(--secondary-text); 
+  }
+  .u-accent { 
+    color: var(--accent-color);
   }
 
   /* Section spacing */

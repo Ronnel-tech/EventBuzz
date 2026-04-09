@@ -7,9 +7,11 @@
     <title>EventBuzz</title>
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
 </head>
-<body>
-    <h1 class="font-bold text-5xl">EventBuzz</h1>
-    <h1 class="font-bold text-9xl">Welcome to EventBuzz</h1>
-    <h1 class="font-medium">Discover Amazing Events</h1>
+<body class="bg-red-500">
+
+<div class="w-full h-screen bg-red-500">
+    <h1 class="text-3xl font-bold text-center text-red-500">`EventBuzz`</h1>
+</div>
 </body>
 </html>
+

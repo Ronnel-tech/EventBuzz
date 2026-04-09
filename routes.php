@@ -3,5 +3,6 @@
  * All routes here
  */
 
-$router->get('/', 'app/views/homepage');
-$router->get('/landing', 'app/views/landing');
+// $router->get('/', 'app/views/homepage');
+$router->get('/', 'app/views/landing');
+
