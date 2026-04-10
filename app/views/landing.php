@@ -7,11 +7,13 @@
     <title>EventBuzz</title>
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
 </head>
-<body class="p-10 pl-50 pr-50 w-full h-screen">
+<body class="p-10 pl-50 pr-50 w-full h-screen bg-marquee">
+
 
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 <div class="bg-[url('/public/assets/images/bg_img.jpg')] bg-cover bg-center p-5 h-5/6 rounded-4xl divider rounded-b-none  outline outline-offset-2 outline-[#2a2a2e] shadow-soft mb-1">
+    
     <nav class="bg-surface flex justify-between pl-5 pr-5 card rounded-full sticky top-5 z-10  shadow-soft p-3 bg-surface-hover ">
 
         <div class="flex items-center">
