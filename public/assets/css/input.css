@@ -211,8 +211,29 @@
   .shadow-soft {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   }
-  .bg-img {
-    background-image: url('public/assets/images/bg_img.jpg');
-    background-size: cover;
-  }
+@keyframes marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 6s linear infinite;
+  will-change: transform;
+}
+
+.marquee-group {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 2rem;
+  min-width: max-content;
+}
+
+.marquee span {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
 }
