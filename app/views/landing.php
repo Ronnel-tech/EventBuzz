@@ -110,12 +110,62 @@
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
 
-<section>
+<section class="grid grid-cols-2 gap-6 h-5/6 shadow-soft outline outline-offset-2 outline-[#2a2a2e] pt-10 p-20 ">
+
+
+
+        <div class="bg-[url('/public/assets/images/bg_light.jpg')] bg-cover bg-center flex flex-col justify-around text-center card shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+            <h3 class="text-sm font-bold mb-2 pr-96">Create and manage events with ease</h3>
+            <h3 class="text-sm mb-2 shadow-soft border-defaut">Publish events, manage ticket sales, and reach your audience <br> through a streamlined platform.</h3>
+            <h3 class="text-md pl-96 ">Become an Organizer</h3>
+        </div>
+
+
+        <div class="bg-[url('/public/assets/images/bg_light2.jpg')] bg-cover bg-center flex flex-col justify-around text-center card shadow-soft outline outline-offset-2 outline-[#2a2a2e] ">
+            <h3 class="text-sm font-bold mb-2 pr-96">Discover events worth attending</h3>
+            <h3 class="text-sm mb-2  shadow-soft">Browse upcoming events, secure your tickets, and keep track of <br> everything in one place.</h3>
+            <h3 class="text-md pl-96">Become an Attendee</h3>
+        </div>
+
 
 </section>
+ <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
 
  <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
+
+<section class="flex justify-around align-center pt-10">
+    <hr class="bg-white w-full mt-5">
+    <h1 class = "w-full text-center">Plan. Publish. Celebrate</h1>
+    <hr class="bg-white w-full mt-5">
+</section>
+
+ <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
+
+
+ <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
+
+    <section class="h-screen w-full mt-10 overflow-hidden shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+        <div class=" bg-[url('/public/assets/images/bg_l.jpg')] bg-cover bg-center h-screen  w-full flex justify-end items-end  shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+            <h1 class="pr-10 pb-10">Plan events people love.</h1>
+        </div>
+        
+    </section>
+    
+
+
+ <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
+
+<footer class="mt-1 shadow-soft outline outline-offset-2 outline-[#2a2a2e] rounded-b-4xl ">
+        <div class="bg-[#2a2a2e] flex justify-center items-center p-5 mt-1 rounded-b-4xl">
+            <p class="text-sm text-primary ">© 2024 EventBuzz. All rights reserved.</p>
+        </div>
+
+        
+</footer>
+
+<div class="pb-20 "></div>
+
 
 </body>
 </html>
