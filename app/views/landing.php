@@ -22,9 +22,9 @@
         </div>
 
         <div class="flex items-center gap-5">
-            <a href="">Signup</a>
+            <a href="/signup">Signup</a>
             <h3>|</h3>
-            <a href="">Login</a>
+            <a href="/login">Login</a>
         </div> 
     </nav>
 
@@ -46,7 +46,7 @@
       <span>EVENTBUZZ</span>
       <span>EVENTBUZZ</span>
       <span>EVENTBUZZ</span>
-      <span> EVENTBUZZ</span>
+      <span>EVENTBUZZ</span>
       <span>EVENTBUZZ</span>
       <span>EVENTBUZZ</span>
       <span>EVENTBUZZ</span>

@@ -47,7 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="./dist/output.css">
+<link rel="stylesheet" href="../public/assets/css/output.css">
+<title>EventBuzz | Login</title>
+<link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
 </head>
 <body class="flex items-center justify-center h-screen bg-[#030712]">
 
@@ -65,10 +67,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <input name="email" placeholder="Email" class="w-full mb-3 p-2" required>
 <input type="password" name="password" placeholder="Password" class="w-full mb-3 p-2" required>
 
-<button class="bg-blue-500 text-white w-full p-2">Login</button>
+<button class="btn btn-primary w-full p-2">Login</button>
 </form>
 
-<p class="text-center mt-3">
+<p class="text-center mt-4">
 <a href="<?= url('signup') ?>" class="text-white">Signup</a>
 </p>
 
