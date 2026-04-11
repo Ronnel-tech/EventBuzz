@@ -160,7 +160,7 @@
 
 <footer class="mt-1 shadow-soft outline outline-offset-2 outline-[#2a2a2e] rounded-b-4xl ">
         <div class="bg-[#2a2a2e] flex justify-center items-center p-5 mt-1 rounded-b-4xl">
-            <p class="text-sm text-primary ">© 2024 EventBuzz. All rights reserved.</p>
+            <p class="text-sm text-primary ">© 2026 EventBuzz. All rights reserved | Dev: Ronnel L. Antaran</p>
         </div>
 
         

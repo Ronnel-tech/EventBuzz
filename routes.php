@@ -24,7 +24,7 @@ $router->get('/admin/user_management', 'app/views/admin/user_management', ['admi
 // ORGANIZER
 $router->get('/organizer/dashboard', 'app/views/organizer/organizer_dashboard', ['organizer']);
 $router->get('/organizer/events', 'app/views/organizer/events', ['organizer']);
-$router->get('/organizer/create_event', 'app/views/organizer/create_event', ['organizer']);
+$router->get('/organizer/create-event', 'app/views/organizer/create_event', ['organizer']);
 $router->get('/organizer/edit', 'app/views/organizer/edit', ['organizer']);
 $router->get('/organizer/add_ticket', 'app/views/organizer/add_ticket', ['organizer']);
 $router->get('/organizer/attendee_list', 'app/views/organizer/attendee_list', ['organizer']);

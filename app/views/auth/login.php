@@ -71,7 +71,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </h2>
 
 <?php if ($msg = get_flash('error')): ?>
-<div class="bg-red-500 text-white p-2"><?= esc($msg) ?></div>
+<div class="tag-error text-primary p-2 rounded-2xl text-center"><?= esc($msg) ?></div>
 <?php endif; ?>
 
 <form method="POST">
@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <p class="text-center mt-6 text-sm text-gray-300">
                 <a href="<?= url('/signup') ?>" class="hover:text-white">
-                    Already have an account? <strong>Login</strong>
+                    Don't have an account? <strong>Signup</strong>
                 </a>
             </p>
 

@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($email) || empty($password) || empty($role)) {
         set_flash('error', 'All fields required');
-        header('Location: ' . url('signup'));
+        header('Location: ' . url('/signup'));
         exit;
     }
 
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($existing) {
         set_flash('error', 'Email already exists');
-        header('Location: ' . url('signup'));
+        header('Location: ' . url('/signup'));
         exit;
     }
 
@@ -63,6 +63,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Create an Account
             </h2>
 
+<?php if ($msg = get_flash('error')): ?>
+<div class="tag-error text-primary p-2 rounded-2xl text-center pb-3"><?= esc($msg) ?></div>
+<?php endif; ?>
+
             <form method="POST">
                 <?php csrf_field(); ?>
 
@@ -72,7 +76,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input name="last_name" placeholder="Last Name"
                     class="w-full mb-3 p-2 rounded-full card text-white border border-[#2a2a2e]" required>
 
-                <input name="email" placeholder="Email"
+                <input name="email" type="email" placeholder="Email"
                     class="w-full mb-3 p-2 rounded-full card text-white border border-[#2a2a2e]" required>
 
                 <input type="password" name="password" placeholder="Password"
@@ -80,8 +84,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <select name="role"
                     class="w-full mb-4 p-2 rounded-full card text-white border border-[#2a2a2e]" required>
-                    <option value="attendee">Attendee</option>
-                    <option value="organizer">Organizer</option>
+                    <option value="attendee" >Attendee</option>
+                    <option value="organizer" >Organizer</option>
                 </select>
 
                 <button class="btn btn-primary w-full p-2 rounded-full">
