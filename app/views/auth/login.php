@@ -51,11 +51,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <title>EventBuzz | Login</title>
 <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
 </head>
-<body class="flex items-center justify-center h-screen bg-[#030712]">
 
-<div class="bg-[#1c2029] w-96 rounded-3xl p-8">
 
-<h2 class="text-white text-center mb-4">Login</h2>
+
+<body class="flex items-center justify-center min-h-screen w-full bg-[#151419]">
+
+    <div class="flex overflow-hidden rounded-3xl shadow-lg outline outline-[#2a2a2e] bg-surface justify-around align-center w-200 h-125">
+
+        <!-- LEFT: Image -->
+        <div class="w-96 h-125 p-4 bg-surface">
+            <div class="w-full h-full  bg-[url('/public/assets/images/login_bg.jpg')] bg-cover bg-center rounded-3xl outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div class="bg-[#1c2029] p-10 w-96 flex flex-col justify-around bg-surface ">
+
+            <h2 class="text-white text-center text-2xl font-semibold mb-6 ">
+                Welcome Back!
+            </h2>
 
 <?php if ($msg = get_flash('error')): ?>
 <div class="bg-red-500 text-white p-2"><?= esc($msg) ?></div>
@@ -64,16 +77,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <form method="POST">
 <?php csrf_field(); ?>
 
-<input name="email" placeholder="Email" class="w-full mb-3 p-2" required>
-<input type="password" name="password" placeholder="Password" class="w-full mb-3 p-2" required>
+<input name="email" placeholder="Email" class="w-full mb-3 p-2 rounded-full card text-white border border-[#2a2a2e]" required>
+<input type="password" name="password" placeholder="Password" class="w-full mb-3 p-2 rounded-full card text-white border border-[#2a2a2e]" required>
 
-<button class="btn btn-primary w-full p-2">Login</button>
+<button class="btn btn-primary w-full p-2 rounded-full mt-5">Login</button>
 </form>
 
-<p class="text-center mt-4">
-<a href="<?= url('signup') ?>" class="text-white">Signup</a>
-</p>
+            <p class="text-center mt-6 text-sm text-gray-300">
+                <a href="<?= url('/signup') ?>" class="hover:text-white">
+                    Already have an account? <strong>Login</strong>
+                </a>
+            </p>
 
-</div>
+            
+
+        </div>
+
+    </div>
+
 </body>
 </html>
