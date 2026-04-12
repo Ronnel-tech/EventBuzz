@@ -173,6 +173,22 @@
     background-color: var(--color-surface-elevated);
   }
 
+  .icon-primary {
+  fill: var(--color-primary);
+}
+.icon-primary:active {
+  transform: scale(0.95);
+}
+
+  .icon-secondary {
+  fill: var(--color-text-primary);
+}
+.icon-disabled {
+  fill: var(--color-text-secondary);
+}
+
+
+
   .tag {
     @apply px-2 py-0.5 text-xs font-medium uppercase rounded-full text-white;
   }
@@ -235,4 +251,6 @@
   display: inline-block;
   flex-shrink: 0;
 }
+
+
 }
