@@ -10,7 +10,7 @@
 </head>
 
 
-<body class="flex h-screen">
+<body class="flex h-screen w-full">
 
 
     <aside class="flex flex-col items-center bg-surface w-24 justify-between p-5 shadow-soft">
@@ -30,6 +30,24 @@
     </aside>
 
 
+    <div class="flex flex-col p-5 w-full h-screen">
+
+    <div class="flex flex-col ">
+        <h3>Create Event</h3> 
+        <p>A detailed view of event performance, ticket sales, and activity.</p>
+    </div>
+
+
+    <section class="flex flex-col p-20 w-full  h-screen">
+        
+        <div class="w-full card outline  outline-[#2a2a2e] shadow-soft">
+
+            
+
+        </div>
+    </section>
+
+    </div>
 
 </body>
 </html>
