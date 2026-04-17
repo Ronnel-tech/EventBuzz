@@ -75,7 +75,7 @@
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 <section class="bg-white h-2 w-full flex justify-center items-center mt-1">
-    <button class="btn btn-primary rounded-full z-1">Get Started</button>
+    <button class="btn btn-primary rounded-full z-1"><a href="/signup">Get Started</a></button>
 </section>
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 

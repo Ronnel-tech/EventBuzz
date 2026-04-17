@@ -30,7 +30,7 @@
     </aside>
 
 
-    <div class="flex flex-col p-5 w-full h-screen">
+    <div class="flex flex-col p-5 w-full h-screen"> 
 
     <div class="flex flex-col ">
         <h3>Create Event</h3> 
@@ -40,13 +40,49 @@
 
     <section class="flex flex-col p-20 w-full  h-screen">
         
-        <div class="w-full card outline  outline-[#2a2a2e] shadow-soft">
+        <div class="w-full modal outline  outline-[#2a2a2e] shadow-soft">
 
-            
+    <div class="w-full h-50 inset-0 bg-[url('/public/assets/images/signup_bg.jpg')] 
+                bg-cover bg-center rounded-t-3xl outline outline-[#2a2a2e] shadow-soft mb-1 flex items-center justify-center shadow-soft">
 
+                <button >
+                    <div class="size-25 bg-surface rounded-2xl flex flex-col items-center justify-center gap-4">
+                        <svg class="icon-primary -rotate-90 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path  fill-rule="evenodd" d="M6 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm10.293 5.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L18.586 13H10a1 1 0 1 1 0-2h8.586l-2.293-2.293a1 1 0 0 1 0-1.414" clip-rule="evenodd"/></svg>
+                        <h4>Upload photo</h4>
+                    </div>
+                </button>
+    </div>
+
+    <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl">
+        <h2 class="px-10 pt-10">Event Overview</h2>
+        <h3 class="pl-15 pt-5">Event title</h3>
+        <h4 class="pl-20 pt-5">Be clear and descriptive with a title that tells people what your event is about.</h4>
+
+
+
+        <div class=" flex justify-between align-center">
+
+            <form action="post" method="POST">
+                <?php csrf_field() ?>
+                <input name="title" placeholder="Event Title" class=" mb-3 p-2 rounded-full card text-white border border-[#2a2a2e] w-52 " required>
+
+                <select name="category"
+                    class="w-full mb-4 p-2 rounded-full card text-white border border-[#2a2a2e]" required>
+                    <option value="attendee" >Music</option>
+                    <option value="organizer" >Education</option>
+                    <option value="organizer" >Art and Culture</option>
+                    <option value="">Sports and Fitness</option>
+                    <option value="">Gaming and Esports</option>
+                 </select>
+            </form>
         </div>
-    </section>
+    </div>
 
+
+
+
+
+    </section>
     </div>
 
 </body>
