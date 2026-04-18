@@ -105,8 +105,12 @@
     color: var(--color-text-primary);
   }
 
+  .btn-secondary:active {
+    transform: scale(0.95);
+  }
+
   .btn-secondary:hover {
-    background-color: var(--color-surface);
+    background-color: var(--color-text-secondary);
   }
 
   .btn-ghost {
