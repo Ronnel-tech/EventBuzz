@@ -82,7 +82,7 @@
 
                 required>
 
-                <label for="quantity">Quantity</label>
+                <label for="quantity">Quantity</label>  
                 <input 
 
                     id="quantity"
