@@ -7,8 +7,9 @@
     <title>EventBuzz | Add Ticket</title>
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../public/assets/css/output.css">
+    <script src="../public/assets/js/main.js"></script>
 </head>
-
+    
 
 <body class="flex h-screen">
 
@@ -42,28 +43,21 @@
     
         <section class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
 
-                        <h3 class="pl-15 pt-5">Ticket Types</h3>
-                <h4 class="pl-20 pt-5">Add up to 5 types of tickets</h4>
-            
-            <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl">
-                <h3 class="pl-15 pt-5">Add Tickets</h3>
-                <h4 class="pl-20 pt-5">Add up to 5 types of tickets</h4>
+            <h3 class="pl-5 pt-5">Ticket Types</h3>
+            <h4 class="pl-10 pt-5">Add up to 5 types of tickets</h4>
+
+        <div class="grid grid-cols-4 gap-4 text-sm text-gray-400 mb-4 px-2 pl-15 pt-5">
+          <div>Name</div>
+          <div>Quantity</div>
+          <div>Price</div>
+          <div></div>
 
 
-                <div class=" flex flex-wrap justify-between align-center pl-30 pt-5 p-5">
-                    <h1>shet</h1>
-                </div>
+        </div>
+            <div class="pl-15">
 
-            </div>
-
-
-
-                <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl">
-                <h3 class="pl-15 pt-5">Add Tickets</h3>
-
-
-                <div class=" flex flex-wrap justify-between align-center pl-30 pt-5 p-5">
-                    <h1>dsfs</h1>
+                <div id="ticketList" class="space-y-2">
+                    <!-- Tickets will appear here -->
                 </div>
 
             </div>
@@ -75,52 +69,108 @@
 
             <h3 class="pl-5 pt-5 pb-5">Add Tickets</h3>
 
-            <form action="" method="POST" class="pl-10">
+            <form id="ticketForm" action="" method="POST" class="pl-10">
                 <?php csrf_field() ?>
 
                 <label for="ticket_name">Ticket Name</label>
-                <input name="ticket_name" placeholder="Event Title" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input 
+                    id="name"
+                    type="text"
+                    name="ticket_name" 
+                    placeholder="Ticket Name" 
+                    class=" mb-3  rounded-full input input:focus text-white " 
+
+                required>
 
                 <label for="quantity">Quantity</label>
-                <input name="quantity" placeholder="Quantity" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input 
+
+                    id="quantity"
+                    type="number"
+                    name="quantity" 
+                    placeholder="Quantity" 
+                    class=" mb-3  rounded-full input input:focus text-white " 
+
+                required>
 
                 <label for="price">Price</label>
-                <input name="price" placeholder="Price" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input 
 
-                
-            </form>
+                    id="price"
+                    type="number"
+                    name="price" 
+                    placeholder="Price" 
+                    class=" mb-3  rounded-full input input:focus text-white " 
 
-            <h3 class="pl-5 pt-5 pb-5">Add Tickets</h3>
+                required>
             
-            <form action="" method="post" class="grid grid-cols-2 gap-5  pl-10">
+            <div class="grid grid-cols-2 gap-5  pt-10">
             <?php csrf_field() ?>
 
             <div>
                 <label for="start_date">Start Date</label>
-                <input name="start_date" placeholder="Start Date" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input
+
+                    id="startDate"
+                    type="date"
+                    name="start_date" 
+                    class=" mb-3  rounded-full input input:focus text-white "
+
+                required>
             </div>
 
             <div>
                 <label for="start_time">Start Time</label>
-                <input name="start_time" placeholder="Start Time" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input 
+                    id="startTime"
+                    type="time"
+                    name="start_time" 
+                    placeholder="Start Time" 
+                    class=" mb-3  rounded-full input input:focus text-white " 
+                    required>
             </div>
 
             <div>
                 <label for="end_date">End Date</label>
-                <input name="end_date" placeholder="End Date" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input 
+                    name="end_date" 
+                    id="endDate"
+                    type="date"
+                    class=" mb-3  rounded-full input input:focus text-white " 
+                required>
             </div>
 
             <div>
                 <label for="end_time">End Time</label>
-                <input name="end_time" placeholder="End Time" class=" mb-3  rounded-full input input:focus text-white " required>
+                <input 
+                name="end_time" 
+                id="endTime"
+                type="time"
+                class=" mb-3  rounded-full input input:focus text-white " required>
             </div>
+
+        </div>
+
+
+        <div class="grid grid-cols-2 gap-5 pt-10">
+            <button 
+                type="button" 
+                id="cancelBtn"
+                class="btn btn-secondary text-white py-2 px-4 rounded-full">Cancel
+            </button>
+
+            <button 
+                type="submit" 
+                class="btn btn-primary rounded-full">Add Ticket
+            </button>
+
+        </div>
 
             </form>
 
-        <div class="grid grid-cols-2 gap-5 pl-10 pt-10">
-            <button type="submit" class="btn btn-secondary text-white py-2 px-4 rounded-full">Cancel</button>
-            <button type="submit" class="btn btn-primary rounded-full">Add Ticket</button>
-        </div>
+
+
+
 
         </section>
 
