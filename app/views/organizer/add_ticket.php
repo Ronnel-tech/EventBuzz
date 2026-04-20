@@ -13,7 +13,6 @@
 
 <body class="flex h-screen">
 
-
     <aside class="flex flex-col items-center bg-surface w-24 justify-between p-5 shadow-soft">
 
         <img src="/public/assets/images/logo.png" alt="" class="size-7 ">
@@ -32,13 +31,13 @@
 
         <div class="flex flex-col p-5 w-full ml-24"> 
 
-    <div class="flex flex-col ">
+    <div class="flex flex-col ">    
         <h3>Add Tickets</h3> 
         <p>Create and manage tickets for your event.</p>
     </div>
 
 
-    <section class="grid grid-cols-2 p-20 w-full gap-10 ">
+    <section class="grid grid-cols-2 p-10 w-full gap-10 ">
       
     
         <section class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
@@ -56,7 +55,7 @@
         </div>
             <div class="pl-15">
 
-                <div id="ticketList" class="space-y-2">
+                <div id="ticketList" class="space-y-1">
                     <!-- Tickets will appear here -->
                 </div>
 
@@ -167,23 +166,24 @@
         </div>
 
             </form>
-
-
-
+        
+        <div class="flex justify-end align-center">
+            <button class="btn btn-primary mt-10 rounded-full">Save and Continue</button>
+        </div>
 
 
         </section>
 
-     
+    
+    </section>
 
     
-
-    </section>
 
 
     </div>
 
 </body>
 </html>
+
 
 

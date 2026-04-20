@@ -30,6 +30,136 @@
     </aside>
 
 
+        <div class="flex flex-col p-5 w-full ml-24"> 
+
+    <div class="flex flex-col ">
+        <h3>Payment Method</h3> 
+        <p>Choose the payment method that suits you</p>
+    </div>
+
+
+    <section class=" p-10 w-full gap-10 ">
+      
+    
+        <section class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
+
+
+    <!-- Header -->
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold">Mode of Payment</h2>
+      <p class="mt-1 text-sm text-white/60">How do you want to get paid?</p>
+    </div>
+
+    <!-- Payment Cards -->
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <!-- Free -->
+      <label class="relative cursor-pointer rounded-2xl border border-white/10 bg-[#0d0d14] p-5 transition hover:border-white/20">
+        <input type="checkbox" class="peer sr-only" />
+        <div class="absolute right-4 top-4 h-4 w-4 rounded-md border border-white/40 bg-transparent peer-checked:border-yellow-400 peer-checked:bg-yellow-400"></div>
+        <div>
+          <h3 class="text-base font-medium">Free</h3>
+          <p class="mt-1 text-sm text-white/45">Pay nothing</p>
+        </div>
+      </label>
+
+      <!-- Cash -->
+      <label class="relative cursor-pointer rounded-2xl border border-white/10 bg-[#0d0d14] p-5 transition hover:border-white/20">
+        <input type="checkbox" class="peer sr-only" />
+        <div class="absolute right-4 top-4 h-4 w-4 rounded-md border border-white/40 bg-transparent peer-checked:border-yellow-400 peer-checked:bg-yellow-400"></div>
+        <div>
+          <h3 class="text-base font-medium">Cash</h3>
+          <p class="mt-1 text-sm text-white/45">Pay on the venue</p>
+        </div>
+      </label>
+
+      <!-- GCash -->
+      <label class="relative cursor-pointer rounded-2xl border border-yellow-400/40 bg-[#0d0d14] p-5 transition hover:border-yellow-400/60">
+        <input type="checkbox" checked class="peer sr-only" />
+        <div class="absolute right-4 top-4 flex h-4 w-4 items-center justify-center rounded-md border border-white/40 bg-white/10 peer-checked:border-yellow-400 peer-checked:bg-yellow-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-black" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.2 7.2a1 1 0 01-1.415 0l-3-3a1 1 0 111.414-1.42l2.293 2.294 6.493-6.494a1 1 0 011.415 0z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-base font-medium">Gcash</h3>
+          <p class="mt-1 text-sm text-white/45">Pay through online</p>
+        </div>
+      </label>
+    </div>
+
+    <!-- GCash Details -->
+    <div class="mt-8 rounded-3xl border border-white/10 bg-[#12121a] p-5 md:p-6">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <input
+          type="text"
+          placeholder="Name"
+          class="h-12 rounded-full border border-white/10 bg-[#0d0d14] px-5 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-yellow-400/50"
+        />
+        <input
+          type="text"
+          placeholder="Number"
+          class="h-12 rounded-full border border-white/10 bg-[#0d0d14] px-5 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-yellow-400/50"
+        />
+      </div>
+
+      <div class="mt-6">
+        <p class="mb-3 text-sm text-white/80">Upload your Gcash QR code</p>
+
+        <div class="relative overflow-hidden rounded-[22px] border border-white/10 bg-[#0d0d14]">
+          <!-- Background image -->
+          <img
+            src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1400&q=80"
+            alt="Concert crowd"
+            class="h-56 w-full object-cover opacity-45"
+          />
+
+          <!-- Overlay -->
+          <div class="absolute inset-0 bg-black/35"></div>
+
+          <!-- Upload button -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <button
+              class="flex flex-col items-center justify-center rounded-2xl border border-white/10 bg-[#111118]/90 px-5 py-4 text-center shadow-lg backdrop-blur-sm transition hover:scale-[1.02]"
+            >
+              <div class="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 16V8m0 0l-3 3m3-3l3 3M4 16.5V18a2 2 0 002 2h12a2 2 0 002-2v-1.5" />
+                </svg>
+              </div>
+              <span class="text-xs font-medium text-white">Upload photo</span>
+              <span class="text-[10px] text-white/45">and videos</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer button -->
+    <div class="mt-10 flex justify-end">
+      <button class="min-w-47.5 rounded-full bg-yellow-400 px-8 py-3 text-sm font-semibold text-black transition hover:brightness-110">
+        Publish
+      </button>
+    </div>
+  </div>
+</div>
+
+        </section>
+<!-- ------------------------------------------------------------------------------------------------ -->
+
+
+
+        </section>
+
+    
+
+    
+
+
+    </div>
+
+    
+
+
 
 
 

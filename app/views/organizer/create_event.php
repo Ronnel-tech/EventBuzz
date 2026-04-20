@@ -38,7 +38,7 @@
     </div>
 
 
-    <section class="flex flex-col p-20 w-full  ">
+    <section class="flex flex-col p-10 w-full  ">
         
         <div class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
 
