@@ -45,12 +45,32 @@
     <div class="w-full h-50 inset-0 bg-[url('/public/assets/images/signup_bg.jpg')] 
                 bg-cover bg-center rounded-t-3xl outline outline-[#2a2a2e] shadow-soft mb-1 flex items-center justify-center shadow-soft">
 
-                <button >
-                    <div class="size-25 bg-surface rounded-2xl flex flex-col items-center justify-center gap-4">
-                        <svg class="icon-primary -rotate-90 " xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path  fill-rule="evenodd" d="M6 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm10.293 5.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L18.586 13H10a1 1 0 1 1 0-2h8.586l-2.293-2.293a1 1 0 0 1 0-1.414" clip-rule="evenodd"/></svg>
-                        <h4>Upload photo</h4>
-                    </div>
-                </button>
+<form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
+
+    <!-- Hidden file input -->
+    <input 
+        type="file" 
+        id="fileInput"
+        name="picture" 
+        accept="image/*" 
+        class="hidden"
+    >
+
+    <!-- Custom upload box -->
+    <label for="fileInput" 
+        class="size-25 bg-surface rounded-2xl flex flex-col items-center justify-center gap-4 cursor-pointer hover:bg-gray-700 transition">
+
+        <svg class="icon-primary -rotate-90" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill-rule="evenodd"
+                d="M6 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm10.293 5.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L18.586 13H10a1 1 0 1 1 0-2h8.586l-2.293-2.293a1 1 0 0 1 0-1.414"
+                clip-rule="evenodd" />
+        </svg>
+
+        <h4>Upload photo</h4>
+    </label>
+
+</form>
+                
     </div>
 
     <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl">
@@ -155,7 +175,7 @@
 
     </div>
 
-    
+
 
 </body>
 </html>

@@ -92,12 +92,12 @@
       <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
         <input
           type="text"
-          placeholder="Name"
+          placeholder="Gcash Account Name"
           class="h-12 rounded-full border border-white/10 bg-[#0d0d14] px-5 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-yellow-400/50"
         />
         <input
           type="text"
-          placeholder="Number"
+          placeholder="Reference Number"
           class="h-12 rounded-full border border-white/10 bg-[#0d0d14] px-5 text-sm text-white placeholder:text-white/35 outline-none transition focus:border-yellow-400/50"
         />
       </div>

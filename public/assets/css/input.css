@@ -255,6 +255,9 @@
   display: inline-block;
   flex-shrink: 0;
 }
+.file-input-hidden {
+  @apply hidden;
+      }
 
 
 }
