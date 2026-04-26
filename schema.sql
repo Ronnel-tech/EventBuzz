@@ -76,17 +76,17 @@ tickets
 - scanned_at (DATETIME)
 
 
--- organizer_profiles.user_id → users.id
+organizer_profiles.user_id → users.id
 
--- events.organizer_id → users.id
--- events.category_id → categories.id
+events.organizer_id → users.id
+events.category_id → categories.id
 
--- ticket_types.event_id → events.id
+ticket_types.event_id → events.id
 
--- orders.user_id → users.id
--- orders.event_id → events.id
+orders.user_id → users.id
+orders.event_id → events.id
 
--- order_items.order_id → orders.id
--- order_items.ticket_type_id → ticket_types.id
+order_items.order_id → orders.id
+order_items.ticket_type_id → ticket_types.id
 
--- tickets.order_item_id → order_items.id
+tickets.order_item_id → order_items.id

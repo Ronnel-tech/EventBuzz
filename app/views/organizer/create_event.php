@@ -40,12 +40,25 @@
 
     <section class="flex flex-col p-10 w-full  ">
         
+        <?php if ($msg = get_flash('error')): ?>
+        <div class="mb-5 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">
+            <?= esc($msg) ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($msg = get_flash('success')): ?>
+        <div class="mb-5 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 text-green-200">
+            <?= esc($msg) ?>
+        </div>
+        <?php endif; ?>
+        
+        <form action="<?= url('/organizer/create-event') ?>" method="POST" enctype="multipart/form-data">
+            <?php csrf_field(); ?>
+
         <div class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
 
     <div class="w-full h-50 inset-0 bg-[url('/public/assets/images/signup_bg.jpg')] 
                 bg-cover bg-center rounded-t-3xl outline outline-[#2a2a2e] shadow-soft mb-1 flex items-center justify-center shadow-soft">
-
-<form action="/upload" method="post" enctype="multipart/form-data" class="space-y-4">
 
     <!-- Hidden file input -->
     <input 
@@ -68,8 +81,6 @@
 
         <h4>Upload photo</h4>
     </label>
-
-</form>
                 
     </div>
 
@@ -82,31 +93,24 @@
 
         <div class=" flex flex-wrap justify-between align-center pl-30 pt-5 p-5">
 
-            <form action="" method="POST">
-                <?php csrf_field() ?>
-                <input name="title" placeholder="Event Title" class=" mb-3 p-2 rounded-full input input:focus text-white  w-280" required>
-            </form>
+                <input name="title" value="<?= esc($old['title']) ?>" placeholder="Event Title" class=" mb-3 p-2 rounded-full input input:focus text-white  w-280" required>
 
-            <form action="" method="post" class="">
                 <select name="category"
                     class="mb-3 p-2 rounded-full input input:focus text-white w-65 " required>
                     <option value="">Category</option>
-                    <option value="attendee" >Music</option>
-                    <option value="organizer" >Education</option>
-                    <option value="organizer" >Art and Culture</option>
-                    <option value="">Sports and Fitness</option>
-                    <option value="">Gaming and Esports</option>
+                    <?php foreach ($categories as $category): ?>
+                    <option value="<?= esc((string) $category['id']) ?>" <?= $old['category'] === (string) $category['id'] ? 'selected' : '' ?>>
+                        <?= esc($category['name']) ?>
+                    </option>
+                    <?php endforeach; ?>
                  </select>
-            </form>  
         </div>
 
         <h2 class="px-10 pt-10">Summary</h2>
         <h4 class="pl-20 pt-5">Grab people's attention with a short description about your event. Attendees will see this at the top of your event page.</h4>
 
         <div class="p-5 pl-30">
-            <form action="" method="post">
-                <textarea name="summary" placeholder="Event Summary" class=" rounded-2xl input input:focus text-white w-full h-100" required></textarea>
-            </form>
+                <textarea name="summary" placeholder="Event Summary" class=" rounded-2xl input input:focus text-white w-full h-100" required><?= esc($old['summary']) ?></textarea>
         </div>
 
     </div>
@@ -121,54 +125,55 @@
 
         <div class=" grid grid-cols-3 gap-5 justify-between align-center pl-30 pt-5 p-5">
 
-            <form action="" method="POST" class=" flex flex-col">
-                <?php csrf_field() ?>
+            <div class="flex flex-col">
                 <label for="date">Date</label>
-                <input name="date" type="date" placeholder="Date" class=" p-2 rounded-full input input:focus text-white  " required>
-            </form>
+                <input name="date" value="<?= esc($old['date']) ?>" type="date" placeholder="Date" class=" p-2 rounded-full input input:focus text-white  " required>
+            </div>
 
-            <form action="" method="post" class=" flex flex-col">
+            <div class="flex flex-col">
                 <label for="start_time" class="">Start time</label>
-                <input name="start_time" type="time" placeholder="Time" class=" rounded-full input input:focus text-white " required>
-            </form>  
+                <input name="start_time" value="<?= esc($old['start_time']) ?>" type="time" placeholder="Time" class=" rounded-full input input:focus text-white " required>
+            </div>  
 
-            <form action="" method="post" class=" flex flex-col">
+            <div class="flex flex-col">
                 <label for="end_time" class="">End time</label>
-                <input name="end_time" type="time" placeholder="Time" class=" rounded-full input input:focus text-white " required>
-            </form> 
+                <input name="end_time" value="<?= esc($old['end_time']) ?>" type="time" placeholder="Time" class=" rounded-full input input:focus text-white " required>
+            </div> 
         </div>
 
         <h3 class="px-15 pt-15">Location</h3>
 
         <div class="grid grid-cols-2 gap-4 p-5 pl-30">
-            <form action="" method="post" class=" flex flex-col">
+            <div class="flex flex-col">
                 <label for="street" class="mb-2">Street</label>
-                <input name="street" type="text" placeholder="Street" class=" p-2 rounded-full input input:focus text-white  w-full" required>
-            </form>
+                <input name="street" value="<?= esc($old['street']) ?>" type="text" placeholder="Street" class=" p-2 rounded-full input input:focus text-white  w-full" required>
+            </div>
 
 
-            <form action="" method="post" class=" flex flex-col">
+            <div class="flex flex-col">
                 <label for="city" class="mb-2">City</label>
-                <input name="city" type="text" placeholder="City" class=" p-2 rounded-full input input:focus text-white  w-full" required>
-            </form>
+                <input name="city" value="<?= esc($old['city']) ?>" type="text" placeholder="City" class=" p-2 rounded-full input input:focus text-white  w-full" required>
+            </div>
 
-            <form action="" method="post" class=" flex flex-col">
+            <div class="flex flex-col">
                 <label for="province" class="mb-2">Province</label>
-                <input name="province" type="text" placeholder="Province" class=" p-2 rounded-full input input:focus text-white  w-full" required>
-            </form>
+                <input name="province" value="<?= esc($old['province']) ?>" type="text" placeholder="Province" class=" p-2 rounded-full input input:focus text-white  w-full" required>
+            </div>
 
-            <form action="" method="post" class=" flex flex-col">
+            <div class="flex flex-col">
                 <label for="country" class="mb-2">Country</label>
-                <input name="country" type="text" placeholder="Country" class=" p-2 rounded-full input input:focus text-white  w-full" required>
-            </form> 
+                <input name="country" value="<?= esc($old['country']) ?>" type="text" placeholder="Country" class=" p-2 rounded-full input input:focus text-white  w-full" required>
+            </div> 
         </div>
 
 
     <div class="p-6 flex justify-end w-full">
-        <button class="btn btn-primary rounded-full">Save and Continue</button>
-    </div>        
+        <button type="submit" class="btn btn-primary rounded-full">Save and Continue</button>
+    </div>          
+    </div>
 
-    
+        </div>
+        </form>
 
     </section>
 
@@ -179,5 +184,3 @@
 
 </body>
 </html>
-
-

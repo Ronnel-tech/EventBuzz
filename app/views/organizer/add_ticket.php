@@ -38,6 +38,18 @@
 
 
     <section class="grid grid-cols-2 p-10 w-full gap-10 ">
+
+        <?php if ($msg = get_flash('error')): ?>
+        <div class="col-span-2 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">
+            <?= esc($msg) ?>
+        </div>
+        <?php endif; ?>
+
+        <?php if ($msg = get_flash('success')): ?>
+        <div class="col-span-2 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 text-green-200">
+            <?= esc($msg) ?>
+        </div>
+        <?php endif; ?>
       
     
         <section class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
@@ -45,18 +57,43 @@
             <h3 class="pl-5 pt-5">Ticket Types</h3>
             <h4 class="pl-10 pt-5">Add up to 5 types of tickets</h4>
 
-        <div class="grid grid-cols-4 gap-4 text-sm text-gray-400 mb-4 px-2 pl-15 pt-5">
+        <div class="grid grid-cols-5 gap-4 text-sm text-gray-400 mb-4 px-2 pl-15 pt-5">
           <div>Name</div>
+          <div>Sale Ends</div>
           <div>Quantity</div>
           <div>Price</div>
-          <div></div>
+          <div>Action</div>
 
 
         </div>
             <div class="pl-15">
 
-                <div id="ticketList" class="space-y-1">
-                    <!-- Tickets will appear here -->
+                <div id="ticketList" class="space-y-3 pb-8">
+                    <?php if ($ticket_types): ?>
+                        <?php foreach ($ticket_types as $ticket): ?>
+                        <div data-ticket-row class="grid grid-cols-5 gap-4 rounded-2xl border border-[#2a2a2e] bg-[#151419] p-4 text-sm text-white">
+                            <div><?= esc($ticket['name']) ?></div>
+                            <div>
+                                <?= esc(date('M d, Y', strtotime($ticket['end_datetime']))) ?><br>
+                                <span class="text-xs text-gray-400"><?= esc(date('h:i A', strtotime($ticket['end_datetime']))) ?></span>
+                            </div>
+                            <div><?= esc((string) $ticket['quantity']) ?></div>
+                            <div>PHP <?= esc(number_format((float) $ticket['price'], 2)) ?></div>
+                            <div>
+                                <form method="POST" action="<?= url('/organizer/add-ticket') ?>">
+                                    <?php csrf_field() ?>
+                                    <input type="hidden" name="action" value="delete">
+                                    <input type="hidden" name="ticket_type_id" value="<?= esc((string) $ticket['id']) ?>">
+                                    <button type="submit" class="btn btn-secondary rounded-full px-4 py-1 text-sm">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div id="emptyTicketState" class="rounded-2xl border border-dashed border-[#2a2a2e] p-4 text-sm text-gray-400">
+                            No ticket types added yet.
+                        </div>
+                    <?php endif; ?>
                 </div>
 
             </div>
@@ -68,7 +105,7 @@
 
             <h3 class="pl-5 pt-5 pb-5">Add Tickets</h3>
 
-            <form id="ticketForm" action="" method="POST" class="pl-10">
+            <form id="ticketForm" action="<?= url('/organizer/add-ticket') ?>" method="POST" class="pl-10">
                 <?php csrf_field() ?>
 
                 <label for="ticket_name">Ticket Name</label>
@@ -76,6 +113,7 @@
                     id="name"
                     type="text"
                     name="ticket_name" 
+                    value="<?= esc($old['ticket_name']) ?>"
                     placeholder="Ticket Name" 
                     class=" mb-3  rounded-full input input:focus text-white " 
 
@@ -87,6 +125,7 @@
                     id="quantity"
                     type="number"
                     name="quantity" 
+                    value="<?= esc($old['quantity']) ?>"
                     placeholder="Quantity" 
                     class=" mb-3  rounded-full input input:focus text-white " 
 
@@ -98,6 +137,9 @@
                     id="price"
                     type="number"
                     name="price" 
+                    value="<?= esc($old['price']) ?>"
+                    min="0"
+                    step="0.01"
                     placeholder="Price" 
                     class=" mb-3  rounded-full input input:focus text-white " 
 
@@ -113,6 +155,7 @@
                     id="startDate"
                     type="date"
                     name="start_date" 
+                    value="<?= esc($old['start_date']) ?>"
                     class=" mb-3  rounded-full input input:focus text-white "
 
                 required>
@@ -124,6 +167,7 @@
                     id="startTime"
                     type="time"
                     name="start_time" 
+                    value="<?= esc($old['start_time']) ?>"
                     placeholder="Start Time" 
                     class=" mb-3  rounded-full input input:focus text-white " 
                     required>
@@ -135,6 +179,7 @@
                     name="end_date" 
                     id="endDate"
                     type="date"
+                    value="<?= esc($old['end_date']) ?>"
                     class=" mb-3  rounded-full input input:focus text-white " 
                 required>
             </div>
@@ -145,30 +190,28 @@
                 name="end_time" 
                 id="endTime"
                 type="time"
+                value="<?= esc($old['end_time']) ?>"
                 class=" mb-3  rounded-full input input:focus text-white " required>
             </div>
 
         </div>
+            <div class="grid grid-cols-2 gap-5 pt-10">
+                <a
+                    href="<?= url('/organizer/add-ticket') ?>"
+                    id="cancelBtn"
+                    class="btn btn-secondary text-white py-2 px-4 rounded-full text-center">Cancel
+                </a>
 
-
-        <div class="grid grid-cols-2 gap-5 pt-10">
-            <button 
-                type="button" 
-                id="cancelBtn"
-                class="btn btn-secondary text-white py-2 px-4 rounded-full">Cancel
-            </button>
-
-            <button 
-                type="submit" 
-                class="btn btn-primary rounded-full">Add Ticket
-            </button>
-
-        </div>
+                <button 
+                    type="submit" 
+                    class="btn btn-primary rounded-full">Add Ticket
+                </button>
+            </div>
 
             </form>
         
         <div class="flex justify-end align-center">
-            <button class="btn btn-primary mt-10 rounded-full">Save and Continue</button>
+            <a href="<?= url('/organizer/payment-method') ?>" class="btn btn-primary mt-10 rounded-full">Save and Continue</a>
         </div>
 
 

@@ -288,7 +288,7 @@ class Database {
         } catch (Exception $e) {
             http_response_code(500);
             $error = $e->getMessage() . "<br>Query:  $this->getSQL";
-            include dirname(__DIR__) . '/views/errors/500.php';
+            include dirname(__DIR__) . '/app/views/errors/500.php';
             exit;
             
         }
