@@ -103,7 +103,7 @@
                                 </summary>
                                 <div class="absolute right-0 top-10 z-10 w-36 rounded-2xl border border-[#2a2a2e] bg-surface p-2 shadow-soft">
                                     <a href="<?= url('/organizer/detailed-event?id=' . $event['id']) ?>" class="block rounded-xl px-4 py-2 text-sm text-white hover:bg-[#2a2a2e]">View</a>
-                                    <a href="<?= url('/organizer/edit?id=' . $event['id']) ?>" class="block rounded-xl px-4 py-2 text-sm text-white hover:bg-[#2a2a2e]">Edit</a>
+                                    <a href="<?= url('/organizer/edit-event?id=' . $event['id']) ?>" class="block rounded-xl px-4 py-2 text-sm text-white hover:bg-[#2a2a2e]">Edit</a>
                                     <form method="POST" action="<?= url('/organizer/events') ?>">
                                         <?php csrf_field(); ?>
                                         <input type="hidden" name="action" value="delete">

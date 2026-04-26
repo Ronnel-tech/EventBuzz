@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if ((int) ($_SESSION['current_event_id'] ?? 0) === $event_id) {
-            unset($_SESSION['current_event_id']);
+            unset($_SESSION['current_event_id'], $_SESSION['event_creation_in_progress']);
         }
 
         set_flash('success', 'Event deleted successfully.');

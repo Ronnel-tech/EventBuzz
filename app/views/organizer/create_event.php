@@ -54,7 +54,6 @@
         
         <form action="<?= url('/organizer/create-event') ?>" method="POST" enctype="multipart/form-data">
             <?php csrf_field(); ?>
-
         <div class="w-full modal outline  outline-[#2a2a2e] shadow-soft ">
 
     <div class="w-full h-50 inset-0 bg-[url('/public/assets/images/signup_bg.jpg')] 

@@ -71,6 +71,44 @@ class OrganizerEventModel
         return $this->database->last_id();
     }
 
+    public function getEventDetailsByOrganizer(int $event_id, int $organizer_id): array|null
+    {
+        $query = "
+            SELECT
+                events.*,
+                categories.name AS category_name
+            FROM events
+            LEFT JOIN categories ON categories.id = events.category_id
+            WHERE events.id = ?
+              AND events.organizer_id = ?
+            LIMIT 1
+        ";
+
+        $event = $this->database->raw($query, [$event_id, $organizer_id])->fetch(PDO::FETCH_ASSOC);
+
+        return $event ?: null;
+    }
+
+    public function updateEventByOrganizer(int $event_id, int $organizer_id, array $data): int
+    {
+        return $this->database
+            ->table('events')
+            ->where('id', $event_id)
+            ->where('organizer_id', $organizer_id)
+            ->update([
+                'category_id' => $data['category_id'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'banner_image' => $data['banner_image'],
+                'start_datetime' => $data['start_datetime'],
+                'end_datetime' => $data['end_datetime'],
+                'street' => $data['street'],
+                'city' => $data['city'],
+                'province' => $data['province'],
+                'country' => $data['country'],
+            ]);
+    }
+
     public function getEventsByOrganizer(int $organizer_id): array
     {
         $query = "

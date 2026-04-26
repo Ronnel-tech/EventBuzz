@@ -3,6 +3,7 @@
 require_once APP_ROOT . '/app/models/OrganizerEventModel.php';
 
 $event_model = new OrganizerEventModel();
+$organizer_id = (int) ($_SESSION['user']['id'] ?? 0);
 
 $old = [
     'title' => '',
@@ -62,8 +63,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $banner_image = null;
-
     if (empty($_FILES['picture']['name'])) {
         set_flash('error', 'Please upload a banner image.');
         $_SESSION['create_event_old'] = $old;
@@ -71,37 +70,35 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    if (!empty($_FILES['picture']['name'])) {
-        $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
-        $extension = strtolower(pathinfo($_FILES['picture']['name'], PATHINFO_EXTENSION));
+    $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+    $extension = strtolower(pathinfo($_FILES['picture']['name'], PATHINFO_EXTENSION));
 
-        if (!in_array($extension, $allowed_extensions, true)) {
-            set_flash('error', 'Banner image must be a JPG, PNG, GIF, or WEBP file.');
-            $_SESSION['create_event_old'] = $old;
-            header('Location: ' . url('/organizer/create-event'));
-            exit;
-        }
-
-        $upload_directory = APP_ROOT . '/public/assets/images/events';
-        if (!is_dir($upload_directory)) {
-            mkdir($upload_directory, 0777, true);
-        }
-
-        $filename = uniqid('event_', true) . '.' . $extension;
-        $destination = $upload_directory . '/' . $filename;
-
-        if (!move_uploaded_file($_FILES['picture']['tmp_name'], $destination)) {
-            set_flash('error', 'Failed to upload the banner image.');
-            $_SESSION['create_event_old'] = $old;
-            header('Location: ' . url('/organizer/create-event'));
-            exit;
-        }
-
-        $banner_image = '/public/assets/images/events/' . $filename;
+    if (!in_array($extension, $allowed_extensions, true)) {
+        set_flash('error', 'Banner image must be a JPG, PNG, GIF, or WEBP file.');
+        $_SESSION['create_event_old'] = $old;
+        header('Location: ' . url('/organizer/create-event'));
+        exit;
     }
 
+    $upload_directory = APP_ROOT . '/public/assets/images/events';
+    if (!is_dir($upload_directory)) {
+        mkdir($upload_directory, 0777, true);
+    }
+
+    $filename = uniqid('event_', true) . '.' . $extension;
+    $destination = $upload_directory . '/' . $filename;
+
+    if (!move_uploaded_file($_FILES['picture']['tmp_name'], $destination)) {
+        set_flash('error', 'Failed to upload the banner image.');
+        $_SESSION['create_event_old'] = $old;
+        header('Location: ' . url('/organizer/create-event'));
+        exit;
+    }
+
+    $banner_image = '/public/assets/images/events/' . $filename;
+
     $event_id = $event_model->createEvent([
-        'organizer_id' => $_SESSION['user']['id'],
+        'organizer_id' => $organizer_id,
         'category_id' => $category_id,
         'title' => $old['title'],
         'description' => $old['summary'],
@@ -116,6 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ]);
 
     $_SESSION['current_event_id'] = $event_id;
+    $_SESSION['event_creation_in_progress'] = true;
     unset($_SESSION['create_event_old']);
 
     set_flash('success', 'Event details saved successfully.');

@@ -5,8 +5,10 @@ require_once APP_ROOT . '/app/models/OrganizerTicketModel.php';
 $ticket_model = new OrganizerTicketModel();
 $organizer_id = (int) ($_SESSION['user']['id'] ?? 0);
 $event_id = (int) ($_SESSION['current_event_id'] ?? 0);
+$creation_in_progress = !empty($_SESSION['event_creation_in_progress']);
 
-if ($event_id <= 0) {
+if ($event_id <= 0 || !$creation_in_progress) {
+    unset($_SESSION['current_event_id'], $_SESSION['event_creation_in_progress']);
     set_flash('error', 'Create an event first before adding ticket types.');
     header('Location: ' . url('/organizer/create-event'));
     exit;
@@ -15,7 +17,7 @@ if ($event_id <= 0) {
 $event = $ticket_model->getEventForOrganizer($event_id, $organizer_id);
 
 if (!$event) {
-    unset($_SESSION['current_event_id']);
+    unset($_SESSION['current_event_id'], $_SESSION['event_creation_in_progress']);
     set_flash('error', 'The selected event could not be found.');
     header('Location: ' . url('/organizer/create-event'));
     exit;

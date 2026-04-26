@@ -30,14 +30,15 @@ $router->post('/organizer/events', 'app/controllers/organizer/EventsController',
 $router->get('/organizer/create-event', 'app/controllers/organizer/CreateEventController', ['organizer']);
 $router->post('/organizer/create-event', 'app/controllers/organizer/CreateEventController', ['organizer']);
 
-$router->get('/organizer/edit', 'app/views/organizer/edit', ['organizer']);
+$router->get('/organizer/edit-event', 'app/controllers/organizer/EditEventController', ['organizer']);
+$router->post('/organizer/edit-event', 'app/controllers/organizer/EditEventController', ['organizer']);
 
 $router->get('/organizer/add-ticket', 'app/controllers/organizer/AddTicketController', ['organizer']);
 $router->post('/organizer/add-ticket', 'app/controllers/organizer/AddTicketController', ['organizer']);
 
 $router->get('/organizer/attendee-list', 'app/views/organizer/attendee_list', ['organizer']);
 
-$router->get('/organizer/detailed-event', 'app/views/organizer/organizer_detailed_event', ['organizer']);
+$router->get('/organizer/detailed-event', 'app/controllers/organizer/DetailedEventController', ['organizer']);
 
 $router->get('/organizer/payment-method', 'app/controllers/organizer/PaymentMethodController', ['organizer']);
 $router->post('/organizer/payment-method', 'app/controllers/organizer/PaymentMethodController', ['organizer']);

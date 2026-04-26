@@ -5,8 +5,10 @@ require_once APP_ROOT . '/app/models/OrganizerPaymentModel.php';
 $payment_model = new OrganizerPaymentModel();
 $organizer_id = (int) ($_SESSION['user']['id'] ?? 0);
 $event_id = (int) ($_SESSION['current_event_id'] ?? 0);
+$creation_in_progress = !empty($_SESSION['event_creation_in_progress']);
 
-if ($event_id <= 0) {
+if ($event_id <= 0 || !$creation_in_progress) {
+    unset($_SESSION['current_event_id'], $_SESSION['event_creation_in_progress']);
     set_flash('error', 'Create an event first before setting payment details.');
     header('Location: ' . url('/organizer/create-event'));
     exit;
@@ -15,7 +17,7 @@ if ($event_id <= 0) {
 $event = $payment_model->getEventForOrganizer($event_id, $organizer_id);
 
 if (!$event) {
-    unset($_SESSION['current_event_id']);
+    unset($_SESSION['current_event_id'], $_SESSION['event_creation_in_progress']);
     set_flash('error', 'The selected event could not be found.');
     header('Location: ' . url('/organizer/create-event'));
     exit;
@@ -107,6 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payment_model->updateEventPaymentType($event_id, $old['payment_type']);
 
     unset($_SESSION['payment_method_old']);
+    unset($_SESSION['current_event_id'], $_SESSION['event_creation_in_progress']);
     set_flash('success', 'Payment method saved successfully.');
     header('Location: ' . url('/organizer/events'));
     exit;
