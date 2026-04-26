@@ -13,15 +13,139 @@
         <img src="/public/assets/images/logo.png" alt="" class="size-7 ">
 
         <div class="flex flex-col align-center gap-5 -mt-120">
-            <button ><svg id="create_event" class="icon-primary" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512"><path d="M459.94 53.25a16.06 16.06 0 0 0-23.22-.56L424.35 65a8 8 0 0 0 0 11.31l11.34 11.32a8 8 0 0 0 11.34 0l12.06-12c6.1-6.09 6.67-16.01.85-22.38M399.34 90L218.82 270.2a9 9 0 0 0-2.31 3.93L208.16 299a3.91 3.91 0 0 0 4.86 4.86l24.85-8.35a9 9 0 0 0 3.93-2.31L422 112.66a9 9 0 0 0 0-12.66l-9.95-10a9 9 0 0 0-12.71 0"/><path d="M386.34 193.66L264.45 315.79A41.1 41.1 0 0 1 247.58 326l-25.9 8.67a35.92 35.92 0 0 1-44.33-44.33l8.67-25.9a41.1 41.1 0 0 1 10.19-16.87l122.13-121.91a8 8 0 0 0-5.65-13.66H104a56 56 0 0 0-56 56v240a56 56 0 0 0 56 56h240a56 56 0 0 0 56-56V199.31a8 8 0 0 0-13.66-5.65"/></svg></button>
-            <button><svg id="ticket_type" class="icon-disabled" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path     d="M3 10h-.75c0 .414.336.75.75.75zm0 4v-.75a.75.75 0 0 0-.75.75zm18-4v.75a.75.75 0 0 0 .75-.75zm0 4h.75a.75.75 0 0 0-.75-.75zM5 5.75h5v-1.5H5zm5 0h9v-1.5h-9zm9 12.5h-9v1.5h9zm-9 0H5v1.5h5zM9.25 5v14h1.5V5zm-5.366 6.116a1.25 1.25 0 0 1 0 1.768l1.06 1.06a2.75 2.75 0 0 0 0-3.889zm16.232 1.768a1.25 1.25 0 0 1 0-1.768l-1.06-1.06a2.75 2.75 0 0 0 0 3.889zM3 10.75c.321 0 .64.122.884.366l1.06-1.06A2.74 2.74 0 0 0 3 9.25zm.75-.75V7h-1.5v3zm0 7v-3h-1.5v3zm.134-4.116A1.24 1.24 0 0 1 3 13.25v1.5c.703 0 1.408-.269 1.945-.806zm16.232-1.768c.244-.244.563-.366.884-.366v-1.5c-.703 0-1.408.269-1.945.806zM20.25 7v3h1.5V7zm0 7v3h1.5v-3zm.75-.75c-.321 0-.64-.122-.884-.366l-1.06 1.06A2.74 2.74 0 0 0 21 14.75zm-16 5c-.69 0-1.25-.56-1.25-1.25h-1.5A2.75 2.75 0 0 0 5 19.75zm14 1.5A2.75 2.75 0 0 0 21.75 17h-1.5c0 .69-.56 1.25-1.25 1.25zm0-14c.69 0 1.25.56 1.25 1.25h1.5A2.75 2.75 0 0 0 19 4.25zM5 4.25A2.75 2.75 0 0 0 2.25 7h1.5c0-.69.56-1.25 1.25-1.25z"/></svg></button>
-            <button><svg id="payment_method"  class="icon-disabled" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28"><path     d="M5.754 5a3.75 3.75 0 0 0-3.75 3.75v.75H26v-.75A3.75 3.75 0 0 0 22.25 5zm-3.75 14.25V11H26v8.25A3.75 3.75 0 0 1 22.25 23H5.755a3.75 3.75 0 0 1-3.75-3.75M18.25 16.5a.75.75 0 0 0 0 1.5h3.5a.75.75 0 0 0 0-1.5z"/></svg></button>
-        </div>
+            <a href="<?= url('/organizer/dashboard') ?>">
+                <button><svg class="icon-disabled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path  fill-opacity="0.16" d="M18.6 3H5.4A2.4 2.4 0 0 0 3 5.4v13.2A2.4 2.4 0 0 0 5.4 21h13.2a2.4 2.4 0 0 0 2.4-2.4V5.4A2.4 2.4 0 0 0 18.6 3"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 21V3m0 7h9M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3"/></g></svg></button>
+            </a>
+            <a href="<?= url('/organizer/events') ?>">
+                <button><svg class="icon-primary" xmlns="http://www.w3.org/2000/svg"  width="24" height="24" viewBox="0 0 24 24"><path  d="M21 17V8H7v9zm0-14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h1V1h2v2h8V1h2v2zM3 21h14v2H3a2 2 0 0 1-2-2V9h2zm16-6h-4v-4h4z"/></svg></button>
+            </a>
+        </div>  
 
         <form method="POST" action="<?= url('logout') ?>"> 
             <button ><svg class="icon-secondary" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path  fill-rule="evenodd" d="M6 2a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V5a3 3 0 0 0-3-3zm10.293 5.293a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414-1.414L18.586 13H10a1 1 0 1 1 0-2h8.586l-2.293-2.293a1 1 0 0 1 0-1.414" clip-rule="evenodd"/></svg></button>
         </form>
 
     </aside>
+
+
+    <div class="flex flex-col p-5 w-full ml-24"> 
+
+    <div class="flex flex-col ">
+        <h3>My Events</h3> 
+        <p>Manage all your events in one page</p>
+    </div>
+
+
+    <div class="flex flex-col pr-15">
+
+      <div class="flex items-center justify-end align-center gap-3">
+
+        <!-- Create Button -->
+         <a href="<?= url('/organizer/create-event') ?>">
+        <button class= "btn btn-primary px-4 py-2 rounded-full">
+          Create +
+        </button>
+        </a>
+
+        <!-- Filter -->
+        <select class="bg-surface text-secondary px-3 py-2 rounded-full ">
+          <option>Upcoming event</option>
+          <option>Past event</option>
+          <option>All event</option>
+        </select>
+
+        <!-- Search -->
+        <input type="text" placeholder="Search..."
+          class="bg-surface text-secondary px-3 py-2 rounded-full ">
+      </div>
+
+
+
+          <section class="flex flex-col p-10 w-full  ">
+    <?php if ($msg = get_flash('error')): ?>
+    <div class="mb-5 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">
+        <?= esc($msg) ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($msg = get_flash('success')): ?>
+    <div class="mb-5 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 text-green-200">
+        <?= esc($msg) ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl overflow-hidden pb-30">
+        <h3 class="px-10 pt-10">Events Table</h3>
+
+        <div class="px-10 py-8">
+            <div class="grid grid-cols-[2fr_1fr_1fr_80px] gap-4 border-b border-[#2a2a2e] pb-4 text-sm text-gray-400">
+                <div>Event Name</div>
+                <div>Date</div>
+                <div>Tickets Sold</div>
+                <div class="text-right">Action</div>
+            </div>
+
+            <?php if ($events): ?>
+                <div class="divide-y divide-[#2a2a2e]">
+                    <?php foreach ($events as $event): ?>
+                    <div class="grid grid-cols-[2fr_1fr_1fr_80px] gap-4 py-5 text-white items-center">
+                        <div><?= esc($event['title']) ?></div>
+                        <div><?= esc(date('M d, Y', strtotime($event['start_datetime']))) ?></div>
+                        <div><?= esc((string) $event['tickets_sold']) ?></div>
+                        <div class="flex justify-end">
+                            <details class="relative">
+                                <summary class="flex cursor-pointer list-none items-center justify-center rounded-full p-2 hover:bg-[#2a2a2e]">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                        <circle cx="12" cy="5" r="2"/>
+                                        <circle cx="12" cy="12" r="2"/>
+                                        <circle cx="12" cy="19" r="2"/>
+                                    </svg>
+                                </summary>
+                                <div class="absolute right-0 top-10 z-10 w-36 rounded-2xl border border-[#2a2a2e] bg-surface p-2 shadow-soft">
+                                    <a href="<?= url('/organizer/detailed-event?id=' . $event['id']) ?>" class="block rounded-xl px-4 py-2 text-sm text-white hover:bg-[#2a2a2e]">View</a>
+                                    <a href="<?= url('/organizer/edit?id=' . $event['id']) ?>" class="block rounded-xl px-4 py-2 text-sm text-white hover:bg-[#2a2a2e]">Edit</a>
+                                    <form method="POST" action="<?= url('/organizer/events') ?>">
+                                        <?php csrf_field(); ?>
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="event_id" value="<?= esc((string) $event['id']) ?>">
+                                        <button type="submit" class="block w-full rounded-xl px-4 py-2 text-left text-sm text-red-300 hover:bg-[#2a2a2e]">Delete</button>
+                                    </form>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="py-12 text-center text-gray-400">
+                    No events found yet.
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+    </section>
+
+
+
+    </div>
+
+
+
+
+
+    </div>
+         
+    </div>
+
+
+
+
+
+
+
+
+    
 </body>
 </html>
+
+

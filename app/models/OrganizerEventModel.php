@@ -70,4 +70,50 @@ class OrganizerEventModel
 
         return $this->database->last_id();
     }
+
+    public function getEventsByOrganizer(int $organizer_id): array
+    {
+        $query = "
+            SELECT 
+                events.id,
+                events.title,
+                events.start_datetime,
+                events.end_datetime,
+                events.payment_type,
+                COALESCE(SUM(ticket_types.sold), 0) AS tickets_sold
+            FROM events
+            LEFT JOIN ticket_types ON ticket_types.event_id = events.id
+            WHERE events.organizer_id = ?
+            GROUP BY events.id, events.title, events.start_datetime, events.end_datetime, events.payment_type
+            ORDER BY events.start_datetime DESC
+        ";
+
+        return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function deleteEventByOrganizer(int $event_id, int $organizer_id): bool
+    {
+        $event = $this->database
+            ->table('events')
+            ->where('id', $event_id)
+            ->where('organizer_id', $organizer_id)
+            ->get();
+
+        if (!$event) {
+            return false;
+        }
+
+        $this->database
+            ->table('ticket_types')
+            ->where('event_id', $event_id)
+            ->delete();
+
+        $deleted = $this->database
+            ->table('events')
+            ->where('id', $event_id)
+            ->where('organizer_id', $organizer_id)
+            ->delete();
+
+        return $deleted > 0;
+    }
 }
