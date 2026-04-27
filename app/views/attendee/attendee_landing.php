@@ -3,9 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>EventBuzz | Home</title>
+    <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../public/assets/css/output.css">
 </head>
+
+
 <body>
-    <h1>Attendee Landing</h1>
+
 </body>
+
 </html>

@@ -36,7 +36,7 @@ $router->post('/organizer/edit-event', 'app/controllers/organizer/EditEventContr
 $router->get('/organizer/add-ticket', 'app/controllers/organizer/AddTicketController', ['organizer']);
 $router->post('/organizer/add-ticket', 'app/controllers/organizer/AddTicketController', ['organizer']);
 
-$router->get('/organizer/attendee-list', 'app/views/organizer/attendee_list', ['organizer']);
+$router->get('/organizer/attendee-list', 'app/controllers/organizer/AttendeeListController', ['organizer']);
 
 $router->get('/organizer/detailed-event', 'app/controllers/organizer/DetailedEventController', ['organizer']);
 

@@ -34,7 +34,7 @@
 
     <div class="flex flex-col ">
         <h3>Attendee List</h3> 
-        <p>Manage all your attendees in one page</p>
+        <p><?= esc($event['title']) ?> attendees and transactions</p>
     </div>
 
 
@@ -76,7 +76,15 @@
     <?php endif; ?>
 
     <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl overflow-hidden pb-30">
-        <h3 class="px-10 pt-10">Attendee List</h3>
+        <div class="px-10 pt-10">
+            <h3>Attendee List</h3>
+            <p class="pt-2 text-sm text-secondary">
+                <?= esc(date('F d, Y', strtotime($event['start_datetime']))) ?>
+                <?php if (!empty($event['category_name'])): ?>
+                    • <?= esc($event['category_name']) ?>
+                <?php endif; ?>
+            </p>
+        </div>
 
         <div class="px-10 py-8">
             <div class="grid grid-cols-[1fr_80px_0.5fr_1fr_1fr_1fr] gap-4 border-b border-[#2a2a2e] pb-4 text-sm text-gray-400">
@@ -88,6 +96,29 @@
 
                 <div class="text-right">Action</div>
             </div>
+
+            <?php if ($attendees): ?>
+                <div class="divide-y divide-[#2a2a2e]">
+                    <?php foreach ($attendees as $attendee): ?>
+                    <div class="grid grid-cols-[1fr_80px_0.5fr_1fr_1fr_1fr] gap-4 py-5 text-sm text-white items-center">
+                        <div><?= esc($attendee['attendee_name'] ?: 'Unknown attendee') ?></div>
+                        <div><?= esc(date('M d, Y', strtotime($attendee['transaction_date']))) ?></div>
+                        <div><?= esc((string) $attendee['tickets_bought']) ?></div>
+                        <div>PHP <?= esc(number_format((float) $attendee['total_amount'], 2)) ?></div>
+                        <div>
+                            <span class="rounded-full px-3 py-1 text-xs <?= $attendee['status'] === 'done' ? 'bg-green-500/10 text-green-300' : 'bg-yellow-500/10 text-yellow-300' ?>">
+                                <?= esc(ucfirst($attendee['status'])) ?>
+                            </span>
+                        </div>
+                        <div class="text-right text-secondary">Order #<?= esc((string) $attendee['id']) ?></div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="py-12 text-center text-gray-400">
+                    No attendees found for this event yet.
+                </div>
+            <?php endif; ?>
 
         </div>
     </div>

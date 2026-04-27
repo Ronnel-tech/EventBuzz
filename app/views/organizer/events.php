@@ -88,12 +88,13 @@
             <?php if ($events): ?>
                 <div class="divide-y divide-[#2a2a2e]">
                     <?php foreach ($events as $event): ?>
-                    <div class="grid grid-cols-[2fr_1fr_1fr_80px] gap-4 py-5 text-white items-center">
+                    <div class="grid cursor-pointer grid-cols-[2fr_1fr_1fr_80px] gap-4 py-5 text-white items-center hover:bg-[#151419]"
+                        onclick="window.location='<?= url('/organizer/attendee-list?id=' . $event['id']) ?>'">
                         <div><?= esc($event['title']) ?></div>
                         <div><?= esc(date('M d, Y', strtotime($event['start_datetime']))) ?></div>
                         <div><?= esc((string) $event['tickets_sold']) ?></div>
-                        <div class="flex justify-end">
-                            <details class="relative">
+                        <div class="flex justify-end" onclick="event.stopPropagation()">
+                            <details class="relative" onclick="event.stopPropagation()">
                                 <summary class="flex cursor-pointer list-none items-center justify-center rounded-full p-2 hover:bg-[#2a2a2e]">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                         <circle cx="12" cy="5" r="2"/>
