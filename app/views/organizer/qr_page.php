@@ -31,17 +31,50 @@
                 <h3>Attendee Payment Details</h3>
                 <p><?= esc($event['title']) ?> payment record</p>
             </div>
-            <a href="<?= url('/organizer/attendee-list?id=' . $event['id']) ?>" class="btn btn-primary rounded-full px-6 py-3">
-                Back to Attendee List
-            </a>
         </div>
 
         <section class="w-full p-10">
+            <?php if ($msg = get_flash('error')): ?>
+            <div class="mb-5 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">
+                <?= esc($msg) ?>
+            </div>
+            <?php endif; ?>
+
+            <?php if ($msg = get_flash('success')): ?>
+            <div class="mb-5 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 text-green-200">
+                <?= esc($msg) ?>
+            </div>
+            <?php endif; ?>
+
             <div class="grid gap-6 lg:grid-cols-[1.35fr_0.85fr]">
                 <div class="rounded-2xl bg-surface p-8 outline outline-[#2a2a2e] shadow-soft">
                     <div class="mb-8 border-b border-[#2a2a2e] pb-6">
-                        <h3><?= esc($payment_details['attendee_name'] ?: 'Unknown attendee') ?></h3>
-                        <p class="pt-2 text-sm text-secondary">Order #<?= esc((string) $payment_details['id']) ?></p>
+                        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                            <div>
+                                <h3><?= esc($payment_details['attendee_name'] ?: 'Unknown attendee') ?></h3>
+                                <p class="pt-2 text-sm text-secondary">Order #<?= esc((string) $payment_details['id']) ?></p>
+                            </div>
+
+                            <form method="POST" action="<?= url('/organizer/qr_page?event_id=' . $event['id'] . '&order_id=' . $payment_details['id']) ?>" class="flex flex-wrap gap-3">
+                                <?= csrf_field() ?>
+                                <button
+                                    type="submit"
+                                    name="status"
+                                    value="pending"
+                                    class="rounded-full px-5 py-2 text-sm font-semibold transition <?= $payment_details['status'] === 'pending' ? 'bg-yellow-400 text-black' : 'border border-yellow-400/40 bg-yellow-500/10 text-yellow-300 hover:bg-yellow-500/20' ?>"
+                                >
+                                    Pending
+                                </button>
+                                <button
+                                    type="submit"
+                                    name="status"
+                                    value="done"
+                                    class="rounded-full px-5 py-2 text-sm font-semibold transition <?= $payment_details['status'] === 'done' ? 'bg-green-400 text-black' : 'border border-green-400/40 bg-green-500/10 text-green-300 hover:bg-green-500/20' ?>"
+                                >
+                                    Paid
+                                </button>
+                            </form>
+                        </div>
                     </div>
 
                     <div class="grid gap-5 md:grid-cols-2">

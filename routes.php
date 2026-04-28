@@ -45,6 +45,7 @@ $router->get('/organizer/payment-method', 'app/controllers/organizer/PaymentMeth
 $router->post('/organizer/payment-method', 'app/controllers/organizer/PaymentMethodController', ['organizer']);
 
 $router->get('/organizer/qr_page', 'app/controllers/organizer/QrPageController', ['organizer']);
+$router->post('/organizer/qr_page', 'app/controllers/organizer/QrPageController', ['organizer']);
 
 
 
@@ -62,7 +63,7 @@ $router->get('/attendee/checkout', 'app/controllers/attendee/AttendeeCheckoutCon
 $router->post('/attendee/checkout', 'app/controllers/attendee/AttendeeCheckoutController', ['attendee']);
 $router->get('/attendee/payment', 'app/controllers/attendee/AttendeePaymentController', ['attendee']);
 $router->post('/attendee/payment', 'app/controllers/attendee/AttendeePaymentController', ['attendee']);
-$router->get('/attendee/ticket', 'app/views/attendee/ticket', ['attendee']);
+$router->get('/attendee/ticket', 'app/controllers/attendee/AttendeeTicketController', ['attendee']);
 
 // LOGOUT
 $router->post('/logout', 'app/views/auth/logout', ['auth']);

@@ -363,6 +363,47 @@ class AttendeeEventModel
         }
     }
 
+    public function getTicketOrdersByUserId(int $user_id, bool $completed = false): array
+    {
+        $comparison = $completed ? '<' : '>=';
+
+        $query = "
+            SELECT
+                orders.id,
+                orders.created_at,
+                orders.total_amount,
+                orders.payment_method,
+                orders.status AS payment_status,
+                events.id AS event_id,
+                events.title AS event_title,
+                events.banner_image,
+                events.start_datetime,
+                events.end_datetime,
+                COALESCE(SUM(order_items.quantity), 0) AS tickets_bought,
+                SUM(CASE WHEN tickets.status = 'used' THEN 1 ELSE 0 END) AS used_tickets
+            FROM orders
+            INNER JOIN events ON events.id = orders.event_id
+            LEFT JOIN order_items ON order_items.order_id = orders.id
+            LEFT JOIN tickets ON tickets.order_item_id = order_items.id
+            WHERE orders.user_id = ?
+              AND events.end_datetime $comparison NOW()
+            GROUP BY
+                orders.id,
+                orders.created_at,
+                orders.total_amount,
+                orders.payment_method,
+                orders.status,
+                events.id,
+                events.title,
+                events.banner_image,
+                events.start_datetime,
+                events.end_datetime
+            ORDER BY events.start_datetime DESC, orders.created_at DESC
+        ";
+
+        return $this->database->raw($query, [$user_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
     private function getEventsByCategory(int $category_id): array
     {
         $query = "
