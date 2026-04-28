@@ -76,9 +76,14 @@ class OrganizerEventModel
         $query = "
             SELECT
                 events.*,
-                categories.name AS category_name
+                categories.name AS category_name,
+                COALESCE(
+                    NULLIF(TRIM(CONCAT(users.first_name, ' ', users.last_name)), ''),
+                    users.email
+                ) AS organizer_name
             FROM events
             LEFT JOIN categories ON categories.id = events.category_id
+            LEFT JOIN users ON users.id = events.organizer_id
             WHERE events.id = ?
               AND events.organizer_id = ?
             LIMIT 1

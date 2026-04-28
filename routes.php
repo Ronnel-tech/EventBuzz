@@ -55,7 +55,7 @@ $router->get('/organizer/qr_page', 'app/views/organizer/qr_page', ['organizer'])
 
 
 // ATTENDEE
-$router->get('/attendee', 'app/views/attendee/attendee_landing', ['attendee']);
+$router->get('/attendee', 'app/controllers/attendee/AttendeeLandingController', ['attendee']);
 $router->get('/attendee/detailed_event', 'app/views/attendee/attendee_detailed_event', ['attendee']);
 $router->get('/attendee/checkout', 'app/views/attendee/checkout', ['attendee']);
 $router->get('/attendee/payment', 'app/views/attendee/payment', ['attendee']);

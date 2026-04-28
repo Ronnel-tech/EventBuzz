@@ -50,7 +50,7 @@
                 <div class="bg-surface p-10">
                     <div class="flex flex-wrap items-start justify-between gap-6 border-b border-[#2a2a2e] pb-8">
                         <div>
-                            <p class="text-sm text-secondary"><?= esc($event['category_name'] ?? 'Uncategorized') ?></p>
+                            <p class="text-sm text-secondary"><?= esc($event['organizer_name'] ?? 'Organizer') ?></p>
                             <h2 class="pt-3"><?= esc($event['title']) ?></h2>
                         </div>
                         <div class="rounded-2xl bg-[#2a2a2e] px-5 py-3 text-right">
@@ -63,8 +63,25 @@
 
                     <div class="grid gap-5 pt-8 md:grid-cols-2">
                         <div class="rounded-2xl bg-[#2a2a2e] p-6">
-                            <h3>Summary</h3>
-                            <p class="pt-4 text-secondary"><?= nl2br(esc($event['description'])) ?></p>
+                            <h3>Event Details</h3>
+                            <div class="grid gap-4 pt-5 text-secondary">
+                                <div>
+                                    <p class="text-sm">Category</p>
+                                    <p class="pt-1 text-white"><?= esc($event['category_name'] ?? 'Uncategorized') ?></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Event Title</p>
+                                    <p class="pt-1 text-white"><?= esc($event['title']) ?></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm">Start</p>
+                                    <p class="pt-1 text-white"><?= esc(date('F d, Y g:i A', strtotime($event['start_datetime']))) ?></p>
+                                </div>
+                                <div>
+                                    <p class="text-sm">End</p>
+                                    <p class="pt-1 text-white"><?= esc(date('F d, Y g:i A', strtotime($event['end_datetime']))) ?></p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="rounded-2xl bg-[#2a2a2e] p-6">
@@ -76,25 +93,8 @@
                     </div>
 
                     <div class="mt-8 rounded-2xl bg-[#2a2a2e] p-6">
-                        <h3>Event Details</h3>
-                        <div class="grid gap-4 pt-5 text-secondary md:grid-cols-2">
-                            <div>
-                                <p class="text-sm">Category</p>
-                                <p class="pt-1 text-white"><?= esc($event['category_name'] ?? 'Uncategorized') ?></p>
-                            </div>
-                            <div>
-                                <p class="text-sm">Event Title</p>
-                                <p class="pt-1 text-white"><?= esc($event['title']) ?></p>
-                            </div>
-                            <div>
-                                <p class="text-sm">Start</p>
-                                <p class="pt-1 text-white"><?= esc(date('F d, Y g:i A', strtotime($event['start_datetime']))) ?></p>
-                            </div>
-                            <div>
-                                <p class="text-sm">End</p>
-                                <p class="pt-1 text-white"><?= esc(date('F d, Y g:i A', strtotime($event['end_datetime']))) ?></p>
-                            </div>
-                        </div>
+                        <h3>Summary</h3>
+                        <p class="pt-4 text-secondary"><?= nl2br(esc($event['description'])) ?></p>
                     </div>
 
                     <div class="pt-8 text-center">
