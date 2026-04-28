@@ -120,7 +120,7 @@ if (!function_exists('format_attendee_price')) {
   </div>
 </section>
 
-    <div id="events-list" class="w-full bg-surface px-6 py-12">
+    <div id="events-list" class="w-full bg-surface px-6 py-12 rounded-b-4xl">
         <section class="mb-12">
             <div class="mb-6 flex items-end justify-between">
                 <div>
