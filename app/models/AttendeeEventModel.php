@@ -138,6 +138,32 @@ class AttendeeEventModel
         return $event ?: null;
     }
 
+    public function getEventPaymentDetailsById(int $event_id): array|null
+    {
+        $query = "
+            SELECT
+                events.*,
+                categories.name AS category_name,
+                COALESCE(
+                    NULLIF(TRIM(CONCAT(users.first_name, ' ', users.last_name)), ''),
+                    users.email
+                ) AS organizer_name,
+                organizer_profiles.gcash_name,
+                organizer_profiles.gcash_number,
+                organizer_profiles.gcash_qr
+            FROM events
+            LEFT JOIN categories ON categories.id = events.category_id
+            LEFT JOIN users ON users.id = events.organizer_id
+            LEFT JOIN organizer_profiles ON organizer_profiles.user_id = events.organizer_id
+            WHERE events.id = ?
+            LIMIT 1
+        ";
+
+        $event = $this->database->raw($query, [$event_id])->fetch(PDO::FETCH_ASSOC);
+
+        return $event ?: null;
+    }
+
     public function getAvailableTicketTypesByEventId(int $event_id): array
     {
         $query = "
@@ -196,7 +222,7 @@ class AttendeeEventModel
         return $this->database->raw($query, $params)->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public function createOrderWithItems(int $user_id, int $event_id, string $payment_method, string $attendee_name, array $selected_tickets): array
+    public function summarizeSelectedTickets(int $event_id, array $selected_tickets): array
     {
         $ticket_type_ids = array_keys($selected_tickets);
         $ticket_rows = $this->getAvailableTicketTypesByIds($event_id, $ticket_type_ids);
@@ -248,7 +274,35 @@ class AttendeeEventModel
             return ['success' => false, 'message' => 'Please select at least one ticket.'];
         }
 
+        return [
+            'success' => true,
+            'summary' => [
+                'line_items' => $line_items,
+                'total_amount' => $total_amount,
+            ],
+        ];
+    }
+
+    public function createOrderWithItems(
+        int $user_id,
+        int $event_id,
+        string $payment_method,
+        string $attendee_name,
+        array $selected_tickets,
+        array $payment_details = []
+    ): array {
+        $summary_result = $this->summarizeSelectedTickets($event_id, $selected_tickets);
+
+        if (!$summary_result['success']) {
+            return $summary_result;
+        }
+
+        $line_items = $summary_result['summary']['line_items'];
+        $total_amount = (float) $summary_result['summary']['total_amount'];
+
         $order_status = $payment_method === 'free' ? 'done' : 'pending';
+        $gcash_reference = (string) ($payment_details['gcash_reference'] ?? '');
+        $gcash_screenshot = (string) ($payment_details['gcash_screenshot'] ?? '');
 
         try {
             $this->database->transaction();
@@ -258,8 +312,8 @@ class AttendeeEventModel
                 'event_id' => $event_id,
                 'total_amount' => $total_amount,
                 'payment_method' => $payment_method,
-                'gcash_reference' => '',
-                'gcash_screenshot' => '',
+                'gcash_reference' => $gcash_reference,
+                'gcash_screenshot' => $gcash_screenshot,
                 'status' => $order_status,
                 'created_at' => date('Y-m-d H:i:s'),
             ]);
