@@ -16,10 +16,12 @@ $router->post('/signup', 'app/views/auth/signup');
 
 // ADMIN
 $router->get('/admin/dashboard', 'app/views/admin/dashboard', ['admin']);
-$router->get('/admin/detailed_event', 'app/views/admin/detailed_event', ['admin']);
-$router->get('/admin/event_management', 'app/views/admin/event_management', ['admin']);
-$router->get('/admin/organizer_management', 'app/views/admin/organizer_management', ['admin']);
-$router->get('/admin/user_management', 'app/views/admin/user_management', ['admin']);
+$router->get('/admin/detailed-event', 'app/controllers/admin/DetailedEventController', ['admin']);
+$router->get('/admin/event-management', 'app/controllers/admin/EventManagementController', ['admin']);
+$router->get('/admin/organizer-management', 'app/controllers/admin/OrganizerManagementController', ['admin']);
+$router->post('/admin/organizer-management', 'app/controllers/admin/OrganizerManagementController', ['admin']);
+$router->get('/admin/attendee-management', 'app/controllers/admin/AttendeeManagementController', ['admin']);
+$router->post('/admin/attendee-management', 'app/controllers/admin/AttendeeManagementController', ['admin']);
 
 // ORGANIZER
 $router->get('/organizer/dashboard', 'app/views/organizer/organizer_dashboard', ['organizer']);

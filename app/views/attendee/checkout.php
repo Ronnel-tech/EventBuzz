@@ -27,6 +27,7 @@ if (!function_exists('format_checkout_price')) {
 
         return 'PHP ' . number_format((float) $amount, 2);
     }
+    
 }
 ?>
 <body class="min-h-screen bg-[#151419] p-6">
