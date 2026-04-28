@@ -90,7 +90,14 @@
 </section>
 
 
-    <div class="h-screen w-full bg-amber-400"></div>
+    <div class=" w-full bg-surface">
+        <section class="events-today"></section>
+        <section class="Music"></section>
+        <section class="Education"></section>
+        <section class="arts_and_culture"></section>
+        <section class="sports_and_fitness"></section>
+        <section class="gaming_and_esports"></section>
+    </div>
 
 </body>
 
