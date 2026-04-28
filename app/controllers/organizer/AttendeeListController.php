@@ -20,6 +20,29 @@ if (!$event) {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $order_id = (int) ($_POST['order_id'] ?? 0);
+    $status_value = trim((string) ($_POST['status'] ?? ''));
+    $allowed_statuses = ['pending', 'done'];
+
+    if ($order_id <= 0 || !in_array($status_value, $allowed_statuses, true)) {
+        set_flash('error', 'Please choose a valid attendee payment status.');
+        header('Location: ' . url('/organizer/attendee-list?id=' . $event_id));
+        exit;
+    }
+
+    $updated = $event_model->updateAttendeeOrderStatus($order_id, $event_id, $organizer_id, $status_value);
+
+    if ($updated) {
+        set_flash('success', 'Attendee payment status updated successfully.');
+    } else {
+        set_flash('error', 'Attendee payment status could not be updated.');
+    }
+
+    header('Location: ' . url('/organizer/attendee-list?id=' . $event_id));
+    exit;
+}
+
 $attendees = $event_model->getAttendeesByEvent($event_id, $organizer_id);
 
 include APP_ROOT . '/app/views/organizer/attendee_list.php';

@@ -37,13 +37,14 @@ $router->get('/organizer/add-ticket', 'app/controllers/organizer/AddTicketContro
 $router->post('/organizer/add-ticket', 'app/controllers/organizer/AddTicketController', ['organizer']);
 
 $router->get('/organizer/attendee-list', 'app/controllers/organizer/AttendeeListController', ['organizer']);
+$router->post('/organizer/attendee-list', 'app/controllers/organizer/AttendeeListController', ['organizer']);
 
 $router->get('/organizer/detailed-event', 'app/controllers/organizer/DetailedEventController', ['organizer']);
 
 $router->get('/organizer/payment-method', 'app/controllers/organizer/PaymentMethodController', ['organizer']);
 $router->post('/organizer/payment-method', 'app/controllers/organizer/PaymentMethodController', ['organizer']);
 
-$router->get('/organizer/qr_page', 'app/views/organizer/qr_page', ['organizer']);
+$router->get('/organizer/qr_page', 'app/controllers/organizer/QrPageController', ['organizer']);
 
 
 

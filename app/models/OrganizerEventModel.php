@@ -145,6 +145,9 @@ class OrganizerEventModel
                     users.email
                 ) AS attendee_name,
                 orders.created_at AS transaction_date,
+                orders.payment_method,
+                orders.gcash_reference,
+                orders.gcash_screenshot,
                 COALESCE(SUM(order_items.quantity), 0) AS tickets_bought,
                 orders.total_amount,
                 orders.status
@@ -161,12 +164,91 @@ class OrganizerEventModel
                 users.last_name,
                 users.email,
                 orders.created_at,
+                orders.payment_method,
+                orders.gcash_reference,
+                orders.gcash_screenshot,
                 orders.total_amount,
                 orders.status
             ORDER BY orders.created_at DESC
         ";
 
         return $this->database->raw($query, [$event_id, $organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function getAttendeePaymentDetailsByOrder(int $order_id, int $event_id, int $organizer_id): array|null
+    {
+        $order_query = "
+            SELECT
+                orders.id,
+                orders.created_at AS transaction_date,
+                orders.payment_method,
+                orders.gcash_reference,
+                orders.gcash_screenshot,
+                orders.total_amount,
+                orders.status,
+                COALESCE(
+                    NULLIF(MAX(tickets.attendee_name), ''),
+                    NULLIF(TRIM(CONCAT(users.first_name, ' ', users.last_name)), ''),
+                    users.email
+                ) AS attendee_name
+            FROM orders
+            INNER JOIN events ON events.id = orders.event_id
+            LEFT JOIN users ON users.id = orders.user_id
+            LEFT JOIN order_items ON order_items.order_id = orders.id
+            LEFT JOIN tickets ON tickets.order_item_id = order_items.id
+            WHERE orders.id = ?
+              AND orders.event_id = ?
+              AND events.organizer_id = ?
+            GROUP BY
+                orders.id,
+                orders.created_at,
+                orders.payment_method,
+                orders.gcash_reference,
+                orders.gcash_screenshot,
+                orders.total_amount,
+                orders.status,
+                users.first_name,
+                users.last_name,
+                users.email
+            LIMIT 1
+        ";
+
+        $order = $this->database->raw($order_query, [$order_id, $event_id, $organizer_id])->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            return null;
+        }
+
+        $ticket_query = "
+            SELECT
+                ticket_types.name AS ticket_name,
+                order_items.quantity,
+                order_items.subtotal
+            FROM order_items
+            INNER JOIN ticket_types ON ticket_types.id = order_items.ticket_type_id
+            WHERE order_items.order_id = ?
+            ORDER BY ticket_types.name ASC
+        ";
+
+        $order['ticket_items'] = $this->database->raw($ticket_query, [$order_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        return $order;
+    }
+
+    public function updateAttendeeOrderStatus(int $order_id, int $event_id, int $organizer_id, string $status): bool
+    {
+        $query = "
+            UPDATE orders
+            INNER JOIN events ON events.id = orders.event_id
+            SET orders.status = ?
+            WHERE orders.id = ?
+              AND orders.event_id = ?
+              AND events.organizer_id = ?
+        ";
+
+        $result = $this->database->raw($query, [$status, $order_id, $event_id, $organizer_id]);
+
+        return $result->rowCount() > 0;
     }
 
     public function deleteEventByOrganizer(int $event_id, int $organizer_id): bool
