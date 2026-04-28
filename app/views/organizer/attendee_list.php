@@ -33,9 +33,13 @@
 
         <div class="flex flex-col pr-15">
             <div class="flex items-center justify-end gap-3">
-                <a href="<?= url('/organizer/create-event') ?>">
-                    <button class="btn btn-primary rounded-full px-4 py-2">Create +</button>
-                </a>
+                <button
+                    type="button"
+                    id="openQrScanner"
+                    class="btn btn-primary rounded-full px-4 py-2"
+                >
+                    Scan QR
+                </button>
 
                 <select class="rounded-full bg-surface px-3 py-2 text-secondary">
                     <option>Paid</option>
@@ -131,34 +135,43 @@
         </div>
     </div>
 
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const attendeeRows = Array.from(document.querySelectorAll('[data-payment-url]'));
+    <div id="qrScannerModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 p-6">
+        <div class="w-full max-w-3xl rounded-3xl border border-[#2a2a2e] bg-surface p-6 shadow-soft">
+            <div class="mb-5 flex items-center justify-between gap-4">
+                <div>
+                    <h3>Scan Attendee QR</h3>
+                    <p class="text-sm text-secondary">Scan the attendee ticket QR code to open the organizer lookup page faster.</p>
+                </div>
+                <button type="button" id="closeQrScanner" class="rounded-full border border-[#2a2a2e] px-4 py-2 text-sm text-secondary transition hover:text-white">
+                    Close
+                </button>
+            </div>
 
-        attendeeRows.forEach(function (row) {
-            row.addEventListener('click', function () {
-                window.location.href = row.dataset.paymentUrl;
-            });
+            <div class="rounded-3xl bg-[#151419] p-4">
+                <div class="overflow-hidden rounded-3xl border border-dashed border-[#2a2a2e] bg-black">
+                    <div id="qrScannerReader" class="min-h-[420px] w-full"></div>
+                </div>
+                <p id="qrScannerStatus" class="pt-4 text-sm text-secondary">
+                    Point the camera at an attendee QR code.
+                </p>
+                <div class="pt-4">
+                    <input
+                        type="text"
+                        id="qrFallbackInput"
+                        placeholder="Paste the scanned organizer QR link here if camera scanning is unavailable"
+                        class="w-full rounded-full border border-[#2a2a2e] bg-surface px-5 py-3 text-sm text-white placeholder:text-secondary outline-none transition focus:border-yellow-400/50"
+                    >
+                </div>
+                <div class="pt-3 flex justify-end">
+                    <button type="button" id="openFallbackLink" class="rounded-full bg-yellow-400 px-5 py-3 text-sm font-semibold text-black transition hover:brightness-110">
+                        Open Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            row.addEventListener('keydown', function (event) {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    event.preventDefault();
-                    window.location.href = row.dataset.paymentUrl;
-                }
-            });
-        });
-
-        const rowActions = Array.from(document.querySelectorAll('[data-row-action]'));
-        rowActions.forEach(function (actionForm) {
-            actionForm.addEventListener('click', function (event) {
-                event.stopPropagation();
-            });
-
-            actionForm.addEventListener('keydown', function (event) {
-                event.stopPropagation();
-            });
-        });
-    });
-    </script>
+    <script src="https://unpkg.com/html5-qrcode" defer></script>
+    <script src="../public/assets/js/main.js" defer></script>
 </body>
 </html>

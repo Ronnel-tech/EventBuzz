@@ -404,6 +404,75 @@ class AttendeeEventModel
         return $this->database->raw($query, [$user_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
+    public function getTicketOrderDetailByUserId(int $user_id, int $order_id): array|null
+    {
+        $order_query = "
+            SELECT
+                orders.id,
+                orders.created_at,
+                orders.total_amount,
+                orders.payment_method,
+                orders.status AS payment_status,
+                orders.gcash_reference,
+                events.id AS event_id,
+                events.title AS event_title,
+                events.banner_image,
+                events.start_datetime,
+                events.end_datetime,
+                events.street,
+                events.city,
+                events.province,
+                events.country,
+                COALESCE(SUM(order_items.quantity), 0) AS tickets_bought,
+                SUM(CASE WHEN tickets.status = 'used' THEN 1 ELSE 0 END) AS used_tickets,
+                MIN(tickets.ticket_code) AS primary_ticket_code
+            FROM orders
+            INNER JOIN events ON events.id = orders.event_id
+            LEFT JOIN order_items ON order_items.order_id = orders.id
+            LEFT JOIN tickets ON tickets.order_item_id = order_items.id
+            WHERE orders.user_id = ?
+              AND orders.id = ?
+            GROUP BY
+                orders.id,
+                orders.created_at,
+                orders.total_amount,
+                orders.payment_method,
+                orders.status,
+                orders.gcash_reference,
+                events.id,
+                events.title,
+                events.banner_image,
+                events.start_datetime,
+                events.end_datetime,
+                events.street,
+                events.city,
+                events.province,
+                events.country
+            LIMIT 1
+        ";
+
+        $order = $this->database->raw($order_query, [$user_id, $order_id])->fetch(PDO::FETCH_ASSOC);
+
+        if (!$order) {
+            return null;
+        }
+
+        $ticket_items_query = "
+            SELECT
+                ticket_types.name AS ticket_name,
+                order_items.quantity,
+                order_items.subtotal
+            FROM order_items
+            INNER JOIN ticket_types ON ticket_types.id = order_items.ticket_type_id
+            WHERE order_items.order_id = ?
+            ORDER BY ticket_types.name ASC
+        ";
+
+        $order['ticket_items'] = $this->database->raw($ticket_items_query, [$order_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+
+        return $order;
+    }
+
     private function getEventsByCategory(int $category_id): array
     {
         $query = "

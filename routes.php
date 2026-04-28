@@ -64,6 +64,7 @@ $router->post('/attendee/checkout', 'app/controllers/attendee/AttendeeCheckoutCo
 $router->get('/attendee/payment', 'app/controllers/attendee/AttendeePaymentController', ['attendee']);
 $router->post('/attendee/payment', 'app/controllers/attendee/AttendeePaymentController', ['attendee']);
 $router->get('/attendee/ticket', 'app/controllers/attendee/AttendeeTicketController', ['attendee']);
+$router->get('/attendee/ticket-detail', 'app/controllers/attendee/AttendeeTicketDetailController', ['attendee']);
 
 // LOGOUT
 $router->post('/logout', 'app/views/auth/logout', ['auth']);
