@@ -5,6 +5,8 @@ require_once APP_ROOT . '/app/models/OrganizerEventModel.php';
 $event_model = new OrganizerEventModel();
 $organizer_id = (int) ($_SESSION['user']['id'] ?? 0);
 $event_id = (int) ($_GET['id'] ?? 0);
+$search = trim((string) ($_GET['search'] ?? ''));
+$filter = trim((string) ($_GET['filter'] ?? 'all'));
 
 if ($event_id <= 0) {
     set_flash('error', 'Please select an event to view attendees.');
@@ -27,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($order_id <= 0 || !in_array($status_value, $allowed_statuses, true)) {
         set_flash('error', 'Please choose a valid attendee payment status.');
-        header('Location: ' . url('/organizer/attendee-list?id=' . $event_id));
+        header('Location: ' . url('/organizer/attendee-list?id=' . $event_id . '&filter=' . urlencode($filter) . '&search=' . urlencode($search)));
         exit;
     }
 
@@ -39,10 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         set_flash('error', 'Attendee payment status could not be updated.');
     }
 
-    header('Location: ' . url('/organizer/attendee-list?id=' . $event_id));
+    header('Location: ' . url('/organizer/attendee-list?id=' . $event_id . '&filter=' . urlencode($filter) . '&search=' . urlencode($search)));
     exit;
 }
 
-$attendees = $event_model->getAttendeesByEvent($event_id, $organizer_id);
+$attendees = $event_model->getAttendeesByEvent($event_id, $organizer_id, $search, $filter);
 
 include APP_ROOT . '/app/views/organizer/attendee_list.php';

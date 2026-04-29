@@ -265,8 +265,38 @@ class OrganizerEventModel
         return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public function getAttendeesByEvent(int $event_id, int $organizer_id): array
+    public function getAttendeesByEvent(int $event_id, int $organizer_id, string $search = '', string $filter = 'all'): array
     {
+        $where_clauses = [
+            'orders.event_id = ?',
+            'events.organizer_id = ?',
+        ];
+        $params = [$event_id, $organizer_id];
+
+        if ($filter === 'paid') {
+            $where_clauses[] = "orders.status = 'done'";
+        } elseif ($filter === 'pending') {
+            $where_clauses[] = "orders.status = 'pending'";
+        } else {
+            $filter = 'all';
+        }
+
+        if ($search !== '') {
+            $where_clauses[] = "
+                (
+                    tickets.attendee_name LIKE ?
+                    OR users.first_name LIKE ?
+                    OR users.last_name LIKE ?
+                    OR users.email LIKE ?
+                    OR orders.gcash_reference LIKE ?
+                )
+            ";
+            $search_term = '%' . $search . '%';
+            $params = array_merge($params, array_fill(0, 5, $search_term));
+        }
+
+        $where_sql = implode(' AND ', $where_clauses);
+
         $query = "
             SELECT
                 orders.id,
@@ -287,8 +317,7 @@ class OrganizerEventModel
             LEFT JOIN users ON users.id = orders.user_id
             LEFT JOIN order_items ON order_items.order_id = orders.id
             LEFT JOIN tickets ON tickets.order_item_id = order_items.id
-            WHERE orders.event_id = ?
-              AND events.organizer_id = ?
+            WHERE $where_sql
             GROUP BY
                 orders.id,
                 users.first_name,
@@ -303,7 +332,7 @@ class OrganizerEventModel
             ORDER BY orders.created_at DESC
         ";
 
-        return $this->database->raw($query, [$event_id, $organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        return $this->database->raw($query, $params)->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
     public function getAttendeePaymentDetailsByOrder(int $order_id, int $event_id, int $organizer_id): array|null

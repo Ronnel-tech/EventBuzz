@@ -7,6 +7,13 @@
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../public/assets/css/output.css">
 </head>
+<?php
+$search_value = trim((string) ($search ?? ''));
+$filter_value = trim((string) ($filter ?? 'all'));
+if (!in_array($filter_value, ['all', 'paid', 'pending'], true)) {
+    $filter_value = 'all';
+}
+?>
 <body class="flex h-screen w-full">
     <aside class="fixed left-0 top-0 flex h-screen w-24 flex-col items-center justify-between bg-surface p-5 shadow-soft">
         <img src="/public/assets/images/logo.png" alt="" class="size-7">
@@ -32,7 +39,8 @@
         </div>
 
         <div class="flex flex-col pr-15">
-            <div class="flex items-center justify-end gap-3">
+            <form method="GET" action="<?= url('/organizer/attendee-list') ?>" class="flex items-center justify-end gap-3">
+                <input type="hidden" name="id" value="<?= esc((string) $event['id']) ?>">
                 <button
                     type="button"
                     id="openQrScanner"
@@ -41,13 +49,22 @@
                     Scan QR
                 </button>
 
-                <select class="rounded-full bg-surface px-3 py-2 text-secondary">
-                    <option>Paid</option>
-                    <option>Pending</option>
+                <select name="filter" class="rounded-full bg-surface px-3 py-2 text-secondary" onchange="this.form.submit()">
+                    <option value="all" <?= $filter_value === 'all' ? 'selected' : '' ?>>All</option>
+                    <option value="paid" <?= $filter_value === 'paid' ? 'selected' : '' ?>>Paid</option>
+                    <option value="pending" <?= $filter_value === 'pending' ? 'selected' : '' ?>>Pending</option>
                 </select>
 
-                <input type="text" placeholder="Search..." class="rounded-full bg-surface px-3 py-2 text-secondary">
-            </div>
+                <input type="text" name="search" value="<?= esc($search_value) ?>" placeholder="Search..." class="rounded-full bg-surface px-3 py-2 text-secondary">
+                <button type="submit" class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300">
+                    Search
+                </button>
+                <?php if ($search_value !== '' || $filter_value !== 'all'): ?>
+                <a href="<?= url('/organizer/attendee-list?id=' . $event['id']) ?>" class="rounded-full border border-[#2a2a2e] px-4 py-2 text-sm text-secondary transition hover:text-white">
+                    Clear
+                </a>
+                <?php endif; ?>
+            </form>
 
             <section class="flex w-full flex-col p-10">
                 <?php if ($msg = get_flash('error')): ?>
@@ -71,6 +88,15 @@
                                 | <?= esc($event['category_name']) ?>
                             <?php endif; ?>
                         </p>
+                        <?php if ($search_value !== '' || $filter_value !== 'all'): ?>
+                        <p class="pt-3 text-sm text-secondary">
+                            Showing
+                            <?= esc($filter_value === 'all' ? 'all attendees' : ($filter_value === 'paid' ? 'paid attendees' : 'pending attendees')) ?>
+                            <?php if ($search_value !== ''): ?>
+                                matching "<span class="text-white"><?= esc($search_value) ?></span>"
+                            <?php endif; ?>.
+                        </p>
+                        <?php endif; ?>
                     </div>
 
                     <div class="px-10 py-8">
@@ -105,7 +131,7 @@
                                     <div class="text-right">
                                         <form
                                             method="POST"
-                                            action="<?= url('/organizer/attendee-list?id=' . $event['id']) ?>"
+                                            action="<?= url('/organizer/attendee-list?id=' . $event['id'] . '&filter=' . urlencode($filter_value) . '&search=' . urlencode($search_value)) ?>"
                                             class="inline-block"
                                             data-row-action
                                         >
