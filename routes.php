@@ -15,7 +15,7 @@ $router->get('/signup', 'app/views/auth/signup');
 $router->post('/signup', 'app/views/auth/signup');
 
 // ADMIN
-$router->get('/admin/dashboard', 'app/views/admin/dashboard', ['admin']);
+$router->get('/admin/dashboard', 'app/controllers/admin/AdminDashboardController', ['admin']);
 $router->get('/admin/detailed-event', 'app/controllers/admin/DetailedEventController', ['admin']);
 $router->get('/admin/event-management', 'app/controllers/admin/EventManagementController', ['admin']);
 $router->post('/admin/event-management', 'app/controllers/admin/EventManagementController', ['admin']);

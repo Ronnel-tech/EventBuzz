@@ -68,6 +68,93 @@ class AdminEventModel
         return $event ?: null;
     }
 
+    public function getDashboardSummary(): array
+    {
+        $query = "
+            SELECT COUNT(*) AS total_events
+            FROM events
+        ";
+
+        $summary = $this->database->raw($query)->fetch(PDO::FETCH_ASSOC);
+
+        return $summary ?: ['total_events' => 0];
+    }
+
+    public function getEventCreationTrend(): array
+    {
+        $query = "
+            SELECT
+                DATE_FORMAT(events.created_at, '%Y-%m') AS period_key,
+                DATE_FORMAT(events.created_at, '%b %Y') AS period_label,
+                COUNT(*) AS events_created
+            FROM events
+            GROUP BY DATE_FORMAT(events.created_at, '%Y-%m'), DATE_FORMAT(events.created_at, '%b %Y')
+            ORDER BY DATE_FORMAT(events.created_at, '%Y-%m') ASC
+        ";
+
+        return $this->database->raw($query)->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function getTicketsSoldByEvent(): array
+    {
+        $query = "
+            SELECT
+                events.id,
+                events.title,
+                COALESCE(SUM(ticket_types.sold), 0) AS tickets_sold
+            FROM events
+            LEFT JOIN ticket_types ON ticket_types.event_id = events.id
+            GROUP BY events.id, events.title
+            ORDER BY tickets_sold DESC, events.start_datetime DESC, events.title ASC
+        ";
+
+        return $this->database->raw($query)->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function getTopPerformingEventsByTicketsSold(int $limit = 5): array
+    {
+        $query = "
+            SELECT
+                events.id,
+                events.title,
+                COALESCE(
+                    NULLIF(TRIM(CONCAT(users.first_name, ' ', users.last_name)), ''),
+                    users.email
+                ) AS organizer_name,
+                COALESCE(ticket_sales.tickets_sold, 0) AS tickets_sold,
+                COALESCE(revenue_totals.revenue, 0) AS revenue
+            FROM events
+            LEFT JOIN users ON users.id = events.organizer_id
+            LEFT JOIN (
+                SELECT
+                    ticket_types.event_id,
+                    COALESCE(SUM(ticket_types.sold), 0) AS tickets_sold
+                FROM ticket_types
+                GROUP BY ticket_types.event_id
+            ) AS ticket_sales ON ticket_sales.event_id = events.id
+            LEFT JOIN (
+                SELECT
+                    orders.event_id,
+                    COALESCE(SUM(orders.total_amount), 0) AS revenue
+                FROM orders
+                WHERE orders.status = 'done'
+                GROUP BY orders.event_id
+            ) AS revenue_totals ON revenue_totals.event_id = events.id
+            GROUP BY
+                events.id,
+                events.title,
+                users.first_name,
+                users.last_name,
+                users.email,
+                ticket_sales.tickets_sold,
+                revenue_totals.revenue
+            ORDER BY tickets_sold DESC, revenue DESC, events.title ASC
+            LIMIT " . (int) $limit . "
+        ";
+
+        return $this->database->raw($query)->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
     public function deleteEventById(int $event_id): bool
     {
         $event = $this->database

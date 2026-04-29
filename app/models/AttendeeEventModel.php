@@ -9,8 +9,27 @@ class AttendeeEventModel
         $this->database = db();
     }
 
-    public function getTodayEvents(): array
+    public function getTodayEvents(string $search = ''): array
     {
+        $search_clause = '';
+        $params = [];
+
+        if ($search !== '') {
+            $search_clause = "
+              AND (
+                    events.title LIKE ?
+                 OR categories.name LIKE ?
+                 OR users.first_name LIKE ?
+                 OR users.last_name LIKE ?
+                 OR users.email LIKE ?
+                 OR events.city LIKE ?
+                 OR events.province LIKE ?
+              )
+            ";
+            $search_term = '%' . $search . '%';
+            $params = array_fill(0, 7, $search_term);
+        }
+
         $query = "
             SELECT
                 events.id,
@@ -37,6 +56,7 @@ class AttendeeEventModel
             INNER JOIN users ON users.id = events.organizer_id
             LEFT JOIN ticket_types ON ticket_types.event_id = events.id
             WHERE DATE(events.start_datetime) = CURDATE()
+            $search_clause
             GROUP BY
                 events.id,
                 events.title,
@@ -51,10 +71,10 @@ class AttendeeEventModel
             ORDER BY events.start_datetime ASC
         ";
 
-        return $this->database->raw($query)->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        return $this->database->raw($query, $params)->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
-    public function getCategorySections(): array
+    public function getCategorySections(string $search = ''): array
     {
         $categories = $this->database->table('categories')->get_all() ?: [];
         $sections = [];
@@ -70,11 +90,17 @@ class AttendeeEventModel
             $sections[] = [
                 'id' => $category_id,
                 'name' => $category_name,
-                'events' => $this->getEventsByCategory($category_id),
+                'events' => $this->getEventsByCategory($category_id, $search),
             ];
         }
 
-        return $sections;
+        if ($search === '') {
+            return $sections;
+        }
+
+        return array_values(array_filter($sections, function ($section) {
+            return !empty($section['events']);
+        }));
     }
 
     public function getEventDetailsById(int $event_id): array|null
@@ -473,8 +499,26 @@ class AttendeeEventModel
         return $order;
     }
 
-    private function getEventsByCategory(int $category_id): array
+    private function getEventsByCategory(int $category_id, string $search = ''): array
     {
+        $search_clause = '';
+        $params = [$category_id];
+
+        if ($search !== '') {
+            $search_clause = "
+              AND (
+                    events.title LIKE ?
+                 OR users.first_name LIKE ?
+                 OR users.last_name LIKE ?
+                 OR users.email LIKE ?
+                 OR events.city LIKE ?
+                 OR events.province LIKE ?
+              )
+            ";
+            $search_term = '%' . $search . '%';
+            $params = array_merge($params, array_fill(0, 6, $search_term));
+        }
+
         $query = "
             SELECT
                 events.id,
@@ -498,6 +542,7 @@ class AttendeeEventModel
             INNER JOIN users ON users.id = events.organizer_id
             LEFT JOIN ticket_types ON ticket_types.event_id = events.id
             WHERE events.category_id = ?
+            $search_clause
             GROUP BY
                 events.id,
                 events.title,
@@ -510,6 +555,6 @@ class AttendeeEventModel
             ORDER BY events.start_datetime ASC
         ";
 
-        return $this->database->raw($query, [$category_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        return $this->database->raw($query, $params)->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 }

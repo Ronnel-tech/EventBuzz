@@ -60,6 +60,35 @@ class AdminUserModel
         return $this->database->raw($query)->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
+    public function getDashboardSummary(): array
+    {
+        $query = "
+            SELECT
+                (
+                    SELECT COUNT(*)
+                    FROM users
+                ) AS total_users,
+                (
+                    SELECT COUNT(*)
+                    FROM users
+                    WHERE role = 'organizer'
+                ) AS total_organizers,
+                (
+                    SELECT COALESCE(SUM(total_amount), 0)
+                    FROM orders
+                    WHERE status = 'done'
+                ) AS total_revenue
+        ";
+
+        $summary = $this->database->raw($query)->fetch(PDO::FETCH_ASSOC);
+
+        return $summary ?: [
+            'total_users' => 0,
+            'total_organizers' => 0,
+            'total_revenue' => 0,
+        ];
+    }
+
     public function deleteAttendeeById(int $attendee_id): bool
     {
         $attendee = $this->database
