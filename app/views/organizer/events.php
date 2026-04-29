@@ -7,6 +7,13 @@
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../public/assets/css/output.css">
 </head>
+<?php
+$search_value = trim((string) ($search ?? ''));
+$filter_value = trim((string) ($filter ?? 'upcoming'));
+if (!in_array($filter_value, ['upcoming', 'past', 'all'], true)) {
+    $filter_value = 'upcoming';
+}
+?>
 <body class="flex h-screen w-full">
         <aside class="flex flex-col items-center bg-surface w-24 justify-between p-5 shadow-soft fixed top-0 left-0 h-screen">
 
@@ -38,7 +45,7 @@
 
     <div class="flex flex-col pr-15">
 
-      <div class="flex items-center justify-end align-center gap-3">
+      <form method="GET" action="<?= url('/organizer/events') ?>" class="flex items-center justify-end align-center gap-3">
 
         <!-- Create Button -->
          <a href="<?= url('/organizer/create-event') ?>">
@@ -48,16 +55,24 @@
         </a>
 
         <!-- Filter -->
-        <select class="bg-surface text-secondary px-3 py-2 rounded-full ">
-          <option>Upcoming event</option>
-          <option>Past event</option>
-          <option>All event</option>
+        <select name="filter" class="bg-surface text-secondary px-3 py-2 rounded-full " onchange="this.form.submit()">
+          <option value="upcoming" <?= $filter_value === 'upcoming' ? 'selected' : '' ?>>Upcoming event</option>
+          <option value="past" <?= $filter_value === 'past' ? 'selected' : '' ?>>Past event</option>
+          <option value="all" <?= $filter_value === 'all' ? 'selected' : '' ?>>All event</option>
         </select>
 
         <!-- Search -->
-        <input type="text" placeholder="Search..."
+        <input type="text" name="search" value="<?= esc($search_value) ?>" placeholder="Search..."
           class="bg-surface text-secondary px-3 py-2 rounded-full ">
-      </div>
+        <button type="submit" class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300">
+            Search
+        </button>
+        <?php if ($search_value !== '' || $filter_value !== 'upcoming'): ?>
+        <a href="<?= url('/organizer/events') ?>" class="rounded-full border border-[#2a2a2e] px-4 py-2 text-sm text-secondary transition hover:text-white">
+            Clear
+        </a>
+        <?php endif; ?>
+      </form>
 
 
 
@@ -71,6 +86,16 @@
     <?php if ($msg = get_flash('success')): ?>
     <div class="mb-5 rounded-2xl border border-green-400/30 bg-green-500/10 p-4 text-green-200">
         <?= esc($msg) ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($search_value !== '' || $filter_value !== 'upcoming'): ?>
+    <div class="mb-5 rounded-2xl border border-[#2a2a2e] bg-surface p-4 text-secondary">
+        Showing
+        <?= esc($filter_value === 'all' ? 'all events' : ($filter_value === 'past' ? 'past events' : 'upcoming events')) ?>
+        <?php if ($search_value !== ''): ?>
+            matching "<span class="text-white"><?= esc($search_value) ?></span>"
+        <?php endif; ?>.
     </div>
     <?php endif; ?>
 

@@ -4,6 +4,8 @@ require_once APP_ROOT . '/app/models/OrganizerEventModel.php';
 
 $event_model = new OrganizerEventModel();
 $organizer_id = (int) ($_SESSION['user']['id'] ?? 0);
+$search = trim((string) ($_GET['search'] ?? ''));
+$filter = trim((string) ($_GET['filter'] ?? 'upcoming'));
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = trim($_POST['action'] ?? '');
@@ -35,6 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$events = $event_model->getEventsByOrganizer($organizer_id);
+$events = $event_model->getEventsByOrganizer($organizer_id, $search, $filter);
 
 include APP_ROOT . '/app/views/organizer/events.php';

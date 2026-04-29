@@ -114,8 +114,36 @@ class OrganizerEventModel
             ]);
     }
 
-    public function getEventsByOrganizer(int $organizer_id): array
+    public function getEventsByOrganizer(int $organizer_id, string $search = '', string $filter = 'upcoming'): array
     {
+        $where_clauses = ['events.organizer_id = ?'];
+        $params = [$organizer_id];
+
+        if ($search !== '') {
+            $where_clauses[] = "
+                (
+                    events.title LIKE ?
+                    OR events.payment_type LIKE ?
+                    OR events.city LIKE ?
+                    OR events.province LIKE ?
+                    OR events.country LIKE ?
+                )
+            ";
+            $search_term = '%' . $search . '%';
+            $params = array_merge($params, array_fill(0, 5, $search_term));
+        }
+
+        if ($filter === 'past') {
+            $where_clauses[] = 'events.end_datetime < NOW()';
+        } elseif ($filter === 'all') {
+            // no additional date filter
+        } else {
+            $filter = 'upcoming';
+            $where_clauses[] = 'events.end_datetime >= NOW()';
+        }
+
+        $where_sql = implode(' AND ', $where_clauses);
+
         $query = "
             SELECT 
                 events.id,
@@ -126,12 +154,12 @@ class OrganizerEventModel
                 COALESCE(SUM(ticket_types.sold), 0) AS tickets_sold
             FROM events
             LEFT JOIN ticket_types ON ticket_types.event_id = events.id
-            WHERE events.organizer_id = ?
+            WHERE $where_sql
             GROUP BY events.id, events.title, events.start_datetime, events.end_datetime, events.payment_type
             ORDER BY events.start_datetime DESC
         ";
 
-        return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+        return $this->database->raw($query, $params)->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
     public function getDashboardSummary(int $organizer_id): array
