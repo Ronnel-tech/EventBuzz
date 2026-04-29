@@ -32,14 +32,14 @@ if (!function_exists('format_attendee_detail_price')) {
     }
 }
 ?>
-<body class="min-h-screen w-full bg-[#151419] p-6">
-    <nav class="sticky top-5 z-10 mb-8 flex justify-between rounded-full bg-surface p-4 pl-5 pr-5 shadow-soft">
+<body class="public-page bg-[#151419]">
+<nav class="page-nav">
         <div class="flex items-center gap-3">
             <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
             <h4>EventBuzz</h4>
         </div>
 
-        <div class="flex items-center gap-5">
+    <div class="page-nav-links justify-end">
             <a href="<?= url('/attendee') ?>" class="text-secondary transition hover:text-white">Browse Events</a>
             <a href="<?= url('/attendee/ticket') ?>">
                 <button class="flex justify-center align-center">

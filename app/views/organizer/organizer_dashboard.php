@@ -57,11 +57,11 @@ foreach ($sales_distribution as $row) {
 }
 ?>
 <body class="min-h-screen bg-[#151419] text-white">
-<div class="flex min-h-screen">
-    <aside class="fixed left-0 top-0 flex h-screen w-24 flex-col items-center justify-between bg-surface p-5 shadow-soft">
+<div class="app-shell">
+    <aside class="app-sidebar">
         <img src="/public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
 
-        <div class="-mt-120 flex flex-col gap-5">
+        <div class="app-sidebar-nav">
             <a href="<?= url('/organizer/dashboard') ?>">
                 <button><svg class="icon-primary" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g><path fill-opacity="0.16" d="M18.6 3H5.4A2.4 2.4 0 0 0 3 5.4v13.2A2.4 2.4 0 0 0 5.4 21h13.2a2.4 2.4 0 0 0 2.4-2.4V5.4A2.4 2.4 0 0 0 18.6 3"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 21V3m0 7h9M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3"/></g></svg></button>
             </a>
@@ -75,7 +75,7 @@ foreach ($sales_distribution as $row) {
         </form>
     </aside>
 
-    <main class="ml-24 flex-1 p-8">
+    <main class="app-main">
         <div class="mb-8 flex items-end justify-between gap-6">
             <div>
                 <p class="text-sm uppercase tracking-[0.3em] text-yellow-300/80">Organizer Analytics</p>

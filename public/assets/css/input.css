@@ -231,6 +231,50 @@
   .shadow-soft {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   }
+
+  .public-page {
+    @apply min-h-screen w-full px-4 py-4 sm:px-6 sm:py-6 lg:px-10;
+  }
+
+  .public-page-wide {
+    @apply min-h-screen w-full px-4 py-4 sm:px-6 sm:py-6 lg:px-12 xl:px-16;
+  }
+
+  .app-shell {
+    @apply min-h-screen w-full md:flex;
+  }
+
+  .app-sidebar {
+    background-color: var(--color-surface);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    @apply sticky top-0 z-30 flex w-full items-center justify-between gap-4 px-4 py-3 md:fixed md:left-0 md:top-0 md:h-screen md:w-24 md:flex-col md:px-5 md:py-5;
+  }
+
+  .app-sidebar-nav {
+    @apply flex items-center gap-4 md:-mt-24 md:flex-col md:gap-5;
+  }
+
+  .app-main {
+    @apply w-full flex-1 p-4 sm:p-6 md:ml-24;
+  }
+
+  .app-section {
+    @apply w-full p-4 sm:p-6 lg:p-8 xl:p-10;
+  }
+
+  .table-scroll {
+    @apply w-full overflow-x-auto;
+  }
+
+  .page-nav {
+    background-color: var(--color-surface);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    @apply sticky top-4 z-20 mb-6 flex flex-col gap-4 rounded-3xl p-4 sm:top-5 sm:flex-row sm:items-center sm:justify-between sm:rounded-full sm:px-5;
+  }
+
+  .page-nav-links {
+    @apply flex flex-wrap items-center gap-3 sm:gap-5;
+  }
 @keyframes marquee {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }

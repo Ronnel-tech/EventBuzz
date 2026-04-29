@@ -16,28 +16,28 @@ if (!in_array($active_auth_modal, ['login', 'signup'], true)) {
 $flash_error = get_flash('error');
 $flash_success = get_flash('success');
 ?>
-<body class="p-10 pl-50 pr-50 w-full h-screen bg-marquee">
+<body class="public-page-wide bg-marquee">
 
 
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
-<div class="bg-[url('/public/assets/images/bg_img.jpg')] bg-cover bg-center p-5 h-5/6 rounded-4xl divider rounded-b-none  outline outline-offset-2 outline-[#2a2a2e] shadow-soft mb-1">
+<div class="mb-1 min-h-[70vh] rounded-4xl rounded-b-none bg-[url('/public/assets/images/bg_img.jpg')] bg-cover bg-center p-4 outline outline-offset-2 outline-[#2a2a2e] shadow-soft sm:p-5">
     
-    <nav class="bg-surface flex justify-between pl-5 pr-5 card rounded-full sticky top-5 z-10  shadow-soft p-3 bg-surface-hover ">
+    <nav class="page-nav bg-surface-hover">
 
         <div class="flex items-center">
             <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
             <h4>EventBuzz</h4>
         </div>
 
-        <div class="flex items-center gap-5">
+        <div class="page-nav-links justify-end">
             <button type="button" class="text-white transition hover:text-primary" data-auth-open="signup">Signup</button>
             <h3>|</h3>
             <button type="button" class="text-white transition hover:text-primary" data-auth-open="login">Login</button>
         </div> 
     </nav>
 
-    <h1 class="pt-90  pl-50 text-black blur-[2px] ">Organizer create, <br> Organizer connect.</h1>
+    <h1 class="px-4 pt-24 text-center text-black blur-[2px] sm:px-8 sm:pt-32 md:px-16 md:pt-48 lg:pl-20 lg:pt-72 lg:text-left">Organizer create, <br> Organizer connect.</h1>
 </div>  
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -71,11 +71,11 @@ $flash_success = get_flash('success');
 
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
-<section class="flex justify-around align-center pt-20 pb-20 bg-surface outline outline-offset-2 outline-[#2a2a2e] shadow-soft mt-2">
+<section class="mt-2 grid gap-8 bg-surface px-6 py-12 outline outline-offset-2 outline-[#2a2a2e] shadow-soft lg:grid-cols-[1.2fr_auto_1fr] lg:items-center lg:px-10 xl:px-16">
 
-    <h1 class="text-[200px] leading-38">Event<br>Buzz</h1>
-    <hr class="transform rotate-180 w-1 h-90 bg-white  rounded-full">
-    <p class="pt-15 text-xl leading-normal pr-20 text-primary">EventBuzz is a modern <br> platform for managing and <br> promoting events. <br>Organizers can create and <br> manage events in one place, <br>while attendees can discover <br> events and secure their tickets <br> effortlessly.</p>
+    <h1 class="text-center text-6xl leading-none sm:text-7xl lg:text-left lg:text-[160px] lg:leading-[0.8]">Event<br>Buzz</h1>
+    <hr class="mx-auto hidden h-48 w-1 rounded-full bg-white lg:block">
+    <p class="text-center text-lg leading-relaxed text-primary lg:pr-6 lg:text-left xl:pr-20 xl:text-xl">EventBuzz is a modern <br> platform for managing and <br> promoting events. <br>Organizers can create and <br> manage events in one place, <br>while attendees can discover <br> events and secure their tickets <br> effortlessly.</p>
 
 </section >
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
@@ -121,21 +121,21 @@ $flash_success = get_flash('success');
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
 
-<section class="grid grid-cols-2 gap-6 h-5/6 shadow-soft outline outline-offset-2 outline-[#2a2a2e] pt-10 p-20 ">
+<section class="grid gap-6 px-6 py-10 shadow-soft outline outline-offset-2 outline-[#2a2a2e] sm:px-10 lg:grid-cols-2 lg:px-20 ">
 
 
 
-        <div class="bg-[url('/public/assets/images/bg_light.jpg')] bg-cover bg-center flex flex-col justify-around text-center card shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
-            <h3 class="text-sm font-bold mb-2 pr-96">Create and manage events with ease</h3>
+        <div class="card flex min-h-80 flex-col justify-around bg-[url('/public/assets/images/bg_light.jpg')] bg-cover bg-center text-center shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+            <h3 class="mb-2 text-sm font-bold lg:pr-40 xl:pr-72">Create and manage events with ease</h3>
             <h3 class="text-sm mb-2 shadow-soft border-defaut">Publish events, manage ticket sales, and reach your audience <br> through a streamlined platform.</h3>
-            <h3 class="text-md pl-96 ">Become an Organizer</h3>
+            <h3 class="text-md lg:pl-40 xl:pl-72">Become an Organizer</h3>
         </div>
 
 
-        <div class="bg-[url('/public/assets/images/bg_light2.jpg')] bg-cover bg-center flex flex-col justify-around text-center card shadow-soft outline outline-offset-2 outline-[#2a2a2e] ">
-            <h3 class="text-sm font-bold mb-2 pr-96">Discover events worth attending</h3>
+        <div class="card flex min-h-80 flex-col justify-around bg-[url('/public/assets/images/bg_light2.jpg')] bg-cover bg-center text-center shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+            <h3 class="mb-2 text-sm font-bold lg:pr-40 xl:pr-72">Discover events worth attending</h3>
             <h3 class="text-sm mb-2  shadow-soft">Browse upcoming events, secure your tickets, and keep track of <br> everything in one place.</h3>
-            <h3 class="text-md pl-96">Become an Attendee</h3>
+            <h3 class="text-md lg:pl-40 xl:pl-72">Become an Attendee</h3>
         </div>
 
 
@@ -156,9 +156,9 @@ $flash_success = get_flash('success');
 
  <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
-    <section class="h-screen w-full mt-10 overflow-hidden shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
-        <div class=" bg-[url('/public/assets/images/bg_l.jpg')] bg-cover bg-center h-screen  w-full flex justify-end items-end  shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
-            <h1 class="pr-10 pb-10">Plan events people love.</h1>
+    <section class="mt-10 min-h-[70vh] w-full overflow-hidden shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+        <div class="flex min-h-[70vh] w-full items-end justify-end bg-[url('/public/assets/images/bg_l.jpg')] bg-cover bg-center shadow-soft outline outline-offset-2 outline-[#2a2a2e]">
+            <h1 class="px-6 pb-6 text-right sm:px-10 sm:pb-10">Plan events people love.</h1>
         </div>
         
     </section>
@@ -180,9 +180,9 @@ $flash_success = get_flash('success');
 <div id="authOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-6">
     <div class="relative w-full max-w-4xl">
         <div id="loginModal" class="auth-modal hidden overflow-hidden rounded-3xl bg-surface shadow-lg outline outline-[#2a2a2e]">
-            <div class="flex min-h-[560px] flex-col md:grid md:grid-cols-[0.95fr_0.85fr]">
+            <div class="flex min-h-140 flex-col md:grid md:grid-cols-[0.95fr_0.85fr]">
                 <div class="bg-surface p-4">
-                    <div class="h-full min-h-[220px] w-full rounded-3xl bg-[url('/public/assets/images/login_bg.jpg')] bg-cover bg-center outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
+                    <div class="h-full min-h-55 w-full rounded-3xl bg-[url('/public/assets/images/login_bg.jpg')] bg-cover bg-center outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
                 </div>
 
                 <div class="flex w-full flex-col justify-center bg-surface px-8 py-10 md:px-10">
@@ -213,9 +213,9 @@ $flash_success = get_flash('success');
         </div>
 
         <div id="signupModal" class="auth-modal hidden overflow-hidden rounded-3xl bg-surface shadow-lg outline outline-[#2a2a2e]">
-            <div class="flex min-h-[560px] flex-col md:grid md:grid-cols-[0.95fr_0.85fr]">
+            <div class="flex min-h-140 flex-col md:grid md:grid-cols-[0.95fr_0.85fr]">
                 <div class="bg-surface p-4">
-                    <div class="h-full min-h-[220px] w-full rounded-3xl bg-[url('/public/assets/images/signup_bg.jpg')] bg-cover bg-center outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
+                    <div class="h-full min-h-55 w-full rounded-3xl bg-[url('/public/assets/images/signup_bg.jpg')] bg-cover bg-center outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
                 </div>
 
                 <div class="flex w-full flex-col justify-center bg-surface px-8 py-10 md:px-10">

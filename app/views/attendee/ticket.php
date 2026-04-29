@@ -13,14 +13,14 @@ if ($display_name === '') {
     $display_name = (string) ($user['email'] ?? 'Attendee');
 }
 ?>
-<body class="min-h-screen bg-[#151419] p-6">
-<nav class="sticky top-5 z-10 mb-8 flex justify-between rounded-full bg-surface p-4 pl-5 pr-5 shadow-soft">
+<body class="public-page bg-[#151419]">
+<nav class="page-nav">
     <div class="flex items-center gap-3">
         <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
         <h4>EventBuzz</h4>
     </div>
 
-    <div class="flex items-center gap-5">
+    <div class="page-nav-links justify-end">
         <a href="<?= url('/attendee') ?>" class="text-secondary transition hover:text-white">Browse Events</a>
         <h4><?= esc($display_name) ?></h4>
         <form method="POST" action="<?= url('logout') ?>">
@@ -55,7 +55,7 @@ if ($display_name === '') {
             <p class="pt-2 text-sm text-secondary">Upcoming and active ticket purchases.</p>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-[#2a2a2e]">
+        <div class="table-scroll rounded-2xl border border-[#2a2a2e]">
             <div class="grid gap-4 border-b border-[#2a2a2e] bg-[#151419] px-6 py-4 text-sm text-secondary" style="grid-template-columns: minmax(220px, 1.4fr) minmax(140px, 0.9fr) minmax(120px, 0.8fr) minmax(140px, 0.8fr) minmax(120px, 0.7fr);">
                 <div>Event</div>
                 <div>Date</div>
@@ -98,7 +98,7 @@ if ($display_name === '') {
             <p class="pt-2 text-sm text-secondary">Past ticket purchases and attended events.</p>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-[#2a2a2e]">
+        <div class="table-scroll rounded-2xl border border-[#2a2a2e]">
             <div class="grid gap-4 border-b border-[#2a2a2e] bg-[#151419] px-6 py-4 text-sm text-secondary" style="grid-template-columns: minmax(220px, 1.4fr) minmax(140px, 0.9fr) minmax(120px, 0.8fr) minmax(140px, 0.8fr) minmax(120px, 0.7fr);">
                 <div>Event</div>
                 <div>Date</div>

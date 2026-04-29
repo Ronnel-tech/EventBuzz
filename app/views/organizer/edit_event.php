@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="../public/assets/css/output.css">
 </head>
 
-<body class="flex h-screen w-full">
+<body class="app-shell">
 
 
-    <aside class="flex flex-col items-center bg-surface w-24 justify-between p-5 shadow-soft fixed top-0 left-0 h-screen">
+    <aside class="app-sidebar">
 
         <img src="/public/assets/images/logo.png" alt="" class="size-7 ">
 
-        <div class="flex flex-col align-center gap-5 -mt-120">
+        <div class="app-sidebar-nav">
             <a href="<?= url('/organizer/dashboard') ?>">
                 <button><svg class="icon-disabled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path  fill-opacity="0.16" d="M18.6 3H5.4A2.4 2.4 0 0 0 3 5.4v13.2A2.4 2.4 0 0 0 5.4 21h13.2a2.4 2.4 0 0 0 2.4-2.4V5.4A2.4 2.4 0 0 0 18.6 3"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 21V3m0 7h9M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3"/></g></svg></button>
             </a>
@@ -32,7 +32,7 @@
     </aside>
 
 
-    <div class="flex flex-col p-5 w-full ml-24">
+    <div class="app-main">
 
         <div class="flex flex-col ">
             <h3>Edit Event</h3>
@@ -40,7 +40,7 @@
         </div>
 
 
-        <section class="flex flex-col p-10 w-full  ">
+        <section class="app-section">
 
             <?php if ($msg = get_flash('error')): ?>
             <div class="mb-5 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">
@@ -89,12 +89,12 @@
                         <h3 class="pl-15 pt-5">Event title</h3>
                         <h4 class="pl-20 pt-5">Be clear and descriptive with a title that tells people what your event is about.</h4>
 
-                        <div class=" flex flex-wrap justify-between align-center pl-30 pt-5 p-5">
+                        <div class="flex flex-col gap-4 p-5 pt-5 sm:pl-10 lg:flex-row lg:flex-wrap lg:items-center lg:justify-between lg:pl-20 xl:pl-30">
 
-                            <input name="title" value="<?= esc($old['title']) ?>" placeholder="Event Title" class=" mb-3 p-2 rounded-full input input:focus text-white  w-280" required>
+                            <input name="title" value="<?= esc($old['title']) ?>" placeholder="Event Title" class="mb-3 w-full rounded-full input p-2 text-white lg:flex-1" required>
 
                             <select name="category"
-                                class="mb-3 p-2 rounded-full input input:focus text-white w-65 " required>
+                                class="mb-3 w-full rounded-full input p-2 text-white lg:w-65" required>
                                 <option value="">Category</option>
                                 <?php foreach ($categories as $category): ?>
                                 <option value="<?= esc((string) $category['id']) ?>" <?= $old['category'] === (string) $category['id'] ? 'selected' : '' ?>>
@@ -107,7 +107,7 @@
                         <h2 class="px-10 pt-10">Summary</h2>
                         <h4 class="pl-20 pt-5">Grab people's attention with a short description about your event. Attendees will see this at the top of your event page.</h4>
 
-                        <div class="p-5 pl-30">
+                        <div class="p-5 sm:pl-10 lg:pl-20 xl:pl-30">
                             <textarea name="summary" placeholder="Event Summary" class=" rounded-2xl input input:focus text-white w-full h-100" required><?= esc($old['summary']) ?></textarea>
                         </div>
 
@@ -118,7 +118,7 @@
                         <h2 class="px-10 pt-10">Date and Location</h2>
                         <h3 class="pl-15 pt-5">Date and Time</h3>
 
-                        <div class=" grid grid-cols-3 gap-5 justify-between align-center pl-30 pt-5 p-5">
+                        <div class="grid grid-cols-1 gap-5 p-5 pt-5 sm:pl-10 md:grid-cols-2 lg:grid-cols-3 lg:pl-20 xl:pl-30">
 
                             <div class="flex flex-col">
                                 <label for="date">Date</label>
@@ -138,7 +138,7 @@
 
                         <h3 class="px-15 pt-15">Location</h3>
 
-                        <div class="grid grid-cols-2 gap-4 p-5 pl-30">
+                        <div class="grid grid-cols-1 gap-4 p-5 sm:pl-10 md:grid-cols-2 lg:pl-20 xl:pl-30">
                             <div class="flex flex-col">
                                 <label for="street" class="mb-2">Street</label>
                                 <input name="street" value="<?= esc($old['street']) ?>" type="text" placeholder="Street" class=" p-2 rounded-full input input:focus text-white  w-full" required>

@@ -30,15 +30,15 @@ if (!function_exists('format_checkout_price')) {
     
 }
 ?>
-<body class="min-h-screen bg-[#151419] p-6">
+<body class="public-page bg-[#151419]">
 
-<nav class="sticky top-5 z-10 mb-8 flex justify-between rounded-full bg-surface p-4 pl-5 pr-5 shadow-soft">
+<nav class="page-nav">
     <div class="flex items-center gap-3">
         <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
         <h4>EventBuzz</h4>
     </div>
 
-    <div class="flex items-center gap-5">
+    <div class="page-nav-links justify-end">
         <a href="<?= url('/attendee/detailed_event?id=' . $event['id']) ?>" class="text-secondary transition hover:text-white">Back to Event</a>
         <a href="<?= url('/attendee/ticket') ?>" class="text-secondary transition hover:text-white">My Tickets</a>
         <h4><?= esc($display_name) ?></h4>
@@ -50,7 +50,7 @@ if (!function_exists('format_checkout_price')) {
     </div>
 </nav>
 
-<div class="min-h-screen flex items-center justify-center">
+<div class="flex min-h-[calc(100vh-8rem)] items-center justify-center">
     <div class="grid w-full max-w-7xl grid-cols-1 gap-6 lg:grid-cols-3">
         <form id="checkoutForm" method="POST" action="<?= url('/attendee/checkout?id=' . $event['id']) ?>" class="rounded-2xl border border-gray-800 bg-surface p-6 lg:col-span-2">
             <?= csrf_field() ?>

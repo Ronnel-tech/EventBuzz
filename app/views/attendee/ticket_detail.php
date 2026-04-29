@@ -14,14 +14,14 @@ if ($display_name === '') {
 }
 $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' . rawurlencode($organizer_lookup_url);
 ?>
-<body class="min-h-screen bg-[#151419] p-6">
-<nav class="sticky top-5 z-10 mb-8 flex justify-between rounded-full bg-surface p-4 pl-5 pr-5 shadow-soft">
+<body class="public-page bg-[#151419]">
+<nav class="page-nav">
     <div class="flex items-center gap-3">
         <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
         <h4>EventBuzz</h4>
     </div>
 
-    <div class="flex items-center gap-5">
+    <div class="page-nav-links justify-end">
         <a href="<?= url('/attendee/ticket') ?>" class="text-secondary transition hover:text-white">Back to Tickets</a>
         <h4><?= esc($display_name) ?></h4>
         <form method="POST" action="<?= url('logout') ?>">

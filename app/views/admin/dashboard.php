@@ -43,14 +43,14 @@ foreach ($tickets_sold_by_event as $row) {
     ];
 }
 ?>
-<body class="min-h-screen bg-[#151419] p-6">
-<nav class="sticky top-5 z-10 mb-8 flex justify-between rounded-full bg-surface p-4 pl-5 pr-5 shadow-soft">
+<body class="public-page bg-[#151419]">
+<nav class="page-nav">
     <div class="flex items-center gap-3">
         <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
         <h4>EventBuzz</h4>
     </div>
 
-    <div class="flex items-center gap-5">
+    <div class="page-nav-links justify-end">
         <a href="<?= url('/admin/dashboard') ?>" class="text-primary transition hover:text-white">Dashboard</a>
         <a href="<?= url('/admin/event-management') ?>" class="text-secondary transition hover:text-white">Events</a>
         <a href="<?= url('/admin/organizer-management') ?>" class="text-secondary transition hover:text-white">Organizers</a>
@@ -113,7 +113,7 @@ foreach ($tickets_sold_by_event as $row) {
             <p class="pt-2 text-sm text-secondary">Events ranked by sold ticket volume across the platform.</p>
         </div>
 
-        <div class="overflow-hidden rounded-2xl border border-[#2a2a2e]">
+        <div class="table-scroll rounded-2xl border border-[#2a2a2e]">
             <div class="grid gap-4 border-b border-[#2a2a2e] bg-[#151419] px-6 py-4 text-sm text-secondary" style="grid-template-columns: 80px minmax(240px, 1.4fr) minmax(180px, 1fr) minmax(140px, 0.8fr) minmax(160px, 0.9fr);">
                 <div>Rank</div>
                 <div>Event</div>

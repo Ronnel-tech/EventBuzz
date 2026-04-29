@@ -43,16 +43,16 @@ if (!function_exists('format_attendee_price')) {
 }
 ?>
 
-<body class="p-15 w-full min-h-screen">
+<body class="public-page-wide">
     
-    <nav class="bg-surface flex justify-between pl-5 pr-5 card rounded-full sticky top-5  z-11  shadow-soft p-4 bg-surface-hover ">
+    <nav class="page-nav bg-surface-hover">
 
         <div class="flex items-center">
             <img src="../public/assets/images/logo.png" alt="EventBuzz Logo" class="size-7">
             <h4>EventBuzz</h4>
         </div>
 
-        <div class="flex items-center gap-5">
+        <div class="page-nav-links justify-end">
 
         <form method="GET" action="<?= url('/attendee') ?>" class="flex items-center gap-2">
             <input
@@ -60,7 +60,7 @@ if (!function_exists('format_attendee_price')) {
                 name="search"
                 value="<?= esc($search_value) ?>"
                 placeholder="Search events..."
-                class="bg-surface text-secondary px-4 py-2 rounded-full min-w-64"
+                class="min-w-0 flex-1 rounded-full bg-surface px-4 py-2 text-secondary sm:min-w-64"
             >
             <button type="submit" class="rounded-full bg-yellow-400 px-4 py-2 text-sm font-semibold text-black transition hover:bg-yellow-300">
                 Search
@@ -86,17 +86,17 @@ if (!function_exists('format_attendee_price')) {
         </div> 
     </nav>
 
-<div class="relative mb-1 min-h-[70vh] overflow-hidden rounded-4xl pt-30">
+<div class="relative mb-1 min-h-[70vh] overflow-hidden rounded-4xl pt-16 sm:pt-20 lg:pt-30">
 
     <!-- Blurred background -->
     <div class="absolute inset-0 bg-cover bg-center blur-3xl" style="background-image: url('<?= esc($hero_image) ?>');"></div>
     <div class="absolute inset-0 bg-black/45"></div>
     
     <!-- Content (NOT blurred) -->
-<div class="relative z-10 p-5 flex flex-col items-center justify-center h-full text-center pt-30">
+<div class="relative z-10 flex h-full flex-col items-center justify-center p-5 pt-16 text-center sm:pt-24 lg:pt-30">
     
     <nav>
-        <h1 class="text-7xl">Welcome, <?= esc($first_name) ?></h1>
+        <h1 class="text-5xl sm:text-6xl lg:text-7xl">Welcome, <?= esc($first_name) ?></h1>
     </nav>
 
     <h2>
@@ -104,7 +104,7 @@ if (!function_exists('format_attendee_price')) {
     </h2>
 
 
-    <section class="bg-white h-2 w-full flex justify-center items-center mt-30">
+    <section class="mt-16 flex h-2 w-full items-center justify-center sm:mt-24 lg:mt-30">
     <a href="#events-list" class="btn btn-primary rounded-full z-1 px-20">Browse Events</a>
     </section>
 
@@ -137,7 +137,7 @@ if (!function_exists('format_attendee_price')) {
   </div>
 </section>
 
-    <div id="events-list" class="w-full bg-surface px-6 py-12 rounded-b-4xl">
+    <div id="events-list" class="w-full rounded-b-4xl bg-surface px-4 py-8 sm:px-6 sm:py-12">
         <?php if ($search_value !== ''): ?>
             <div class="mb-8 rounded-3xl bg-[#1c2029] p-5 text-white outline outline-[#2a2a2e]">
                 Showing results for "<span class="text-yellow-300"><?= esc($search_value) ?></span>".

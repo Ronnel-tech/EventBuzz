@@ -14,12 +14,12 @@ if (!in_array($filter_value, ['upcoming', 'past', 'all'], true)) {
     $filter_value = 'upcoming';
 }
 ?>
-<body class="flex h-screen w-full">
-        <aside class="flex flex-col items-center bg-surface w-24 justify-between p-5 shadow-soft fixed top-0 left-0 h-screen">
+<body class="app-shell">
+        <aside class="app-sidebar">
 
         <img src="/public/assets/images/logo.png" alt="" class="size-7 ">
 
-        <div class="flex flex-col align-center gap-5 -mt-120">
+        <div class="app-sidebar-nav">
             <a href="<?= url('/organizer/dashboard') ?>">
                 <button><svg class="icon-disabled" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none"><path  fill-opacity="0.16" d="M18.6 3H5.4A2.4 2.4 0 0 0 3 5.4v13.2A2.4 2.4 0 0 0 5.4 21h13.2a2.4 2.4 0 0 0 2.4-2.4V5.4A2.4 2.4 0 0 0 18.6 3"/><path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="1.5" d="M12 21V3m0 7h9M5.4 3h13.2A2.4 2.4 0 0 1 21 5.4v13.2a2.4 2.4 0 0 1-2.4 2.4H5.4A2.4 2.4 0 0 1 3 18.6V5.4A2.4 2.4 0 0 1 5.4 3"/></g></svg></button>
             </a>
@@ -35,7 +35,7 @@ if (!in_array($filter_value, ['upcoming', 'past', 'all'], true)) {
     </aside>
 
 
-    <div class="flex flex-col p-5 w-full ml-24"> 
+    <div class="app-main"> 
 
     <div class="flex flex-col ">
         <h3>My Events</h3> 
@@ -76,7 +76,7 @@ if (!in_array($filter_value, ['upcoming', 'past', 'all'], true)) {
 
 
 
-          <section class="flex flex-col p-10 w-full  ">
+          <section class="app-section">
     <?php if ($msg = get_flash('error')): ?>
     <div class="mb-5 rounded-2xl border border-red-400/30 bg-red-500/10 p-4 text-red-200">
         <?= esc($msg) ?>
@@ -99,10 +99,10 @@ if (!in_array($filter_value, ['upcoming', 'past', 'all'], true)) {
     </div>
     <?php endif; ?>
 
-    <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl overflow-hidden pb-30">
+    <div class="bg-surface w-full outline  outline-[#2a2a2e] shadow-soft mt-5 rounded-2xl overflow-hidden pb-10 sm:pb-16 lg:pb-30">
         <h3 class="px-10 pt-10">Events Table</h3>
 
-        <div class="px-10 py-8">
+        <div class="table-scroll px-4 py-6 sm:px-8 sm:py-8 lg:px-10">
             <div class="grid grid-cols-[2fr_1fr_1fr_80px] gap-4 border-b border-[#2a2a2e] pb-4 text-sm text-gray-400">
                 <div>Event Name</div>
                 <div>Date</div>
