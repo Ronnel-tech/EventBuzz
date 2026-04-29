@@ -48,40 +48,51 @@
     <section class="rounded-3xl bg-surface p-8 outline outline-[#2a2a2e] shadow-soft">
         <div class="mb-6">
             <h3>All Events</h3>
-            <p class="pt-2 text-sm text-secondary">Click an event to open the detailed admin view.</p>
+            <p class="pt-2 text-sm text-secondary">All events created on the platform.</p>
         </div>
 
-        <?php if ($events): ?>
-            <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                <?php foreach ($events as $event): ?>
-                <a href="<?= url('/admin/detailed-event?id=' . $event['id']) ?>" class="overflow-hidden rounded-3xl border border-[#2a2a2e] bg-[#151419] transition hover:-translate-y-1 hover:border-yellow-400/30">
-                    <div class="h-52 overflow-hidden bg-[#1c2029]">
-                        <img
-                            src="<?= esc((string) ($event['banner_image'] ?: '/public/assets/images/logo.png')) ?>"
-                            alt="<?= esc($event['title']) ?>"
-                            class="h-full w-full object-cover"
-                        >
-                    </div>
-                    <div class="space-y-3 p-5">
-                        <div class="flex items-center justify-between gap-3">
-                            <span class="rounded-full bg-white/10 px-3 py-1 text-xs text-gray-300"><?= esc(date('M d, Y g:i A', strtotime($event['start_datetime']))) ?></span>
-                            <span class="text-sm text-primary"><?= esc($event['category_name'] ?: 'Uncategorized') ?></span>
-                        </div>
-                        <h4 class="text-xl text-white"><?= esc($event['title']) ?></h4>
-                        <p class="text-sm text-secondary">By <?= esc($event['organizer_name']) ?></p>
-                        <div class="flex items-center justify-between text-sm text-secondary">
-                            <span><?= esc(ucfirst((string) $event['payment_type'])) ?></span>
-                            <span><?= esc((string) $event['tickets_sold']) ?> sold</span>
-                        </div>
-                    </div>
-                </a>
-                <?php endforeach; ?>
+        <div class="overflow-hidden rounded-2xl border border-[#2a2a2e]">
+            <div class="grid gap-4 border-b border-[#2a2a2e] bg-[#151419] px-6 py-4 text-sm text-secondary" style="grid-template-columns: minmax(220px, 1.3fr) minmax(180px, 1fr) minmax(140px, 0.9fr) minmax(180px, 1fr) minmax(120px, 0.7fr) minmax(120px, 0.7fr);">
+                <div>Event</div>
+                <div>Organizer</div>
+                <div>Category</div>
+                <div>Start Date</div>
+                <div>Tickets Sold</div>
+                <div class="text-right">Action</div>
             </div>
-        <?php else: ?>
-            <div class="rounded-2xl border border-dashed border-[#2a2a2e] bg-[#151419] p-8 text-center text-secondary">
-                No events found.
-            </div>
-        <?php endif; ?>
+
+            <?php if ($events): ?>
+                <div class="divide-y divide-[#2a2a2e] bg-surface">
+                    <?php foreach ($events as $event): ?>
+                    <div
+                        class="grid cursor-pointer items-center gap-4 px-6 py-5 text-sm text-white transition hover:bg-[#151419]"
+                        style="grid-template-columns: minmax(220px, 1.3fr) minmax(180px, 1fr) minmax(140px, 0.9fr) minmax(180px, 1fr) minmax(120px, 0.7fr) minmax(120px, 0.7fr);"
+                        onclick="window.location.href='<?= url('/admin/detailed-event?id=' . $event['id']) ?>'"
+                    >
+                        <div><?= esc($event['title']) ?></div>
+                        <div><?= esc($event['organizer_name']) ?></div>
+                        <div><?= esc($event['category_name'] ?: 'Uncategorized') ?></div>
+                        <div><?= esc(date('M d, Y h:i A', strtotime($event['start_datetime']))) ?></div>
+                        <div><?= esc((string) $event['tickets_sold']) ?></div>
+                        <div class="text-right">
+                            <form method="POST" action="<?= url('/admin/event-management') ?>" class="inline-block" onclick="event.stopPropagation();" onsubmit="return confirm('Delete this event and all related ticket sales, orders, and tickets?');">
+                                <?= csrf_field() ?>
+                                <input type="hidden" name="action" value="delete">
+                                <input type="hidden" name="event_id" value="<?= esc((string) $event['id']) ?>">
+                                <button type="submit" class="rounded-full border border-red-400/40 bg-red-500/10 px-4 py-2 text-xs font-semibold text-red-300 transition hover:bg-red-500/20">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="bg-surface px-6 py-12 text-center text-secondary">
+                    No events found.
+                </div>
+            <?php endif; ?>
+        </div>
     </section>
 </div>
 </body>

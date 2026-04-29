@@ -18,13 +18,14 @@ $router->post('/signup', 'app/views/auth/signup');
 $router->get('/admin/dashboard', 'app/views/admin/dashboard', ['admin']);
 $router->get('/admin/detailed-event', 'app/controllers/admin/DetailedEventController', ['admin']);
 $router->get('/admin/event-management', 'app/controllers/admin/EventManagementController', ['admin']);
+$router->post('/admin/event-management', 'app/controllers/admin/EventManagementController', ['admin']);
 $router->get('/admin/organizer-management', 'app/controllers/admin/OrganizerManagementController', ['admin']);
 $router->post('/admin/organizer-management', 'app/controllers/admin/OrganizerManagementController', ['admin']);
 $router->get('/admin/attendee-management', 'app/controllers/admin/AttendeeManagementController', ['admin']);
 $router->post('/admin/attendee-management', 'app/controllers/admin/AttendeeManagementController', ['admin']);
 
 // ORGANIZER
-$router->get('/organizer/dashboard', 'app/views/organizer/organizer_dashboard', ['organizer']);
+$router->get('/organizer/dashboard', 'app/controllers/organizer/OrganizerDashboardController', ['organizer']);
 
 $router->get('/organizer/events', 'app/controllers/organizer/EventsController', ['organizer']);
 $router->post('/organizer/events', 'app/controllers/organizer/EventsController', ['organizer']);

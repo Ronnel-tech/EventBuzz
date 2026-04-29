@@ -134,6 +134,109 @@ class OrganizerEventModel
         return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
     }
 
+    public function getDashboardSummary(int $organizer_id): array
+    {
+        $query = "
+            SELECT
+                (
+                    SELECT COUNT(*)
+                    FROM events
+                    WHERE events.organizer_id = ?
+                ) AS total_events_created,
+                (
+                    SELECT COALESCE(SUM(orders.total_amount), 0)
+                    FROM orders
+                    INNER JOIN events ON events.id = orders.event_id
+                    WHERE events.organizer_id = ?
+                      AND orders.status = 'done'
+                ) AS total_revenue_earned,
+                (
+                    SELECT COALESCE(SUM(order_items.quantity), 0)
+                    FROM order_items
+                    INNER JOIN orders ON orders.id = order_items.order_id
+                    INNER JOIN events ON events.id = orders.event_id
+                    WHERE events.organizer_id = ?
+                      AND orders.status = 'done'
+                ) AS total_tickets_sold,
+                (
+                    SELECT COUNT(*)
+                    FROM events
+                    WHERE events.organizer_id = ?
+                      AND events.start_datetime >= NOW()
+                ) AS upcoming_events
+        ";
+
+        $summary = $this->database->raw($query, [
+            $organizer_id,
+            $organizer_id,
+            $organizer_id,
+            $organizer_id,
+        ])->fetch(PDO::FETCH_ASSOC);
+
+        return $summary ?: [
+            'total_events_created' => 0,
+            'total_revenue_earned' => 0,
+            'total_tickets_sold' => 0,
+            'upcoming_events' => 0,
+        ];
+    }
+
+    public function getTodayTicketSalesByEvent(int $organizer_id): array
+    {
+        $query = "
+            SELECT
+                events.id,
+                events.title,
+                COALESCE(SUM(order_items.quantity), 0) AS tickets_sold_today
+            FROM events
+            LEFT JOIN orders
+                ON orders.event_id = events.id
+               AND orders.status = 'done'
+               AND DATE(orders.created_at) = CURDATE()
+            LEFT JOIN order_items ON order_items.order_id = orders.id
+            WHERE events.organizer_id = ?
+            GROUP BY events.id, events.title
+            ORDER BY events.start_datetime ASC, events.title ASC
+        ";
+
+        return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function getRevenueOverTime(int $organizer_id): array
+    {
+        $query = "
+            SELECT
+                DATE(orders.created_at) AS revenue_date,
+                COALESCE(SUM(orders.total_amount), 0) AS revenue_amount
+            FROM orders
+            INNER JOIN events ON events.id = orders.event_id
+            WHERE events.organizer_id = ?
+              AND orders.status = 'done'
+            GROUP BY DATE(orders.created_at)
+            ORDER BY DATE(orders.created_at) ASC
+        ";
+
+        return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
+    public function getSalesDistributionByPaymentMethod(int $organizer_id): array
+    {
+        $query = "
+            SELECT
+                orders.payment_method,
+                COALESCE(SUM(order_items.quantity), 0) AS tickets_sold
+            FROM orders
+            INNER JOIN events ON events.id = orders.event_id
+            LEFT JOIN order_items ON order_items.order_id = orders.id
+            WHERE events.organizer_id = ?
+              AND orders.status = 'done'
+            GROUP BY orders.payment_method
+            ORDER BY tickets_sold DESC, orders.payment_method ASC
+        ";
+
+        return $this->database->raw($query, [$organizer_id])->fetchAll(PDO::FETCH_ASSOC) ?: [];
+    }
+
     public function getAttendeesByEvent(int $event_id, int $organizer_id): array
     {
         $query = "

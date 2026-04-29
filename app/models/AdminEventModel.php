@@ -67,4 +67,78 @@ class AdminEventModel
 
         return $event ?: null;
     }
+
+    public function deleteEventById(int $event_id): bool
+    {
+        $event = $this->database
+            ->table('events')
+            ->where('id', $event_id)
+            ->get();
+
+        if (!$event) {
+            return false;
+        }
+
+        try {
+            $this->database->transaction();
+
+            $order_items = $this->database
+                ->table('order_items')
+                ->select('order_items.id')
+                ->left_join('orders', 'orders.id = order_items.order_id')
+                ->where('orders.event_id', $event_id)
+                ->get_all() ?: [];
+
+            foreach ($order_items as $order_item) {
+                $order_item_id = (int) ($order_item['id'] ?? 0);
+
+                if ($order_item_id > 0) {
+                    $this->database
+                        ->table('tickets')
+                        ->where('order_item_id', $order_item_id)
+                        ->delete();
+                }
+            }
+
+            $orders = $this->database
+                ->table('orders')
+                ->select('id')
+                ->where('event_id', $event_id)
+                ->get_all() ?: [];
+
+            foreach ($orders as $order) {
+                $order_id = (int) ($order['id'] ?? 0);
+
+                if ($order_id > 0) {
+                    $this->database
+                        ->table('order_items')
+                        ->where('order_id', $order_id)
+                        ->delete();
+                }
+            }
+
+            $this->database
+                ->table('orders')
+                ->where('event_id', $event_id)
+                ->delete();
+
+            $this->database
+                ->table('ticket_types')
+                ->where('event_id', $event_id)
+                ->delete();
+
+            $deleted = $this->database
+                ->table('events')
+                ->where('id', $event_id)
+                ->delete();
+
+            $this->database->commit();
+
+            return $deleted > 0;
+        } catch (Throwable $exception) {
+            $this->database->roll_back();
+
+            return false;
+        }
+    }
 }
