@@ -7,6 +7,15 @@
     <title>EventBuzz</title>
     <link rel="icon" href="../public/assets/images/logo.png" type="image/x-icon">
 </head>
+<?php
+$active_auth_modal = trim((string) ($_GET['auth'] ?? ''));
+if (!in_array($active_auth_modal, ['login', 'signup'], true)) {
+    $active_auth_modal = '';
+}
+
+$flash_error = get_flash('error');
+$flash_success = get_flash('success');
+?>
 <body class="p-10 pl-50 pr-50 w-full h-screen bg-marquee">
 
 
@@ -22,9 +31,9 @@
         </div>
 
         <div class="flex items-center gap-5">
-            <a href="/signup">Signup</a>
+            <button type="button" class="text-white transition hover:text-primary" data-auth-open="signup">Signup</button>
             <h3>|</h3>
-            <a href="/login">Login</a>
+            <button type="button" class="text-white transition hover:text-primary" data-auth-open="login">Login</button>
         </div> 
     </nav>
 
@@ -75,7 +84,7 @@
 
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 <section class="bg-white h-2 w-full flex justify-center items-center mt-1">
-    <button class="btn btn-primary rounded-full z-1"><a href="/signup">Get Started</a></button>
+    <button type="button" class="btn btn-primary rounded-full z-1" data-auth-open="signup">Get Started</button>
 </section>
 <!-- -------------------------------------------------------------------------------------------------------------------------------- -->
 
@@ -168,6 +177,124 @@
 
 <div class="pb-20 "></div>
 
+<div id="authOverlay" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/70 p-6">
+    <div class="relative w-full max-w-4xl">
+        <div id="loginModal" class="auth-modal hidden overflow-hidden rounded-3xl bg-surface shadow-lg outline outline-[#2a2a2e]">
+            <div class="flex min-h-[560px] flex-col md:grid md:grid-cols-[0.95fr_0.85fr]">
+                <div class="bg-surface p-4">
+                    <div class="h-full min-h-[220px] w-full rounded-3xl bg-[url('/public/assets/images/login_bg.jpg')] bg-cover bg-center outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
+                </div>
+
+                <div class="flex w-full flex-col justify-center bg-surface px-8 py-10 md:px-10">
+                    <h2 class="mb-6 text-center text-2xl font-semibold text-white">Welcome Back!</h2>
+
+                    <?php if ($active_auth_modal === 'login' && $flash_error): ?>
+                    <div class="mb-4 rounded-2xl border border-red-400/30 bg-red-500/10 p-3 text-center text-red-200"><?= esc($flash_error) ?></div>
+                    <?php endif; ?>
+
+                    <?php if ($active_auth_modal === 'login' && $flash_success): ?>
+                    <div class="mb-4 rounded-2xl border border-green-400/30 bg-green-500/10 p-3 text-center text-green-200"><?= esc($flash_success) ?></div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="<?= url('/login') ?>" class="mx-auto w-full max-w-xs">
+                        <?php csrf_field(); ?>
+                        <input name="email" type="email" placeholder="Email" class="card mb-3 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                        <input type="password" name="password" placeholder="Password" class="card mb-3 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                        <button class="btn btn-primary mt-5 w-full rounded-full p-2">Login</button>
+                    </form>
+
+                    <p class="mt-6 text-center text-sm text-gray-300">
+                        <button type="button" class="hover:text-white" data-auth-open="signup">
+                            Don't have an account? <strong>Signup</strong>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div id="signupModal" class="auth-modal hidden overflow-hidden rounded-3xl bg-surface shadow-lg outline outline-[#2a2a2e]">
+            <div class="flex min-h-[560px] flex-col md:grid md:grid-cols-[0.95fr_0.85fr]">
+                <div class="bg-surface p-4">
+                    <div class="h-full min-h-[220px] w-full rounded-3xl bg-[url('/public/assets/images/signup_bg.jpg')] bg-cover bg-center outline outline-offset-3 outline-[#2a2a2e] shadow-soft"></div>
+                </div>
+
+                <div class="flex w-full flex-col justify-center bg-surface px-8 py-10 md:px-10">
+                    <h2 class="mb-6 text-center text-2xl font-semibold text-white">Create an Account</h2>
+
+                    <?php if ($active_auth_modal === 'signup' && $flash_error): ?>
+                    <div class="mb-4 rounded-2xl border border-red-400/30 bg-red-500/10 p-3 text-center text-red-200"><?= esc($flash_error) ?></div>
+                    <?php endif; ?>
+
+                    <form method="POST" action="<?= url('/signup') ?>" class="mx-auto w-full max-w-xs">
+                        <?php csrf_field(); ?>
+                        <input name="first_name" placeholder="First Name" class="card mb-3 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                        <input name="last_name" placeholder="Last Name" class="card mb-3 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                        <input name="email" type="email" placeholder="Email" class="card mb-3 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                        <input type="password" name="password" placeholder="Password" class="card mb-3 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                        <select name="role" class="card mb-4 w-full rounded-full border border-[#2a2a2e] p-2 text-white" required>
+                            <option value="attendee">Attendee</option>
+                            <option value="organizer">Organizer</option>
+                        </select>
+                        <button class="btn btn-primary w-full rounded-full p-2">Register</button>
+                    </form>
+
+                    <p class="mt-6 text-center text-sm text-gray-300">
+                        <button type="button" class="hover:text-white" data-auth-open="login">
+                            Already have an account? <strong>Login</strong>
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('authOverlay');
+    const loginModal = document.getElementById('loginModal');
+    const signupModal = document.getElementById('signupModal');
+    const activeModal = <?= json_encode($active_auth_modal, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+
+    function hideModals() {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+        loginModal.classList.add('hidden');
+        signupModal.classList.add('hidden');
+        document.body.classList.remove('overflow-hidden');
+    }
+
+    function openModal(type) {
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+        document.body.classList.add('overflow-hidden');
+        loginModal.classList.toggle('hidden', type !== 'login');
+        signupModal.classList.toggle('hidden', type !== 'signup');
+    }
+
+    document.querySelectorAll('[data-auth-open]').forEach(function (button) {
+        button.addEventListener('click', function () {
+            openModal(button.getAttribute('data-auth-open'));
+        });
+    });
+
+    overlay.addEventListener('click', function (event) {
+        if (event.target === overlay) {
+            hideModals();
+        }
+    });
+
+    document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+            hideModals();
+        }
+    });
+
+    if (activeModal === 'login' || activeModal === 'signup') {
+        openModal(activeModal);
+    }
+});
+</script>
 
 </body>
 </html>
