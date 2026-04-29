@@ -175,7 +175,7 @@ if (!in_array($filter_value, ['all', 'paid', 'pending'], true)) {
 
             <div class="rounded-3xl bg-[#151419] p-4">
                 <div class="overflow-hidden rounded-3xl border border-dashed border-[#2a2a2e] bg-black">
-                    <div id="qrScannerReader" class="min-h-[420px] w-full"></div>
+                    <div id="qrScannerReader" class="min-h-105 w-full"></div>
                 </div>
                 <p id="qrScannerStatus" class="pt-4 text-sm text-secondary">
                     Point the camera at an attendee QR code.
