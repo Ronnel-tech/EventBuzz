@@ -34,7 +34,7 @@ if ($display_name === '') {
 <div class="mx-auto max-w-7xl">
     <div class="mb-6">
         <h3>My Tickets</h3>
-        <p>Tap any card to open the full ticket and purchase details.</p>
+        <p>Open any row to view the full ticket and purchase details.</p>
     </div>
 
     <?php if ($msg = get_flash('error')): ?>
@@ -52,71 +52,87 @@ if ($display_name === '') {
     <section class="mb-10 rounded-3xl bg-surface p-8 outline outline-[#2a2a2e] shadow-soft">
         <div class="mb-6">
             <h3>Purchased Events</h3>
-            <p class="pt-2 text-sm text-secondary">Only the event banner, title, and status are shown here.</p>
+            <p class="pt-2 text-sm text-secondary">Upcoming and active ticket purchases.</p>
         </div>
 
-        <?php if ($active_orders): ?>
-            <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                <?php foreach ($active_orders as $order): ?>
-                <a href="<?= url('/attendee/ticket-detail?order_id=' . $order['id']) ?>" class="overflow-hidden rounded-3xl border border-[#2a2a2e] bg-[#151419] transition hover:-translate-y-1 hover:border-yellow-400/30">
-                    <div class="h-48 overflow-hidden">
-                        <img
-                            src="<?= esc((string) ($order['banner_image'] ?: '/public/assets/images/logo.png')) ?>"
-                            alt="<?= esc($order['event_title']) ?>"
-                            class="h-full w-full object-cover"
-                        >
-                    </div>
-                    <div class="p-5">
-                        <h4 class="text-xl text-white"><?= esc($order['event_title']) ?></h4>
-                        <div class="pt-4">
+        <div class="overflow-hidden rounded-2xl border border-[#2a2a2e]">
+            <div class="grid gap-4 border-b border-[#2a2a2e] bg-[#151419] px-6 py-4 text-sm text-secondary" style="grid-template-columns: minmax(220px, 1.4fr) minmax(140px, 0.9fr) minmax(120px, 0.8fr) minmax(140px, 0.8fr) minmax(120px, 0.7fr);">
+                <div>Event</div>
+                <div>Date</div>
+                <div>Tickets</div>
+                <div>Total</div>
+                <div>Status</div>
+            </div>
+
+            <?php if ($active_orders): ?>
+                <div class="divide-y divide-[#2a2a2e] bg-surface">
+                    <?php foreach ($active_orders as $order): ?>
+                    <div
+                        class="grid cursor-pointer gap-4 px-6 py-5 text-sm text-white transition hover:bg-[#151419]"
+                        style="grid-template-columns: minmax(220px, 1.4fr) minmax(140px, 0.9fr) minmax(120px, 0.8fr) minmax(140px, 0.8fr) minmax(120px, 0.7fr);"
+                        onclick="window.location.href='<?= url('/attendee/ticket-detail?order_id=' . $order['id']) ?>'"
+                    >
+                        <div><?= esc($order['event_title']) ?></div>
+                        <div><?= esc(date('M d, Y', strtotime($order['start_datetime']))) ?></div>
+                        <div><?= esc((string) $order['tickets_bought']) ?></div>
+                        <div>PHP <?= esc(number_format((float) $order['total_amount'], 2)) ?></div>
+                        <div>
                             <span class="inline-flex rounded-full px-3 py-1 text-xs <?= $order['payment_status'] === 'done' ? 'bg-green-500/10 text-green-300' : 'bg-yellow-500/10 text-yellow-300' ?>">
                                 <?= esc($order['payment_status'] === 'done' ? 'Paid' : 'Pending') ?>
                             </span>
                         </div>
                     </div>
-                </a>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="rounded-2xl border border-dashed border-[#2a2a2e] bg-[#151419] p-8 text-center text-secondary">
-                You have not purchased any upcoming event tickets yet.
-            </div>
-        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="bg-surface px-6 py-12 text-center text-secondary">
+                    You have not purchased any upcoming event tickets yet.
+                </div>
+            <?php endif; ?>
+        </div>
     </section>
 
     <section class="rounded-3xl bg-surface p-8 outline outline-[#2a2a2e] shadow-soft">
         <div class="mb-6">
             <h3>Completed Or Attended Events</h3>
-            <p class="pt-2 text-sm text-secondary">Past events are kept below in the same simplified format.</p>
+            <p class="pt-2 text-sm text-secondary">Past ticket purchases and attended events.</p>
         </div>
 
-        <?php if ($completed_orders): ?>
-            <div class="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-                <?php foreach ($completed_orders as $order): ?>
-                <a href="<?= url('/attendee/ticket-detail?order_id=' . $order['id']) ?>" class="overflow-hidden rounded-3xl border border-[#2a2a2e] bg-[#151419] transition hover:-translate-y-1 hover:border-yellow-400/30">
-                    <div class="h-48 overflow-hidden">
-                        <img
-                            src="<?= esc((string) ($order['banner_image'] ?: '/public/assets/images/logo.png')) ?>"
-                            alt="<?= esc($order['event_title']) ?>"
-                            class="h-full w-full object-cover"
-                        >
-                    </div>
-                    <div class="p-5">
-                        <h4 class="text-xl text-white"><?= esc($order['event_title']) ?></h4>
-                        <div class="pt-4">
+        <div class="overflow-hidden rounded-2xl border border-[#2a2a2e]">
+            <div class="grid gap-4 border-b border-[#2a2a2e] bg-[#151419] px-6 py-4 text-sm text-secondary" style="grid-template-columns: minmax(220px, 1.4fr) minmax(140px, 0.9fr) minmax(120px, 0.8fr) minmax(140px, 0.8fr) minmax(120px, 0.7fr);">
+                <div>Event</div>
+                <div>Date</div>
+                <div>Tickets</div>
+                <div>Total</div>
+                <div>Status</div>
+            </div>
+
+            <?php if ($completed_orders): ?>
+                <div class="divide-y divide-[#2a2a2e] bg-surface">
+                    <?php foreach ($completed_orders as $order): ?>
+                    <div
+                        class="grid cursor-pointer gap-4 px-6 py-5 text-sm text-white transition hover:bg-[#151419]"
+                        style="grid-template-columns: minmax(220px, 1.4fr) minmax(140px, 0.9fr) minmax(120px, 0.8fr) minmax(140px, 0.8fr) minmax(120px, 0.7fr);"
+                        onclick="window.location.href='<?= url('/attendee/ticket-detail?order_id=' . $order['id']) ?>'"
+                    >
+                        <div><?= esc($order['event_title']) ?></div>
+                        <div><?= esc(date('M d, Y', strtotime($order['start_datetime']))) ?></div>
+                        <div><?= esc((string) $order['tickets_bought']) ?></div>
+                        <div>PHP <?= esc(number_format((float) $order['total_amount'], 2)) ?></div>
+                        <div>
                             <span class="inline-flex rounded-full px-3 py-1 text-xs <?= $order['payment_status'] === 'done' ? 'bg-green-500/10 text-green-300' : 'bg-yellow-500/10 text-yellow-300' ?>">
                                 <?= esc($order['payment_status'] === 'done' ? 'Paid' : 'Pending') ?>
                             </span>
                         </div>
                     </div>
-                </a>
-                <?php endforeach; ?>
-            </div>
-        <?php else: ?>
-            <div class="rounded-2xl border border-dashed border-[#2a2a2e] bg-[#151419] p-8 text-center text-secondary">
-                No completed or attended events to show yet.
-            </div>
-        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div class="bg-surface px-6 py-12 text-center text-secondary">
+                    No completed or attended events to show yet.
+                </div>
+            <?php endif; ?>
+        </div>
     </section>
 </div>
 </body>
