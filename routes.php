@@ -74,6 +74,6 @@ $router->get('/attendee/ticket-detail', 'app/controllers/attendee/AttendeeTicket
 
 // LOGOUT
 $router->post('/logout', 'app/views/auth/logout', ['auth']);
-
+    
 
 

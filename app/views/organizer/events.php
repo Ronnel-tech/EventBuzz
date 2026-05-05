@@ -48,10 +48,8 @@ if (!in_array($filter_value, ['upcoming', 'past', 'all'], true)) {
       <form method="GET" action="<?= url('/organizer/events') ?>" class="flex items-center justify-end align-center gap-3">
 
         <!-- Create Button -->
-         <a href="<?= url('/organizer/create-event') ?>">
-        <button class= "btn btn-primary px-4 py-2 rounded-full">
+        <a href="<?= url('/organizer/create-event') ?>" class="btn btn-primary rounded-full px-4 py-2">
           Create +
-        </button>
         </a>
 
         <!-- Filter -->

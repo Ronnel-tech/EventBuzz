@@ -1,5 +1,6 @@
 <?php
 
+
 require_once APP_ROOT . '/app/models/AdminUserModel.php';
 
 $user_model = new AdminUserModel();
