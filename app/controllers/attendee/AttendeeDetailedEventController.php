@@ -15,7 +15,7 @@ if ($event_id <= 0) {
 $event = $event_model->getEventDetailsById($event_id);
 
 if (!$event) {
-    set_flash('error', 'The selected event could not be found.');
+    set_flash('error', 'The selected event is no longer available for ticket purchase.');
     header('Location: ' . url('/attendee'));
     exit;
 }

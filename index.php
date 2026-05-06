@@ -12,6 +12,10 @@ header_remove('X-Powered-By');
 //App configurations
 require_once 'config.php';
 
+if (defined('APP_TIMEZONE') && APP_TIMEZONE !== '') {
+    date_default_timezone_set(APP_TIMEZONE);
+}
+
 //Error reporting
 if (IS_DEV) {
     ini_set('display_errors', 1);

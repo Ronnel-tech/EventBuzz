@@ -17,3 +17,6 @@ define('DB_CHARSET', 'utf8mb4');
 define('DB_PREFIX', '');
 define('DB_PATH', '');
 
+//App timezone
+define('APP_TIMEZONE', 'Asia/Manila');
+

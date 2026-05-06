@@ -22,7 +22,7 @@ $event = $event_model->getEventPaymentDetailsById($event_id);
 
 if (!$event) {
     unset($_SESSION['attendee_checkout'], $_SESSION['attendee_payment_old']);
-    set_flash('error', 'The selected event could not be found.');
+    set_flash('error', 'The selected event is no longer available for ticket purchase.');
     header('Location: ' . url('/attendee'));
     exit;
 }

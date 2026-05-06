@@ -12,7 +12,8 @@ class AttendeeEventModel
     public function getTodayEvents(string $search = ''): array
     {
         $search_clause = '';
-        $params = [];
+        $today_date = date('Y-m-d');
+        $params = [$today_date];
 
         if ($search !== '') {
             $search_clause = "
@@ -27,7 +28,7 @@ class AttendeeEventModel
               )
             ";
             $search_term = '%' . $search . '%';
-            $params = array_fill(0, 7, $search_term);
+            $params = array_merge($params, array_fill(0, 7, $search_term));
         }
 
         $query = "
@@ -55,7 +56,7 @@ class AttendeeEventModel
             INNER JOIN categories ON categories.id = events.category_id
             INNER JOIN users ON users.id = events.organizer_id
             LEFT JOIN ticket_types ON ticket_types.event_id = events.id
-            WHERE DATE(events.start_datetime) = CURDATE()
+            WHERE DATE(events.start_datetime) = ?
             $search_clause
             GROUP BY
                 events.id,
@@ -137,6 +138,7 @@ class AttendeeEventModel
             LEFT JOIN users ON users.id = events.organizer_id
             LEFT JOIN ticket_types ON ticket_types.event_id = events.id
             WHERE events.id = ?
+              AND events.end_datetime >= NOW()
             GROUP BY
                 events.id,
                 events.organizer_id,
@@ -182,6 +184,7 @@ class AttendeeEventModel
             LEFT JOIN users ON users.id = events.organizer_id
             LEFT JOIN organizer_profiles ON organizer_profiles.user_id = events.organizer_id
             WHERE events.id = ?
+              AND events.end_datetime >= NOW()
             LIMIT 1
         ";
 
@@ -542,6 +545,7 @@ class AttendeeEventModel
             INNER JOIN users ON users.id = events.organizer_id
             LEFT JOIN ticket_types ON ticket_types.event_id = events.id
             WHERE events.category_id = ?
+              AND events.end_datetime >= NOW()
             $search_clause
             GROUP BY
                 events.id,
