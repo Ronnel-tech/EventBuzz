@@ -1,67 +1,96 @@
+# EventBuzz
 
+EventBuzz is a web-based event promotion and ticketing system built to help organizers publish events, manage ticket sales, and monitor attendees in one place. It also gives attendees a simple way to discover events, reserve or purchase tickets, and keep track of their bookings online.
 
-# 📦 EventBuzz: A Web-Based Event Promotion and Ticketing System
+## What The System Does
 
-EventBuzz is a web-based platform that allows event organizers to create, promote, and manage events while enabling users to discover events and purchase tickets online.
+EventBuzz supports the full flow of event participation, from event creation to ticket claiming:
 
----
+- Organizers can create events, upload banner images, define ticket types, and manage payment options.
+- Attendees can browse available events, view event details, choose ticket quantities, complete checkout, and access their purchased tickets.
+- Admins can oversee users, organizers, events, and attendee activity from a dedicated management area.
 
-# 🔥 LavaLite Framework
+The system is designed around three main user roles so each type of user sees only the tools relevant to them.
 
-**LavaLite** is a lightweight PHP framework designed for developers who want
-**speed, simplicity, and control** — without the bloat.
+## Main Users
 
-Built from scratch, LavaLite provides a **built-in SQL Query Builder** and a
-**clean routing system**, making it perfect for APIs, small to medium web apps,
-and custom projects.
+### Admin
 
----
+Admins oversee the platform and monitor system-wide activity. Their tools focus on supervision and management rather than event participation.
 
-## ✨ Features
+- View dashboard summaries
+- Manage organizers
+- Manage attendees
+- Monitor events and event-related activity
 
-- 🚀 **Built-in SQL Query Builder**
-- 🧭 **Simple & Flexible Routing**
-- 🪶 **Lightweight Core**
-- 🛠 **Developer-Friendly Structure**
-- ⚡ **Fast Performance**
+### Organizer
 
----
+Organizers are the event owners in the platform. They use EventBuzz to publish and operate events.
 
-## 🧭 Routing Example
+- Create and edit events
+- Upload event banners
+- Add ticket types and pricing
+- Set payment details
+- View attendee lists
+- Track ticket sales and revenue
 
-```php
-$router->get('/users', 'users.php');
+### Attendee
 
-$router->get('/users/{id}', 'users.php');
+Attendees use the platform to discover and join events.
 
-$router->post('/send', 'send.php');
-Clean URLs. No magic.
+- Browse current and upcoming events
+- Search by category or event details
+- View event information
+- Select ticket quantities
+- Complete free or paid checkout
+- View booked tickets and ticket details
 
-🗄 SQL Query Builder Example
-$user = db()->table('users')
-           ->select('id, name, email')
-           ->where('id', 1)
-Fluent, readable, and secure — no raw SQL required.
-```
+## Core Features
 
----
+- Role-based access for admin, organizer, and attendee accounts
+- Event publishing and management
+- Category-based event browsing
+- Free and paid ticket flows
+- GCash and cash payment support
+- Order and ticket generation
+- Organizer-side attendee monitoring
+- Admin-side event and user oversight
 
-## 🤝 Contributing
-Contributions are welcome!
+## Typical System Flow
 
-Fork the repository
+1. An organizer creates an event and adds ticket information.
+2. The event becomes visible to attendees in the event listing pages.
+3. An attendee opens the event details page and selects tickets.
+4. The attendee completes checkout and payment submission.
+5. The system creates the order, records purchased ticket items, and generates individual tickets.
+6. Organizers and admins can later review attendance and transaction data.
 
-Create your feature branch
+## Project Structure
 
-Commit your changes
+The system follows a lightweight PHP MVC-style structure:
 
-Open a pull request
+- `app/controllers/` handles request flow for admin, organizer, and attendee pages
+- `app/models/` contains data access and business logic
+- `app/views/` contains the server-rendered interface
+- `app/middlewares/` protects routes by role
+- `scheme/` contains the custom routing, helpers, and database utilities
+- `public/` stores CSS, JavaScript, fonts, and uploaded images
 
-## 📜 License
-LavaLite is open-source software licensed under the MIT License.
+## Technology Overview
 
-## ❤️ Credits
-Built with passion using PHP
-Inspired by modern frameworks — simplified.
+EventBuzz is built as a custom PHP web application with:
 
-# 🔥 LavaLite — Keep it light. Build it fast.
+- PHP
+- MySQL
+- A lightweight custom router and database layer
+- Server-rendered views
+
+The project uses a simple custom architecture so the focus stays on the event management workflow rather than heavy framework conventions.
+
+## Purpose Of The System
+
+EventBuzz is intended for scenarios where event organizers need a centralized platform to promote events and handle ticketing digitally. It reduces manual coordination by moving event posting, ticket reservation, payment submission, and attendee tracking into one system.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
