@@ -8,6 +8,12 @@ Full project documentation is available on Notion:
 
 [EventBuzz Documentation](https://abstracted-word-26d.notion.site/EventBuzz-A-Web-Based-Event-Promotion-and-Ticketing-System-314da4fdbefa80699829c29721828e81?source=copy_link)
 
+## Live Website
+
+The deployed EventBuzz website is available here:
+
+[https://eventbuzz.great-site.net/](https://eventbuzz.great-site.net/)
+
 ## What The System Does
 
 EventBuzz supports the full flow of event participation, from event creation to ticket claiming:
