@@ -2,6 +2,12 @@
 
 EventBuzz is a web-based event promotion and ticketing system built to help organizers publish events, manage ticket sales, and monitor attendees in one place. It also gives attendees a simple way to discover events, reserve or purchase tickets, and keep track of their bookings online.
 
+## Documentation
+
+Full project documentation is available on Notion:
+
+[EventBuzz Documentation](https://abstracted-word-26d.notion.site/EventBuzz-A-Web-Based-Event-Promotion-and-Ticketing-System-314da4fdbefa80699829c29721828e81?source=copy_link)
+
 ## What The System Does
 
 EventBuzz supports the full flow of event participation, from event creation to ticket claiming:
