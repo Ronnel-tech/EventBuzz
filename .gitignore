@@ -1,6 +1,6 @@
-
-# Ignore node_modules and dist directories
 node_modules/
-dist/
+vendor/
+.phpunit.cache/
 
+dist/
 **/output.css
