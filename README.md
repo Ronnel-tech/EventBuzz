@@ -21,7 +21,7 @@ EventBuzz supports the full flow of event participation, from event creation to 
 - Organizers can create events, upload banner images, define ticket types, and manage payment options.
 - Attendees can browse available events, view event details, choose ticket quantities, complete checkout, and access their purchased tickets.
 - Admins can oversee users, organizers, events, and attendee activity from a dedicated management area.
-
+    
 The system is designed around three main user roles so each type of user sees only the tools relevant to them.
 
 ## Main Users
