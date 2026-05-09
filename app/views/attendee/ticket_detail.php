@@ -13,7 +13,80 @@ $display_name = trim((string) (($user['first_name'] ?? '') . ' ' . ($user['last_
 if ($display_name === '') {
     $display_name = (string) ($user['email'] ?? 'Attendee');
 }
+
+$to_data_url = static function (string $path_or_url): ?string {
+    if ($path_or_url === '') {
+        return null;
+    }
+
+    $mime = 'image/png';
+    $binary = false;
+
+    if (str_starts_with($path_or_url, '/')) {
+        $absolute_path = APP_ROOT . $path_or_url;
+
+        if (!is_file($absolute_path)) {
+            return null;
+        }
+
+        $extension = strtolower((string) pathinfo($absolute_path, PATHINFO_EXTENSION));
+        $mime = match ($extension) {
+            'jpg', 'jpeg' => 'image/jpeg',
+            'gif' => 'image/gif',
+            'webp' => 'image/webp',
+            default => 'image/png',
+        };
+
+        $binary = @file_get_contents($absolute_path);
+    } else {
+        $binary = @file_get_contents($path_or_url);
+    }
+
+    if ($binary === false || $binary === '') {
+        return null;
+    }
+
+    return 'data:' . $mime . ';base64,' . base64_encode($binary);
+};
+
+$banner_image = (string) ($ticket_order['banner_image'] ?: '/public/assets/images/logo.png');
 $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=' . rawurlencode($organizer_lookup_url);
+$qr_image_source = $to_data_url($qr_image_url) ?: $qr_image_url;
+$banner_image_source = $to_data_url($banner_image) ?: $banner_image;
+
+$location_parts = array_filter([
+    trim((string) ($ticket_order['street'] ?? '')),
+    trim((string) ($ticket_order['city'] ?? '')),
+    trim((string) ($ticket_order['province'] ?? '')),
+    trim((string) ($ticket_order['country'] ?? '')),
+], static fn($value) => $value !== '');
+$location_text = implode(', ', $location_parts);
+
+$ticket_items_for_export = array_map(
+    static fn(array $ticket_item): array => [
+        'name' => (string) $ticket_item['ticket_name'],
+        'quantity' => (int) $ticket_item['quantity'],
+        'subtotal' => 'PHP ' . number_format((float) $ticket_item['subtotal'], 2),
+    ],
+    $ticket_order['ticket_items']
+);
+
+$ticket_export_data = [
+    'eventTitle' => (string) $ticket_order['event_title'],
+    'paymentStatus' => $ticket_order['payment_status'] === 'done' ? 'Paid' : 'Pending',
+    'eventDate' => date('F d, Y h:i A', strtotime($ticket_order['start_datetime'])),
+    'orderDate' => date('F d, Y h:i A', strtotime($ticket_order['created_at'])),
+    'ticketsBought' => (string) $ticket_order['tickets_bought'],
+    'paymentMethod' => ucfirst((string) $ticket_order['payment_method']),
+    'totalAmount' => 'PHP ' . number_format((float) $ticket_order['total_amount'], 2),
+    'referenceNumber' => $ticket_order['gcash_reference'] !== '' ? (string) $ticket_order['gcash_reference'] : 'N/A',
+    'location' => $location_text,
+    'orderId' => (string) $ticket_order['id'],
+    'ticketCode' => (string) ($ticket_order['primary_ticket_code'] ?: 'Unavailable'),
+    'bannerImage' => $banner_image_source,
+    'qrImage' => $qr_image_source,
+    'ticketItems' => $ticket_items_for_export,
+];
 ?>
 
 <body class="public-page bg-[#151419]">
@@ -53,7 +126,7 @@ $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data='
             </div>
         <?php endif; ?>
 
-        <div
+        <div id="ticketDetailCard"
             class="overflow-hidden rounded-4xl border border-dashed border-yellow-400/35 bg-surface shadow-soft lg:grid lg:grid-cols-[1.1fr_0.9fr]">
             <div class="p-8 lg:p-10">
                 <div class="mb-8 flex items-start justify-between gap-4 border-b border-[#2a2a2e] pb-6">
@@ -68,7 +141,7 @@ $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data='
                 </div>
 
                 <div class="mb-8 overflow-hidden rounded-3xl">
-                    <img src="<?= esc((string) ($ticket_order['banner_image'] ?: '/public/assets/images/logo.png')) ?>"
+                    <img src="<?= esc($banner_image_source) ?>"
                         alt="<?= esc($ticket_order['event_title']) ?>" class="h-56 w-full object-cover">
                 </div>
 
@@ -106,9 +179,7 @@ $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data='
 
                 <div class="mt-8">
                     <p class="text-sm text-secondary">Location</p>
-                    <p class="pt-1 text-white">
-                        <?= esc(trim((string) ($ticket_order['street'] . ', ' . $ticket_order['city'] . ', ' . $ticket_order['province'] . ', ' . $ticket_order['country']), ', ')) ?>
-                    </p>
+                    <p class="pt-1 text-white"><?= esc($location_text) ?></p>
                 </div>
 
                 <div class="mt-8">
@@ -132,9 +203,13 @@ $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data='
 
             <div class="border-t border-dashed border-yellow-400/25 bg-[#111117] p-8 lg:border-l lg:border-t-0 lg:p-10">
                 <div class="flex h-full flex-col items-center justify-center text-center">
+                    <button type="button" id="downloadTicketPng"
+                        class="mb-6 inline-flex items-center rounded-full bg-yellow-300 px-5 py-2 text-sm font-medium text-[#111117] transition hover:bg-yellow-200">
+                        Download Ticket PNG
+                    </button>
                     <p class="text-sm uppercase tracking-[0.25em] text-yellow-300/75">Scan For Organizer Lookup</p>
                     <div class="mt-6 rounded-4xl bg-white p-5 shadow-soft">
-                        <img src="<?= esc($qr_image_url) ?>" alt="Ticket QR Code" class="h-64 w-64 object-contain">
+                        <img src="<?= esc($qr_image_source) ?>" alt="Ticket QR Code" class="h-64 w-64 object-contain">
                     </div>
                     <p class="mt-6 text-sm text-secondary">Order #<?= esc((string) $ticket_order['id']) ?></p>
                     <p class="pt-2 text-sm text-secondary">Ticket Code:
@@ -147,6 +222,197 @@ $qr_image_url = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&data='
             </div>
         </div>
     </div>
+
+    <script>
+        const ticketExportData = <?= json_encode($ticket_export_data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) ?>;
+
+        const wrapCanvasText = (context, text, maxWidth) => {
+            const words = String(text || '').split(/\s+/).filter(Boolean);
+            const lines = [];
+            let currentLine = '';
+
+            words.forEach((word) => {
+                const candidate = currentLine ? `${currentLine} ${word}` : word;
+
+                if (context.measureText(candidate).width <= maxWidth || currentLine === '') {
+                    currentLine = candidate;
+                    return;
+                }
+
+                lines.push(currentLine);
+                currentLine = word;
+            });
+
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+
+            return lines;
+        };
+
+        const loadCanvasImage = (source) => new Promise((resolve, reject) => {
+            if (!source) {
+                resolve(null);
+                return;
+            }
+
+            const image = new Image();
+            image.onload = () => resolve(image);
+            image.onerror = reject;
+            image.src = source;
+        });
+
+        const drawLabelValue = (context, label, value, x, y) => {
+            context.font = '16px Arial, sans-serif';
+            context.fillStyle = '#8d8d99';
+            context.fillText(label, x, y);
+            context.font = '20px Arial, sans-serif';
+            context.fillStyle = '#ffffff';
+            context.fillText(value, x, y + 30);
+        };
+
+        document.getElementById('downloadTicketPng')?.addEventListener('click', async () => {
+            const button = document.getElementById('downloadTicketPng');
+            const originalLabel = button.textContent;
+            button.disabled = true;
+            button.textContent = 'Preparing PNG...';
+
+            try {
+                const canvas = document.createElement('canvas');
+                canvas.width = 1600;
+                canvas.height = 1000;
+
+                const context = canvas.getContext('2d');
+                const [bannerImage, qrImage] = await Promise.all([
+                    loadCanvasImage(ticketExportData.bannerImage).catch(() => null),
+                    loadCanvasImage(ticketExportData.qrImage),
+                ]);
+
+                context.fillStyle = '#151419';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+
+                context.fillStyle = '#1d1c23';
+                context.strokeStyle = 'rgba(250, 204, 21, 0.35)';
+                context.lineWidth = 3;
+                context.setLineDash([12, 10]);
+                context.beginPath();
+                context.roundRect(40, 40, 1520, 920, 36);
+                context.fill();
+                context.stroke();
+                context.setLineDash([]);
+
+                context.fillStyle = '#111117';
+                context.beginPath();
+                context.roundRect(1020, 40, 540, 920, 36);
+                context.fill();
+
+                context.strokeStyle = 'rgba(250, 204, 21, 0.25)';
+                context.lineWidth = 2;
+                context.setLineDash([10, 8]);
+                context.beginPath();
+                context.moveTo(1020, 40);
+                context.lineTo(1020, 960);
+                context.stroke();
+                context.setLineDash([]);
+
+                context.fillStyle = '#fde68a';
+                context.font = '20px Arial, sans-serif';
+                context.fillText('EVENTBUZZ TICKET', 90, 110);
+
+                context.fillStyle = '#ffffff';
+                context.font = 'bold 46px Arial, sans-serif';
+                const titleLines = wrapCanvasText(context, ticketExportData.eventTitle, 780);
+                titleLines.slice(0, 2).forEach((line, index) => {
+                    context.fillText(line, 90, 170 + (index * 52));
+                });
+
+                context.fillStyle = ticketExportData.paymentStatus === 'Paid' ? '#86efac' : '#fde68a';
+                context.fillText(ticketExportData.paymentStatus, 790, 110);
+
+                if (bannerImage) {
+                    context.save();
+                    context.beginPath();
+                    context.roundRect(90, 230, 820, 240, 28);
+                    context.clip();
+                    context.drawImage(bannerImage, 90, 230, 820, 240);
+                    context.restore();
+                }
+
+                drawLabelValue(context, 'Event Date', ticketExportData.eventDate, 90, 540);
+                drawLabelValue(context, 'Order Date', ticketExportData.orderDate, 470, 540);
+                drawLabelValue(context, 'Tickets Bought', ticketExportData.ticketsBought, 90, 635);
+                drawLabelValue(context, 'Payment Method', ticketExportData.paymentMethod, 470, 635);
+                drawLabelValue(context, 'Total Amount', ticketExportData.totalAmount, 90, 730);
+                drawLabelValue(context, 'Reference Number', ticketExportData.referenceNumber, 470, 730);
+
+                context.font = '16px Arial, sans-serif';
+                context.fillStyle = '#8d8d99';
+                context.fillText('Location', 90, 825);
+                context.font = '20px Arial, sans-serif';
+                context.fillStyle = '#ffffff';
+                wrapCanvasText(context, ticketExportData.location, 820).slice(0, 2).forEach((line, index) => {
+                    context.fillText(line, 90, 855 + (index * 28));
+                });
+
+                context.font = '16px Arial, sans-serif';
+                context.fillStyle = '#8d8d99';
+                context.fillText('Purchase Details', 90, 910);
+
+                let ticketItemX = 320;
+                ticketExportData.ticketItems.slice(0, 2).forEach((item) => {
+                    context.fillStyle = '#151419';
+                    context.beginPath();
+                    context.roundRect(ticketItemX, 875, 280, 56, 18);
+                    context.fill();
+
+                    context.font = '18px Arial, sans-serif';
+                    context.fillStyle = '#ffffff';
+                    context.fillText(item.name, ticketItemX + 18, 907);
+                    context.font = '14px Arial, sans-serif';
+                    context.fillStyle = '#8d8d99';
+                    context.fillText(`Qty: ${item.quantity}`, ticketItemX + 18, 926);
+                    context.fillStyle = '#ffffff';
+                    context.fillText(item.subtotal, ticketItemX + 170, 926);
+                    ticketItemX += 295;
+                });
+
+                context.fillStyle = '#fde68a';
+                context.font = '18px Arial, sans-serif';
+                context.fillText('SCAN FOR ORGANIZER LOOKUP', 1105, 120);
+
+                context.fillStyle = '#ffffff';
+                context.beginPath();
+                context.roundRect(1110, 170, 360, 360, 32);
+                context.fill();
+                context.drawImage(qrImage, 1145, 205, 290, 290);
+
+                context.font = '18px Arial, sans-serif';
+                context.fillStyle = '#8d8d99';
+                context.fillText(`Order #${ticketExportData.orderId}`, 1170, 595);
+                context.fillText(`Ticket Code: ${ticketExportData.ticketCode}`, 1110, 630);
+
+                context.font = '16px Arial, sans-serif';
+                wrapCanvasText(
+                    context,
+                    'When the organizer scans this QR code, it opens the payment verification page for this exact purchase.',
+                    360
+                ).forEach((line, index) => {
+                    context.fillText(line, 1110, 700 + (index * 28));
+                });
+
+                const link = document.createElement('a');
+                const safeTitle = ticketExportData.eventTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+                link.href = canvas.toDataURL('image/png');
+                link.download = `${safeTitle || 'eventbuzz-ticket'}-${ticketExportData.orderId}.png`;
+                link.click();
+            } catch (error) {
+                window.alert('We could not generate the ticket PNG right now. Please try again.');
+            } finally {
+                button.disabled = false;
+                button.textContent = originalLabel;
+            }
+        });
+    </script>
 </body>
 
 </html>
