@@ -279,8 +279,8 @@ $ticket_export_data = [
 
             try {
                 const canvas = document.createElement('canvas');
-                canvas.width = 1600;
-                canvas.height = 1000;
+                canvas.width = 1080;
+                canvas.height = 1800;
 
                 const context = canvas.getContext('2d');
                 const [bannerImage, qrImage] = await Promise.all([
@@ -296,108 +296,109 @@ $ticket_export_data = [
                 context.lineWidth = 3;
                 context.setLineDash([12, 10]);
                 context.beginPath();
-                context.roundRect(40, 40, 1520, 920, 36);
+                context.roundRect(50, 50, 980, 1700, 36);
                 context.fill();
                 context.stroke();
                 context.setLineDash([]);
 
                 context.fillStyle = '#111117';
                 context.beginPath();
-                context.roundRect(1020, 40, 540, 920, 36);
+                context.roundRect(50, 1090, 980, 660, 36);
                 context.fill();
 
                 context.strokeStyle = 'rgba(250, 204, 21, 0.25)';
                 context.lineWidth = 2;
                 context.setLineDash([10, 8]);
                 context.beginPath();
-                context.moveTo(1020, 40);
-                context.lineTo(1020, 960);
+                context.moveTo(50, 1090);
+                context.lineTo(1030, 1090);
                 context.stroke();
                 context.setLineDash([]);
 
                 context.fillStyle = '#fde68a';
                 context.font = '20px Arial, sans-serif';
-                context.fillText('EVENTBUZZ TICKET', 90, 110);
+                context.fillText('EVENTBUZZ TICKET', 100, 120);
 
                 context.fillStyle = '#ffffff';
                 context.font = 'bold 46px Arial, sans-serif';
-                const titleLines = wrapCanvasText(context, ticketExportData.eventTitle, 780);
-                titleLines.slice(0, 2).forEach((line, index) => {
-                    context.fillText(line, 90, 170 + (index * 52));
+                const titleLines = wrapCanvasText(context, ticketExportData.eventTitle, 720);
+                titleLines.slice(0, 3).forEach((line, index) => {
+                    context.fillText(line, 100, 180 + (index * 52));
                 });
 
                 context.fillStyle = ticketExportData.paymentStatus === 'Paid' ? '#86efac' : '#fde68a';
-                context.fillText(ticketExportData.paymentStatus, 790, 110);
+                context.font = 'bold 28px Arial, sans-serif';
+                context.fillText(ticketExportData.paymentStatus, 760, 122);
 
                 if (bannerImage) {
                     context.save();
                     context.beginPath();
-                    context.roundRect(90, 230, 820, 240, 28);
+                    context.roundRect(100, 310, 880, 260, 28);
                     context.clip();
-                    context.drawImage(bannerImage, 90, 230, 820, 240);
+                    context.drawImage(bannerImage, 100, 310, 880, 260);
                     context.restore();
                 }
 
-                drawLabelValue(context, 'Event Date', ticketExportData.eventDate, 90, 540);
-                drawLabelValue(context, 'Order Date', ticketExportData.orderDate, 470, 540);
-                drawLabelValue(context, 'Tickets Bought', ticketExportData.ticketsBought, 90, 635);
-                drawLabelValue(context, 'Payment Method', ticketExportData.paymentMethod, 470, 635);
-                drawLabelValue(context, 'Total Amount', ticketExportData.totalAmount, 90, 730);
-                drawLabelValue(context, 'Reference Number', ticketExportData.referenceNumber, 470, 730);
+                drawLabelValue(context, 'Event Date', ticketExportData.eventDate, 100, 645);
+                drawLabelValue(context, 'Order Date', ticketExportData.orderDate, 560, 645);
+                drawLabelValue(context, 'Tickets Bought', ticketExportData.ticketsBought, 100, 745);
+                drawLabelValue(context, 'Payment Method', ticketExportData.paymentMethod, 560, 745);
+                drawLabelValue(context, 'Total Amount', ticketExportData.totalAmount, 100, 845);
+                drawLabelValue(context, 'Reference Number', ticketExportData.referenceNumber, 560, 845);
 
                 context.font = '16px Arial, sans-serif';
                 context.fillStyle = '#8d8d99';
-                context.fillText('Location', 90, 825);
+                context.fillText('Location', 100, 945);
                 context.font = '20px Arial, sans-serif';
                 context.fillStyle = '#ffffff';
-                wrapCanvasText(context, ticketExportData.location, 820).slice(0, 2).forEach((line, index) => {
-                    context.fillText(line, 90, 855 + (index * 28));
+                wrapCanvasText(context, ticketExportData.location, 860).slice(0, 3).forEach((line, index) => {
+                    context.fillText(line, 100, 975 + (index * 28));
                 });
 
                 context.font = '16px Arial, sans-serif';
                 context.fillStyle = '#8d8d99';
-                context.fillText('Purchase Details', 90, 910);
+                context.fillText('Purchase Details', 100, 1065);
 
-                let ticketItemX = 320;
-                ticketExportData.ticketItems.slice(0, 2).forEach((item) => {
+                let ticketItemY = 1015;
+                ticketExportData.ticketItems.slice(0, 4).forEach((item) => {
                     context.fillStyle = '#151419';
                     context.beginPath();
-                    context.roundRect(ticketItemX, 875, 280, 56, 18);
+                    context.roundRect(330, ticketItemY, 650, 64, 18);
                     context.fill();
 
                     context.font = '18px Arial, sans-serif';
                     context.fillStyle = '#ffffff';
-                    context.fillText(item.name, ticketItemX + 18, 907);
+                    context.fillText(item.name, 350, ticketItemY + 28);
                     context.font = '14px Arial, sans-serif';
                     context.fillStyle = '#8d8d99';
-                    context.fillText(`Qty: ${item.quantity}`, ticketItemX + 18, 926);
+                    context.fillText(`Qty: ${item.quantity}`, 350, ticketItemY + 48);
                     context.fillStyle = '#ffffff';
-                    context.fillText(item.subtotal, ticketItemX + 170, 926);
-                    ticketItemX += 295;
+                    context.fillText(item.subtotal, 780, ticketItemY + 48);
+                    ticketItemY -= 78;
                 });
 
                 context.fillStyle = '#fde68a';
                 context.font = '18px Arial, sans-serif';
-                context.fillText('SCAN FOR ORGANIZER LOOKUP', 1105, 120);
+                context.fillText('SCAN FOR ORGANIZER LOOKUP', 320, 1165);
 
                 context.fillStyle = '#ffffff';
                 context.beginPath();
-                context.roundRect(1110, 170, 360, 360, 32);
+                context.roundRect(280, 1205, 520, 520, 32);
                 context.fill();
-                context.drawImage(qrImage, 1145, 205, 290, 290);
+                context.drawImage(qrImage, 330, 1255, 420, 420);
 
                 context.font = '18px Arial, sans-serif';
                 context.fillStyle = '#8d8d99';
-                context.fillText(`Order #${ticketExportData.orderId}`, 1170, 595);
-                context.fillText(`Ticket Code: ${ticketExportData.ticketCode}`, 1110, 630);
+                context.fillText(`Order #${ticketExportData.orderId}`, 350, 1740);
+                context.fillText(`Ticket Code: ${ticketExportData.ticketCode}`, 350, 1770);
 
                 context.font = '16px Arial, sans-serif';
                 wrapCanvasText(
                     context,
                     'When the organizer scans this QR code, it opens the payment verification page for this exact purchase.',
-                    360
+                    180,
                 ).forEach((line, index) => {
-                    context.fillText(line, 1110, 700 + (index * 28));
+                    context.fillText(line, 835, 1310 + (index * 28));
                 });
 
                 const link = document.createElement('a');
